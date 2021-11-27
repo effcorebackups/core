@@ -1,0 +1,90 @@
+forms
+- security_settings|form
+    attributes
+    - id: security_settings
+    - method: post
+    - novalidate: true
+    children
+    - main|fieldset
+        children
+        - cookie_domain|field_url
+            title: Cookie domain
+            description|text_multiline
+              text
+              - 0: Incorrect value will make it impossible to log in!
+              - 1: Changing the value will not affect existing sessions.
+              - 2: If no domain is specified, then the current domain is used, excluding subdomains.
+              - 3: If a domain is specified, then it and its subdomains are used.
+            element_attributes
+            - name: cookie_domain
+            - minlength: 2
+            - maxlength: 120
+            - required: false
+            should_be_included
+            - =: domain
+            should_be_excluded
+            - =: protocol
+            - =: path
+            - =: query
+            - =: anchor
+        - login_attempts|field_number
+            title: Number of login attempts
+            element_attributes
+            - name: login_attempts
+            - min: 1
+            - max: 100
+            - value: 5
+            - disabled: true
+        - blocked_until|field_number
+            title: Blocking the login for the number of minutes
+            description|text_multiline
+              text
+              - 0: After exceeding the "Number of login attempts" value, the login will be blocked for the specified time.
+              - 1: Eliminates the possibility of brute-force a password if an attacker knows the Email.
+              - 2: Blocking will not affect existing sessions.
+            element_attributes
+            - name: blocked_until
+            - min: 1
+            - max: 10000
+            - value: 5
+            - disabled: true
+        - session_duration_min|field_number
+            title: Session duration in days when "long session" is not selected
+            description|text
+              text: Changing the value will not affect existing sessions.
+            element_attributes
+            - name: session_duration_min
+            - min: 1
+            - max: 365
+            - value: 1
+        - session_duration_max|field_number
+            title: Session duration in days when "long session" is selected
+            description|text
+              text: Changing the value will not affect existing sessions.
+            element_attributes
+            - name: session_duration_max
+            - min: 1
+            - max: 365
+            - value: 30
+        - send_password_to_email|field_logic
+            title: Registration via Email
+            description|text_multiline
+              text
+              - 0: When registering, the system itself generates a password and sends it to the Email.
+              - 1: Eliminates the possibility of registering to a non-existent Email address.
+            element_attributes
+            - name: send_password_to_email
+            selected
+            - =: 0
+    - button_save|button
+        title: save
+        attributes
+        - value: save
+        weight: -500
+    - button_reset|button
+        title: reset
+        break_on_request_value_set: true
+        break_on_validate: true
+        attributes
+        - value: reset
+        weight: -520

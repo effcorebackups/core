@@ -1,0 +1,33 @@
+forms
+- seo_meta|form
+    attributes
+    - id: seo_meta
+    - method: post
+    - novalidate: true
+    children
+    - settings|fieldset
+        children
+        - content|field_textarea
+            title: Content in the &lt;head&gt;
+            description_state: opened
+            description|text_multiline
+              text
+              - 0: This block will be inserted into the &lt;head&gt; of each page.
+              - 1: This content is not filtered and is presented as is.
+              - 2: An example of its content can be: meta description, meta keywords, custom meta fields (for example, google-site-verification), custom CSS blocks, custom JS blocks (for example, Google Analytics).
+            element_attributes
+            - data-style: code-editor
+            - name: content
+            - required: false
+            - minlength: null
+            - maxlength: 65535
+            - rows: 20
+        - is_apply_tokens|field_switcher
+            title: Apply tokens
+            element_attributes
+            - name: is_apply_tokens
+    - button_save|button
+        title: save
+        attributes
+        - value: save
+        weight: -500

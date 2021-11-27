@@ -1,0 +1,52 @@
+entities
+- captcha|entity
+    name: captcha
+    title: CAPTCHA
+    title_plural: CAPTCHAs
+    catalog_name: captcha
+    fields
+    - ip_hex
+        title: IP address
+        type: varchar
+        size: 32
+        collate: nocase
+        not_null: true
+        check: (ip_hex <> '')
+    - created
+        title: Created
+        type: integer
+        not_null: true
+    - characters
+        title: Characters
+        type: varchar
+        size: 15
+        collate: nocase
+        not_null: true
+        check: (characters <> '')
+    - attempts
+        title: Attempts
+        type: integer
+        not_null: true
+    - canvas_width
+        title: Canvas width
+        type: integer
+        not_null: true
+    - canvas_height
+        title: Canvas height
+        type: integer
+        not_null: true
+    - canvas_data
+        title: Canvas data
+        type: blob
+        not_null: true
+        check: (canvas_data <> '')
+    constraints
+    - primary_ip_hex
+        type: primary
+        fields
+        - =: ip_hex
+    indexes
+    - index_created
+        type: index
+        fields
+        - =: created

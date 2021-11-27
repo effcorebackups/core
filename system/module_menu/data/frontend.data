@@ -1,0 +1,25 @@
+frontend
+- block_tree_languages__menu|frontend
+    display
+      check: block
+      where: cssid
+      match: %^block__tree__languages$%
+    styles
+    - page_style
+        path: frontend/tree.cssd
+        weight: +400
+        attributes
+        - rel: stylesheet
+        - media: all
+- tabs_all__menu|frontend
+    display
+      check: block
+      where: dpath
+      match: %^tabs/.*$%
+    styles
+    - tabs_style
+        path: frontend/tabs.cssd
+        weight: +400
+        attributes
+        - rel: stylesheet
+        - media: all

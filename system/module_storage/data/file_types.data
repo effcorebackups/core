@@ -1,0 +1,13 @@
+file_types
+# ─────────────────────────────────────────────────────────────────────
+# protected types
+# ─────────────────────────────────────────────────────────────────────
+- data
+    type: data
+    kind: protected
+- sqlite
+    type: sqlite
+    kind: protected
+- db
+    type: db
+    kind: protected

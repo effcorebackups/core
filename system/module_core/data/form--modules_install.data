@@ -1,0 +1,13 @@
+forms
+- modules_install|form
+    attributes
+    - id: modules_install
+    - method: post
+    - novalidate: true
+    children
+    - info|node
+    - button_apply|button
+        title: apply
+        attributes
+        - value: apply
+        weight: -500

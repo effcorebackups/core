@@ -1,0 +1,139 @@
+templates
+# ─────────────────────────────────────────────────────────────────────
+# type: text
+# ─────────────────────────────────────────────────────────────────────
+- markup_html
+    name: markup_html
+    type: text
+    data: <%%_tag_name %%_attributes>%%_children</%%_tag_name>
+- markup_html_simple
+    name: markup_html_simple
+    type: text
+    data: <%%_tag_name %%_attributes>
+- markup_xml
+    name: markup_xml
+    type: text
+    data: <%%_tag_name %%_attributes>%%_children</%%_tag_name>
+- markup_xml_simple
+    name: markup_xml_simple
+    type: text
+    data: <%%_tag_name %%_attributes />
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+- container
+    name: container
+    type: text
+    data: <%%_tag_name %%_attributes>%%_self_t%%_description_t%%_children%%_self_b%%_description_b</%%_tag_name>
+- container_content
+    name: container_content
+    type: text
+    data: %%_self_t%%_description_t%%_children%%_self_b%%_description_b
+- content
+    name: content
+    type: text
+    data: %%_children
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+- actions_list
+    name: actions_list
+    type: text
+    data: <%%_tag_name %%_attributes>%%_self%%_children</%%_tag_name>
+- block
+    name: block
+    type: text
+    data: <%%_tag_name %%_attributes>%%_extra_t%%_self%%_children%%_extra_b</%%_tag_name>
+- form
+    name: form
+    type: text
+    data: <%%_tag_name %%_attributes>%%_self%%_children</%%_tag_name>
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+- audio_embedded
+    name: audio_embedded
+    type: text
+    data: <audio data-id="%%_id" src="/%%_path" %%_attributes></audio>
+- gallery_embedded
+    name: gallery_embedded
+    type: text
+    data: <x-gallery data-id="%%_id" %%_attributes>%%_children</x-gallery>
+- gallery_row_embedded
+    name: gallery_row_embedded
+    type: text
+    data: <x-item data-num="%%_num" data-type="%%_type">%%_children</x-item>
+- picture_embedded
+    name: picture_embedded
+    type: text
+    data: <a data-id="picture-%%_id" href="%%_url" %%_link_attributes><img data-id="%%_id" src="/%%_path" %%_attributes/></a>
+- text_embedded
+    name: text_embedded
+    type: text
+    data: <x-text data-id="%%_id" %%_attributes>%%_text</x-text>
+- video_embedded
+    name: video_embedded
+    type: text
+    data: <video data-id="%%_id" src="/%%_path" poster="/%%_poster_path" %%_attributes></video>
+# ─────────────────────────────────────────────────────────────────────
+# type: file
+# ─────────────────────────────────────────────────────────────────────
+- page_access_forbidden_embedded
+    name: page_access_forbidden_embedded
+    type: file
+    path: frontend/template--page--access_forbidden.tpl
+- page_not_found_embedded
+    name: page_not_found_embedded
+    type: file
+    path: frontend/template--page--not_found.tpl
+- canvas_svg_embedded
+    name: canvas_svg_embedded
+    type: file
+    path: frontend/template--canvas_svg.tpl
+# ─────────────────────────────────────────────────────────────────────
+# type: node
+# ─────────────────────────────────────────────────────────────────────
+- page_embedded
+    name: page_embedded
+    type: node
+    pointers
+    - html: html
+    - charset: html/children/head/children/meta/children/meta_charset/attributes/charset
+    - head: html/children/head
+    - head_meta: html/children/head/children/meta
+    - head_meta_custom_global: html/children/head/children/meta_custom_global
+    - head_meta_custom: html/children/head/children/meta_custom
+    - head_title: html/children/head/children/title
+    - head_title_text: html/children/head/children/title/children/content/text
+    - head_icons: html/children/head/children/icons
+    - head_styles: html/children/head/children/styles
+    - head_scripts: html/children/head/children/scripts
+    - body: html/children/body
+    data|node
+      children
+      - doctype|markup_simple
+          tag_name: !DOCTYPE
+          attributes
+          - html: true
+      - html|markup
+          tag_name: html
+          attributes
+          - lang: en
+          - dir: ltr
+          children
+          - head|markup
+              tag_name: head
+              children
+              - meta|node
+                  children
+                  - meta_charset|markup_simple
+                      tag_name: meta
+                      attributes
+                      - charset: utf-8
+              - title|markup
+                  tag_name: title
+                  children
+                  - content|text
+                      is_apply_tokens: true
+                      text: 
+              - icons|node
+              - styles|node
+              - scripts|node
+              - meta_custom_global|node
+              - meta_custom|node
+          - body|markup
+              tag_name: body

@@ -1,0 +1,7 @@
+module|module
+  id: poll
+  id_bundle: system
+  title: Poll
+  description: Module for working with polls.
+  copyright: Copyright © 2017—2022 Maxim Rysevets. All rights reserved.
+  version: 0.900

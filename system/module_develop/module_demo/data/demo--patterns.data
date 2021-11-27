@@ -1,0 +1,7 @@
+demo_patterns
+  demo_pattern_object_1|demo_pattern_class
+    prop_3: property value 3 [modified]
+    prop_4: property value 4 [new]
+    prop_as_array
+    - item 3: item value 3 [modified]
+    - item 4: item value 4 [new]

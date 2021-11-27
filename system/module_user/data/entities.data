@@ -1,0 +1,740 @@
+entities
+- feedback|entity
+    name: feedback
+    title: Feedback
+    title_plural: Feedbacks
+    catalog_name: feedbacks
+    managing_is_enabled: true
+    managing_group_id: user
+    ws_data: true
+    access_select
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_feedback__select
+    access_insert
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_feedback__insert
+    access_update
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_feedback__update
+    access_delete
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_feedback__delete
+    fields
+    - id
+        title: ID
+        type: autoincrement
+        not_null: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_id_number
+        managing_control_properties
+        - weight: +400
+        managing_control_element_attributes
+        - disabled: true
+    - name
+        title: Name
+        type: varchar
+        size: 64
+        collate: nocase
+        not_null: true
+        check: (name <> '')
+        filter_insert: \effcore\core::return_htmlspecialchars_encoded
+        filter_update: \effcore\core::return_htmlspecialchars_encoded
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_text
+        managing_control_properties
+        - weight: +380
+        managing_control_element_attributes
+        - minlength: 4
+        - maxlength: 64
+    - email
+        title: Email
+        type: varchar
+        size: 64
+        collate: nocase
+        not_null: true
+        check: (email <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_email
+        managing_control_properties
+        - weight: +360
+    - message
+        title: Message
+        type: varchar
+        size: 2048
+        collate: nocase
+        not_null: true
+        check: (message <> '')
+        filter_insert: \effcore\core::return_htmlspecialchars_encoded
+        filter_update: \effcore\core::return_htmlspecialchars_encoded
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_textarea
+        managing_control_properties
+        - weight: +340
+        managing_control_element_attributes
+        - minlength: 50
+        - maxlength: 2048
+    - created
+        title: Created
+        type: datetime
+        default: null
+        check: (created <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +320
+    - updated
+        title: Updated
+        type: datetime
+        default: null
+        check: (updated <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +300
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    indexes
+    - index_email
+        type: index
+        fields
+        - =: email
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated
+- permission|entity
+    name: permission
+    title: Permission
+    title_plural: Permissions
+    catalog_name: permissions
+    managing_is_enabled: true
+    managing_group_id: user
+    has_parallel_checking: true
+    ws_is_embedded: true
+    ws_module_id: true
+    access_select
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_permission__select
+    access_insert
+    access_update
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_permission__update
+    access_delete
+    fields
+    - id
+        title: ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        check: (id <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_id_text
+        managing_control_properties
+        - is_validate_uniqueness: true
+        - weight: +400
+        managing_control_element_attributes_on_update
+        - disabled: true
+    - title
+        title: Title
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        check: (title <> '')
+        filter_insert: \effcore\core::return_htmlspecialchars_encoded
+        filter_update: \effcore\core::return_htmlspecialchars_encoded
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_text
+        managing_control_properties
+        - weight: +380
+    - created
+        title: Created
+        type: datetime
+        default: null
+        check: (created <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +360
+    - updated
+        title: Updated
+        type: datetime
+        default: null
+        check: (updated <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +340
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    indexes
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated
+- relation_role_ws_permission|entity
+    name: relation_role_ws_permission
+    title: Relation: Role ↔ Permission
+    title_plural: Relations: Role ↔ Permission
+    catalog_name: relations_role_ws_permission
+    managing_is_enabled: true
+    managing_group_id: user
+    has_parallel_checking: true
+    ws_module_id: true
+    access_select
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_rel_role_ws_perm__select
+    access_insert
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_rel_role_ws_perm__insert
+    access_update
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_rel_role_ws_perm__update
+    access_delete
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_rel_role_ws_perm__delete
+    fields
+    - id_role
+        title: Role ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_relation
+        managing_control_properties
+        - related_entity_name: role
+        - related_entity_field_id_name: id
+        - related_entity_field_title_name: title
+        - weight: +400
+        managing_control_element_attributes_on_update
+        - disabled: true
+    - id_permission
+        title: Permission ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_relation
+        managing_control_properties
+        - related_entity_name: permission
+        - related_entity_field_id_name: id
+        - related_entity_field_title_name: title
+        - weight: +380
+    - created
+        title: Created
+        type: datetime
+        default: null
+        check: (created <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +360
+    - updated
+        title: Updated
+        type: datetime
+        default: null
+        check: (updated <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +340
+    constraints
+    - primary_id_role_id_permission
+        type: primary
+        fields
+        - =: id_role
+        - =: id_permission
+    - foreign_id_role
+        type: foreign
+        fields
+        - =: id_role
+        references: roles
+        references_fields
+        - =: id
+    - foreign_id_permission
+        type: foreign
+        fields
+        - =: id_permission
+        references: permissions
+        references_fields
+        - =: id
+    indexes
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated
+- relation_role_ws_user|entity
+    name: relation_role_ws_user
+    title: Relation: Role ↔ User
+    title_plural: Relations: Role ↔ User
+    catalog_name: relations_role_ws_user
+    managing_is_enabled: true
+    managing_group_id: user
+    has_parallel_checking: true
+    ws_is_embedded: true
+    ws_module_id: true
+    access_select
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_rel_role_ws_user__select
+    access_insert
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_rel_role_ws_user__insert
+    access_update
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_rel_role_ws_user__update
+    access_delete
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_rel_role_ws_user__delete
+    fields
+    - id_user
+        title: User ID
+        type: integer
+        not_null: true
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_relation
+        managing_control_properties
+        - related_entity_name: user
+        - related_entity_field_id_name: id
+        - related_entity_field_title_name: nickname
+        - weight: +400
+        managing_control_element_attributes_on_update
+        - disabled: true
+    - id_role
+        title: Role ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_relation
+        managing_control_properties
+        - related_entity_name: role
+        - related_entity_field_id_name: id
+        - related_entity_field_title_name: title
+        - weight: +380
+    - created
+        title: Created
+        type: datetime
+        default: null
+        check: (created <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +360
+    - updated
+        title: Updated
+        type: datetime
+        default: null
+        check: (updated <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +340
+    constraints
+    - primary_id_role_id_user
+        type: primary
+        fields
+        - =: id_role
+        - =: id_user
+    - foreign_id_role
+        type: foreign
+        fields
+        - =: id_role
+        references: roles
+        references_fields
+        - =: id
+    - foreign_id_user
+        type: foreign
+        fields
+        - =: id_user
+        references: users
+        references_fields
+        - =: id
+    indexes
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated
+- role|entity
+    name: role
+    title: Role
+    title_plural: Roles
+    catalog_name: roles
+    managing_is_enabled: true
+    managing_group_id: user
+    has_parallel_checking: true
+    ws_is_embedded: true
+    ws_module_id: true
+    ws_data: true
+    access_select
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_role__select
+    access_insert
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_role__insert
+    access_update
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_role__update
+    access_delete
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_role__delete
+    fields
+    - id
+        title: ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        check: (id <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_id_text
+        managing_control_properties
+        - is_validate_uniqueness: true
+        - weight: +400
+        managing_control_element_attributes_on_update
+        - disabled: true
+    - title
+        title: Title
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        check: (title <> '')
+        filter_insert: \effcore\core::return_htmlspecialchars_encoded
+        filter_update: \effcore\core::return_htmlspecialchars_encoded
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_text
+        managing_control_properties
+        - weight: +380
+    - weight
+        title: Weight
+        type: integer
+        not_null: true
+        default: 0
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_weight
+        managing_control_properties
+        - weight: +360
+    - created
+        title: Created
+        type: datetime
+        default: null
+        check: (created <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +340
+    - updated
+        title: Updated
+        type: datetime
+        default: null
+        check: (updated <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +320
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    indexes
+    - index_weight
+        type: index
+        fields
+        - =: weight
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated
+- session|entity
+    name: session
+    title: Session
+    title_plural: Sessions
+    catalog_name: sessions
+    ws_data: true
+    fields
+    - id
+        title: ID
+        type: varchar
+        size: 127
+        collate: nocase
+        not_null: true
+        check: (id <> '')
+    - id_user
+        title: User ID
+        type: integer
+        not_null: true
+    - is_long_session
+        title: Is long session
+        type: boolean
+        not_null: true
+        default: 0
+    - is_fixed_ip
+        title: Is fixed IP
+        type: boolean
+        not_null: true
+        default: 0
+    - expired
+        title: Expiration date
+        type: datetime
+        not_null: true
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    - foreign_id_user
+        type: foreign
+        fields
+        - =: id_user
+        references: users
+        references_fields
+        - =: id
+    indexes
+    - index_expired
+        type: index
+        fields
+        - =: expired
+- user|entity
+    name: user
+    title: User
+    title_plural: Users
+    catalog_name: users
+    managing_is_enabled: true
+    managing_group_id: user
+    has_parallel_checking: true
+    ws_is_embedded: true
+    ws_module_id: true
+    ws_data: true
+    access_select
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user__select
+    access_insert
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user__insert
+    access_update
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user__update
+    access_delete
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user__delete
+    fields
+    - id
+        title: ID
+        type: autoincrement
+        not_null: true
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_id_number
+        managing_control_properties
+        - weight: +400
+        managing_control_element_attributes
+        - disabled: true
+    - nickname
+        title: Nickname
+        type: varchar
+        size: 32
+        collate: nocase
+        not_null: true
+        check: (nickname <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_nickname
+        managing_control_properties
+        - is_validate_uniqueness: true
+        - weight: +380
+    - email
+        title: Email
+        type: varchar
+        size: 64
+        collate: nocase
+        not_null: true
+        check: (email <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_email
+        managing_control_properties
+        - is_validate_uniqueness: true
+        - weight: +360
+    - avatar_path
+        title: Avatar path
+        type: varchar
+        size: 255
+        collate: nocase
+        default: null
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_file_picture
+        managing_control_properties
+        - title: Avatar
+        - max_file_size: 30K
+        - upload_dir: avatars/
+        - fixed_name: avatar-%%_user_id
+        - thumbnails
+          - =: small
+        - weight: +340
+        managing_control_element_attributes_on_insert
+        - disabled: true
+    - timezone
+        title: Time zone
+        type: varchar
+        size: 64
+        collate: nocase
+        default: UTC
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_timezone
+        managing_control_properties
+        - weight: +320
+        managing_control_element_attributes
+        - data-source: uagent-timezone
+    - password_hash
+        title: Password hash sum
+        type: varchar
+        size: 1024
+        collate: binary
+        default: null
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_password
+        managing_control_value_manual_get_if_empty: true
+        managing_control_value_manual_set: true
+        managing_control_properties
+        - title: New password
+        - weight: +300
+        managing_control_properties_on_update
+        - description: Leave the field blank if you do not want to change its value.
+        managing_control_element_attributes_on_update
+        - required: null
+        managing_control_element_attributes_on_insert
+        - required: true
+    - login_attempts
+        title: Login attempts
+        type: integer
+        default: null
+    - blocked_until
+        title: Blocked until
+        type: datetime
+        default: null
+        check: (blocked_until <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +280
+    - created
+        title: Created
+        type: datetime
+        default: null
+        check: (created <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +260
+    - updated
+        title: Updated
+        type: datetime
+        default: null
+        check: (updated <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +240
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    - unique_nickname
+        type: unique
+        fields
+        - =: nickname
+    - unique_email
+        type: unique
+        fields
+        - =: email
+    - unique_avatar_path
+        type: unique
+        fields
+        - =: avatar_path
+    indexes
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated

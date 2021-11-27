@@ -1,0 +1,15 @@
+forms
+- layout|form
+    attributes
+    - id: layout
+    - method: post
+    - novalidate: true
+    children
+    - layout_manager|markup
+        tag_name: x-layout-manager
+    - button_save|button
+        title: save
+        attributes
+        - value: save
+        - disabled: true
+        weight: -500

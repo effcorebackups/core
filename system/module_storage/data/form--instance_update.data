@@ -1,0 +1,31 @@
+forms
+- instance_update|form
+    managing_group_id: null
+    entity_name: null
+    instance_id: null
+    is_show_result_message: true
+    is_redirect_enabled: true
+    _instance: null
+    _result: null
+    attributes
+    - id: instance_update
+    - enctype: multipart/form-data
+    - method: post
+    - novalidate: true
+    children
+    - button_default|button_default
+        attributes
+        - value: update
+    - fields|fieldset
+    - button_update|button
+        title: update
+        attributes
+        - value: update
+        weight: -500
+    - button_cancel|button
+        title: cancel
+        break_on_request_value_set: true
+        break_on_validate: true
+        attributes
+        - value: cancel
+        weight: -520

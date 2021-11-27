@@ -1,0 +1,57 @@
+entities
+- message|entity
+    name: message
+    title: Message
+    title_plural: Messages
+    catalog_name: messages
+    ws_data: true
+    fields
+    - id_session
+        title: Session ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        check: (id_session <> '')
+    - type
+        title: Type
+        type: varchar
+        size: 32
+        collate: nocase
+        not_null: true
+        default: ok
+    - expired
+        title: Expiration date
+        type: integer
+        not_null: true
+    indexes
+    - index_id_session
+        type: index
+        fields
+        - =: id_session
+    - index_expired
+        type: index
+        fields
+        - =: expired
+- update|entity
+    name: update
+    title: Update
+    title_plural: Updates
+    catalog_name: updates
+    fields
+    - module_id
+        title: Module ID
+        type: varchar
+        size: 64
+        collate: nocase
+        not_null: true
+        check: (module_id <> '')
+    - last_number
+        title: Last number
+        type: integer
+        default: null
+    constraints
+    - primary_module_id
+        type: primary
+        fields
+        - =: module_id

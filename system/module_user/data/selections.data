@@ -1,0 +1,552 @@
+selections
+- instance_select-feedback|selection
+    id: instance_select-feedback
+    decorator_settings
+    - view_type: table-dl
+    query_settings
+    - conditions
+      - id_!f: ~feedback.id
+      - id_operator: =
+      - id_!v|text
+          is_apply_translation: false
+          is_apply_tokens: true
+          text: %%_selection_feedback_id_context
+    fields
+    - feedback.id
+        type: field
+        entity_name: feedback
+        entity_field_name: id
+        weight: 400
+    - feedback.name
+        type: field
+        entity_name: feedback
+        entity_field_name: name
+        weight: 380
+    - feedback.email
+        type: field
+        entity_name: feedback
+        entity_field_name: email
+        weight: 360
+    - feedback.message
+        type: field
+        entity_name: feedback
+        entity_field_name: message
+        weight: 340
+    - feedback.created
+        type: field
+        entity_name: feedback
+        entity_field_name: created
+        weight: 320
+    - feedback.updated
+        type: field
+        entity_name: feedback
+        entity_field_name: updated
+        weight: 300
+- instance_select-permission|selection
+    id: instance_select-permission
+    decorator_settings
+    - view_type: table-dl
+    query_settings
+    - conditions
+      - id_!f: ~permission.id
+      - id_operator: =
+      - id_!v|text
+          is_apply_translation: false
+          is_apply_tokens: true
+          text: %%_selection_permission_id_context
+    fields
+    - permission.id
+        type: field
+        entity_name: permission
+        entity_field_name: id
+        weight: 400
+    - permission.title
+        type: field
+        entity_name: permission
+        entity_field_name: title
+        settings
+        - filters
+          - 400: translate
+        weight: 380
+    - permission.created
+        type: field
+        entity_name: permission
+        entity_field_name: created
+        weight: 360
+    - permission.updated
+        type: field
+        entity_name: permission
+        entity_field_name: updated
+        weight: 340
+    - permission.is_embedded
+        type: field
+        entity_name: permission
+        entity_field_name: is_embedded
+        settings
+        - filters
+          - 400: translate
+        weight: 320
+- instance_select-relation_role_ws_permission|selection
+    id: instance_select-relation_role_ws_permission
+    decorator_settings
+    - view_type: table-dl
+    query_settings
+    - conditions
+      - id_role
+        - id_role_!f: ~relation_role_ws_permission.id_role
+        - id_role_operator: =
+        - id_role_!v|text
+            is_apply_translation: false
+            is_apply_tokens: true
+            text: %%_selection_relation_role_ws_permission_id_role_context
+      - conjunction: and
+      - id_permission
+        - id_permission_!f: ~relation_role_ws_permission.id_permission
+        - id_permission_operator: =
+        - id_permission_!v|text
+            is_apply_translation: false
+            is_apply_tokens: true
+            text: %%_selection_relation_role_ws_permission_id_permission_context
+    fields
+    - relation_role_ws_permission.id_role
+        type: field
+        entity_name: relation_role_ws_permission
+        entity_field_name: id_role
+        weight: 400
+    - relation_role_ws_permission.id_permission
+        type: field
+        entity_name: relation_role_ws_permission
+        entity_field_name: id_permission
+        weight: 380
+    - relation_role_ws_permission.created
+        type: field
+        entity_name: relation_role_ws_permission
+        entity_field_name: created
+        weight: 360
+    - relation_role_ws_permission.updated
+        type: field
+        entity_name: relation_role_ws_permission
+        entity_field_name: updated
+        weight: 340
+- instance_select-relation_role_ws_user|selection
+    id: instance_select-relation_role_ws_user
+    decorator_settings
+    - view_type: table-dl
+    query_settings
+    - join_script
+      - with_user
+          type: left outer join
+          entity_name: user
+          entity_field_name: id
+          on_entity_name: relation_role_ws_user
+          on_entity_field_name: id_user
+    - conditions
+      - id_role
+        - id_role_!f: ~relation_role_ws_user.id_role
+        - id_role_operator: =
+        - id_role_!v|text
+            is_apply_translation: false
+            is_apply_tokens: true
+            text: %%_selection_relation_role_ws_user_id_role_context
+      - conjunction: and
+      - id_user
+        - id_user_!f: ~relation_role_ws_user.id_user
+        - id_user_operator: =
+        - id_user_!v|text
+            is_apply_translation: false
+            is_apply_tokens: true
+            text: %%_selection_relation_role_ws_user_id_user_context
+    fields
+    - relation_role_ws_user.id_user
+        type: field
+        entity_name: relation_role_ws_user
+        entity_field_name: id_user
+        weight: 400
+    - user.nickname
+        type: join_field
+        entity_name: user
+        entity_field_name: nickname
+        weight: 380
+    - relation_role_ws_user.id_role
+        type: field
+        entity_name: relation_role_ws_user
+        entity_field_name: id_role
+        weight: 360
+    - relation_role_ws_user.created
+        type: field
+        entity_name: relation_role_ws_user
+        entity_field_name: created
+        weight: 340
+    - relation_role_ws_user.updated
+        type: field
+        entity_name: relation_role_ws_user
+        entity_field_name: updated
+        weight: 320
+    - relation_role_ws_user.is_embedded
+        type: field
+        entity_name: relation_role_ws_user
+        entity_field_name: is_embedded
+        settings
+        - filters
+          - 400: translate
+        weight: 300
+- instance_select-role|selection
+    id: instance_select-role
+    decorator_settings
+    - view_type: table-dl
+    query_settings
+    - conditions
+      - id_!f: ~role.id
+      - id_operator: =
+      - id_!v|text
+          is_apply_translation: false
+          is_apply_tokens: true
+          text: %%_selection_role_id_context
+    fields
+    - role.id
+        type: field
+        entity_name: role
+        entity_field_name: id
+        weight: 400
+    - role.title
+        type: field
+        entity_name: role
+        entity_field_name: title
+        settings
+        - filters
+          - 400: translate
+        weight: 380
+    - role.weight
+        type: field
+        entity_name: role
+        entity_field_name: weight
+        weight: 360
+    - role.created
+        type: field
+        entity_name: role
+        entity_field_name: created
+        weight: 340
+    - role.updated
+        type: field
+        entity_name: role
+        entity_field_name: updated
+        weight: 320
+    - role.is_embedded
+        type: field
+        entity_name: role
+        entity_field_name: is_embedded
+        settings
+        - filters
+          - 400: translate
+        weight: 300
+- instance_select-user|selection
+    id: instance_select-user
+    decorator_settings
+    - view_type: table-dl
+    query_settings
+    - conditions
+      - id_!f: ~user.id
+      - id_operator: =
+      - id_!v|text
+          is_apply_translation: false
+          is_apply_tokens: true
+          text: %%_selection_user_id_context
+    fields
+    - user.id
+        type: field
+        entity_name: user
+        entity_field_name: id
+        weight: 400
+    - user.nickname
+        type: field
+        entity_name: user
+        entity_field_name: nickname
+        weight: 380
+    - user.email
+        type: field
+        entity_name: user
+        entity_field_name: email
+        weight: 360
+    - user.avatar_path
+        type: field
+        entity_name: user
+        entity_field_name: avatar_path
+        weight: 340
+    - user.timezone
+        type: field
+        entity_name: user
+        entity_field_name: timezone
+        settings
+        - filters
+          - 400: translate
+        weight: 320
+    - user.created
+        type: field
+        entity_name: user
+        entity_field_name: created
+        weight: 300
+    - user.updated
+        type: field
+        entity_name: user
+        entity_field_name: updated
+        weight: 280
+    - user.is_embedded
+        type: field
+        entity_name: user
+        entity_field_name: is_embedded
+        settings
+        - filters
+          - 400: translate
+        weight: 260
+    - roles
+        type: handler
+        title: Roles
+        handler: \effcore\modules\user\events_page_user::on_show_user_roles
+        weight: 240
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+- instance_select_multiple-feedback|selection
+    id: instance_select_multiple-feedback
+    pager_is_enabled: true
+    decorator_settings
+    - view_type: table-adaptive
+    query_settings
+    - limit: 50
+    fields
+    - feedback.id
+        type: field
+        entity_name: feedback
+        entity_field_name: id
+        weight: 400
+    - feedback.name
+        type: field
+        entity_name: feedback
+        entity_field_name: name
+        weight: 380
+    - feedback.email
+        type: field
+        entity_name: feedback
+        entity_field_name: email
+        weight: 360
+    - feedback.created
+        type: field
+        entity_name: feedback
+        entity_field_name: created
+        weight: 340
+    - feedback.updated
+        type: field
+        entity_name: feedback
+        entity_field_name: updated
+        weight: 320
+- instance_select_multiple-permission|selection
+    id: instance_select_multiple-permission
+    pager_is_enabled: true
+    decorator_settings
+    - view_type: table-adaptive
+    query_settings
+    - limit: 50
+    fields
+    - permission.id
+        type: field
+        entity_name: permission
+        entity_field_name: id
+        weight: 400
+    - permission.title
+        type: field
+        entity_name: permission
+        entity_field_name: title
+        settings
+        - filters
+          - 400: translate
+        weight: 380
+- instance_select_multiple-relation_role_ws_permission|selection
+    id: instance_select_multiple-relation_role_ws_permission
+    pager_is_enabled: true
+    decorator_settings
+    - view_type: table-adaptive
+    query_settings
+    - limit: 50
+    fields
+    - relation_role_ws_permission.id_role
+        type: field
+        entity_name: relation_role_ws_permission
+        entity_field_name: id_role
+        weight: 400
+    - relation_role_ws_permission.id_permission
+        type: field
+        entity_name: relation_role_ws_permission
+        entity_field_name: id_permission
+        weight: 380
+    - relation_role_ws_permission.created
+        type: field
+        entity_name: relation_role_ws_permission
+        entity_field_name: created
+        weight: 360
+    - relation_role_ws_permission.updated
+        type: field
+        entity_name: relation_role_ws_permission
+        entity_field_name: updated
+        weight: 340
+- instance_select_multiple-relation_role_ws_user|selection
+    id: instance_select_multiple-relation_role_ws_user
+    pager_is_enabled: true
+    decorator_settings
+    - view_type: table-adaptive
+    query_settings
+    - join_script
+      - with_user
+          type: left outer join
+          entity_name: user
+          entity_field_name: id
+          on_entity_name: relation_role_ws_user
+          on_entity_field_name: id_user
+    - limit: 50
+    fields
+    - relation_role_ws_user.id_user
+        type: field
+        entity_name: relation_role_ws_user
+        entity_field_name: id_user
+        weight: 400
+    - user.nickname
+        type: join_field
+        entity_name: user
+        entity_field_name: nickname
+        weight: 380
+    - relation_role_ws_user.id_role
+        type: field
+        entity_name: relation_role_ws_user
+        entity_field_name: id_role
+        weight: 360
+    - relation_role_ws_user.created
+        type: field
+        entity_name: relation_role_ws_user
+        entity_field_name: created
+        weight: 340
+    - relation_role_ws_user.updated
+        type: field
+        entity_name: relation_role_ws_user
+        entity_field_name: updated
+        weight: 320
+- instance_select_multiple-role|selection
+    id: instance_select_multiple-role
+    pager_is_enabled: true
+    decorator_settings
+    - view_type: table-adaptive
+    query_settings
+    - limit: 50
+    fields
+    - role.id
+        type: field
+        entity_name: role
+        entity_field_name: id
+        weight: 400
+    - role.title
+        type: field
+        entity_name: role
+        entity_field_name: title
+        settings
+        - filters
+          - 400: translate
+        weight: 380
+    - role.created
+        type: field
+        entity_name: role
+        entity_field_name: created
+        weight: 360
+    - role.updated
+        type: field
+        entity_name: role
+        entity_field_name: updated
+        weight: 340
+- instance_select_multiple-user|selection
+    id: instance_select_multiple-user
+    pager_is_enabled: true
+    decorator_settings
+    - view_type: table-adaptive
+    query_settings
+    - limit: 50
+    fields
+    - user.id
+        type: field
+        entity_name: user
+        entity_field_name: id
+        weight: 400
+    - user.nickname
+        type: field
+        entity_name: user
+        entity_field_name: nickname
+        weight: 380
+    - user.email
+        type: field
+        entity_name: user
+        entity_field_name: email
+        weight: 360
+    - user.created
+        type: field
+        entity_name: user
+        entity_field_name: created
+        weight: 340
+    - user.updated
+        type: field
+        entity_name: user
+        entity_field_name: updated
+        weight: 320
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+- user|selection
+    id: user
+    decorator_settings
+    - view_type: table-dl
+    query_settings
+    - conditions
+      - id_!f: ~user.nickname
+      - id_operator: =
+      - id_!v|text
+          is_apply_translation: false
+          is_apply_tokens: true
+          text: %%_nickname_page_context{nickname}
+    fields
+    - user.id
+        type: field
+        entity_name: user
+        entity_field_name: id
+        weight: 400
+    - user.nickname
+        type: field
+        entity_name: user
+        entity_field_name: nickname
+        weight: 380
+    - user.avatar_path
+        type: field
+        entity_name: user
+        entity_field_name: avatar_path
+        weight: 360
+    - user.timezone
+        type: field
+        entity_name: user
+        entity_field_name: timezone
+        settings
+        - filters
+          - 400: translate
+        weight: 340
+    - user.created
+        type: field
+        entity_name: user
+        entity_field_name: created
+        weight: 320
+    - user.updated
+        type: field
+        entity_name: user
+        entity_field_name: updated
+        weight: 300
+    - user.is_embedded
+        type: field
+        entity_name: user
+        entity_field_name: is_embedded
+        settings
+        - filters
+          - 400: translate
+        weight: 280
+    - roles
+        type: handler
+        title: Roles
+        handler: \effcore\modules\user\events_page_user::on_show_user_roles
+        weight: 260

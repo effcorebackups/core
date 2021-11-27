@@ -1,0 +1,150 @@
+tab_items
+- data_content|tab_item
+    id: data_content
+    id_parent: null
+    id_tab: data
+    action_name: content
+    action_name_default: content/page
+    title: Content
+    weight: +500
+    access
+      roles
+      - =: admins
+      permissions_match
+      - =: %^manage_data__content_.+__select$%
+- data_content_page|tab_item
+    id: data_content_page
+    id_parent: data_content
+    id_tab: data
+    action_name: content/page
+    title: Pages
+    weight: +500
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page__select
+      permissions_match
+      - =: %^manage_data__content_page_.+__select$%
+- data_content_text|tab_item
+    id: data_content_text
+    id_parent: data_content_page
+    id_tab: data
+    action_name: content/text
+    title: Texts
+    weight: +500
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_text__select
+- data_content_picture|tab_item
+    id: data_content_picture
+    id_parent: data_content_page
+    id_tab: data
+    action_name: content/picture
+    title: Pictures
+    weight: +480
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_picture__select
+- data_content_audio|tab_item
+    id: data_content_audio
+    id_parent: data_content_page
+    id_tab: data
+    action_name: content/audio
+    title: Audios
+    weight: +460
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_audio__select
+- data_content_video|tab_item
+    id: data_content_video
+    id_parent: data_content_page
+    id_tab: data
+    action_name: content/video
+    title: Videos
+    weight: +440
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_video__select
+- data_content_gallery|tab_item
+    id: data_content_gallery
+    id_parent: data_content_page
+    id_tab: data
+    action_name: content/gallery
+    title: Galleries
+    weight: +420
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_gallery__select
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+- view_colors|tab_item
+    id: view_colors
+    id_parent: null
+    id_tab: view
+    action_name: colors
+    action_name_default: colors/current
+    title: Colors
+    weight: +500
+- view_colors_current|tab_item
+    id: view_colors_current
+    id_parent: view_colors
+    id_tab: view
+    action_name: colors/current
+    title: Current
+    weight: +500
+- view_colors_presets|tab_item
+    id: view_colors_presets
+    id_parent: view_colors
+    id_tab: view
+    action_name: colors/presets
+    title: Presets
+    weight: +480
+- view_layouts|tab_item
+    id: view_layouts
+    id_parent: null
+    id_tab: view
+    action_name: layouts
+    title: Layouts
+- view_global_css|tab_item
+    id: view_global_css
+    id_parent: null
+    id_tab: view
+    action_name: global_css
+    title: Global CSS
+- view_settings|tab_item
+    id: view_settings
+    id_parent: null
+    id_tab: view
+    action_name: settings
+    title: Settings
+    weight: -500
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+- seo_meta|tab_item
+    id: seo_meta
+    id_parent: null
+    id_tab: seo
+    action_name: meta
+    title: META
+    weight: +500
+- seo_sitemap|tab_item
+    id: seo_sitemap
+    id_parent: null
+    id_tab: seo
+    action_name: sitemap
+    title: Sitemap
+- seo_robots|tab_item
+    id: seo_robots
+    id_parent: null
+    id_tab: seo
+    action_name: robots
+    title: Robots

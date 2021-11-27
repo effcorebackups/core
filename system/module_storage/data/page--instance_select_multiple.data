@@ -1,0 +1,49 @@
+pages
+- instance_select_multiple|page
+    id: instance_select_multiple
+    title: %%_entity_title_plural_context
+    url: %^(?<base>/manage/data)(/
+>>>>>>>>>>>(?<managing_group_id>[a-z0-9_\-]+)(/
+>>>>>>>>>>>(?<entity_name>[a-z0-9_]+)(///
+>>>>>>>>>>>(?<category_id>[a-z0-9_]+)|)|)|)$%
+    is_https: true
+    access
+      roles
+      - =: registered
+    blocks
+    - system
+      - block__tree_sql__user_registered|block_preset_link
+          id: block__tree_sql__user_registered
+          title: Registered user's menu
+          attributes
+          - data-block: true
+          - data-id: block__tree_sql__user_registered
+          - data-style: at-right
+      - block__tree__system|block_preset_link
+          id: block__tree__system
+    - breadcrumbs
+      - block__breadcrumbs__system|block_preset_link
+          id: block__breadcrumbs__system
+    - messages
+      - block__messages|block_preset_link
+          id: block__messages
+    - title
+      - block__title|block_preset_link
+          id: block__title
+    - tabs
+      - block__tabs|block
+          title: Tabs
+          title_is_visible: false
+          attributes
+          - data-id: block__tabs
+          type: link
+          source: tabs/storage/data
+    # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+    - content
+      - block__form__instance_select_multiple|block
+          title: Data management form
+          title_is_visible: false
+          attributes
+          - data-id: block__form__instance_select_multiple
+          type: link
+          source: forms/storage/instance_select_multiple

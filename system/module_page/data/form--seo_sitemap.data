@@ -1,0 +1,27 @@
+forms
+- seo_sitemap|form
+    attributes
+    - id: seo_sitemap
+    - method: post
+    - novalidate: true
+    children
+    - settings|fieldset
+        children
+        - content|field_textarea
+            title: Content of the "sitemap.xml" file
+            element_attributes
+            - data-style: code-editor
+            - name: content
+            - required: false
+            - minlength: null
+            - maxlength: 16777215
+            - rows: 20
+        - is_apply_tokens|field_switcher
+            title: Apply tokens
+            element_attributes
+            - name: is_apply_tokens
+    - button_save|button
+        title: save
+        attributes
+        - value: save
+        weight: -500

@@ -1,0 +1,57 @@
+tree_items
+- develop|tree_item
+    id: develop
+    id_parent: null
+    id_tree: system
+    title: Develop
+    url_hidden: /develop
+    weight: -500
+    access
+      roles
+      - =: admins
+- palette|tree_item
+    id: palette
+    id_parent: develop
+    id_tree: system
+    title: Palette
+    url: /develop/palette
+    access
+      roles
+      - =: admins
+- structures|tree_item
+    id: structures
+    id_parent: develop
+    id_tree: system
+    title: Structures
+    url: /develop/structures
+    access
+      roles
+      - =: admins
+- data_nosql|tree_item
+    id: data_nosql
+    id_parent: develop
+    id_tree: system
+    title: NoSQL data
+    url: /develop/data_nosql
+    access
+      roles
+      - =: admins
+- php_dependencies|tree_item
+    id: php_dependencies
+    id_parent: develop
+    id_tree: system
+    title: PHP dependencies
+    url: /develop/php_dependencies
+    access
+      roles
+      - =: admins
+- console|tree_item
+    id: console
+    id_parent: develop
+    id_tree: system
+    title: Console
+    url: /develop/console
+    weight: -500
+    access
+      roles
+      - =: admins

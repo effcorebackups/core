@@ -1,0 +1,37 @@
+forms
+- registration|form
+    attributes
+    - id: registration
+    - method: post
+    - novalidate: true
+    children
+    - credentials|fieldset
+        children
+        - email|field_email
+            entity_name: user
+            entity_field_name: email
+            is_validate_uniqueness: true
+        - nickname|field_nickname
+            entity_name: user
+            entity_field_name: nickname
+            is_validate_uniqueness: true
+        - password|field_password
+        - timezone|field_timezone
+            element_attributes
+            - data-source: uagent-timezone
+        - session_params|group_switchers
+            element_attributes
+            - name: session_params[]
+            values
+            - is_long_session: long session
+            - is_fixed_ip: bind to my IP address
+            checked
+            - =: is_long_session
+            - =: is_fixed_ip
+        - captcha|form_plugin
+            name: field_captcha
+    - button_register|button
+        title: register
+        attributes
+        - value: register
+        weight: -500

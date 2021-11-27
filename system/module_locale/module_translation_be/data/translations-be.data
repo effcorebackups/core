@@ -1,0 +1,877 @@
+translations
+- be|translation
+    code: be
+    data
+    - - no -: - няма -
+    - - root -: - корань -
+    - - select -: - абраць -
+    - - system value -: - сістэмнае значэнне -
+    - %%_entity_title_context\: delete: %%_entity_title_context: выдаліць
+    - %%_entity_title_context\: insert: %%_entity_title_context: уставіць
+    - %%_entity_title_context\: update: %%_entity_title_context: абнавіць
+    - %%_number sec.: %%_number сек.
+    - %%_number second%%_plural{number\|s}: %%_number секунд%%_plural{number|a-ji}
+    - A new password was sent to the selected Email.: Новы пароль быў адпраўлены на абраны адрас электроннай пошты.
+    - access allowed by permission "%%_permission": доступ дазволены па дазваленні "%%_permission"
+    - access allowed by role "%%_role": доступ дазволены па ролі "%%_role"
+    - access allowed by user ID "%%_user": доступ дазволены па ID карыстальніка "%%_user"
+    - Access forbidden: Доступ забаронены
+    - Access recovery form: Форма аднаўлення доступу
+    - Access settings are not applicable if no one role is active!: Налады доступу не ўжываюцца, калі ні адна роля не актыўнa!
+    - access: доступ
+    - Access: Доступ
+    - action: дзеянне
+    - Action: Дзеянне
+    - actions: дзеянні
+    - Actions: Дзеянні
+    - Additional controls will become available after insertion (in update mode).: Дадатковыя элементы кіравання стануць даступныя пасля ўстаўкі (у рэжыме абнаўлення).
+    - Administrators: Адміністратары
+    - After exceeding the "Number of login attempts" value, the login will be blocked for the specified time.: Пасля перавышэння значэння "Колькасць спробаў ўваходу" будзе заблакавана магчымасць ўваходу на паказаны час.
+    - All caches was reset.: Усе кэшы былі скінутыя.
+    - All colors: Усе колеры
+    - An empty line was found.: Знойдзены пусты радок.
+    - An error in parsing the "data" format was found!: Памылка разбору фармату "data" была знойдзена!
+    - An error occurred during installation!: Адбылася памылка пры ўсталёўцы!
+    - An example of its content can be\: meta description, meta keywords, custom meta fields (for example, google-site-verification), custom CSS blocks, custom JS blocks (for example, Google Analytics).: Прыкладам яго змесціва могуць служыць: мета-апісанне, ключавыя мета-словы, карыстальніцкія мета-поля (напрыклад, google-site-verification), карыстальніцкія блокі CSS, карыстальніцкія блокі JS (напрыклад, Google Analytics).
+    - Anonymous user: Ананімны карыстальнік
+    - Anonymous user's breadcrumbs: Хлебныя крошкі ананімнага карыстальніка
+    - Anonymous users + Registered users: Ананімныя карыстальнікі + Зарэгістраваныя карыстальнікі
+    - Anonymous users: Ананімныя карыстальнікі
+    - Anonymous: Ананім
+    - Answer: Адказ
+    - Answers: Адказы
+    - apply tokens: прымяніць токены
+    - Apply tokens: Прымяніць токены
+    - apply translation: прымяніць пераклад
+    - apply: прымяніць
+    - Architecture: Архітэктура
+    - Attribute: Атрыбут
+    - Attributes: Атрыбуты
+    - audio "%%_audio": аўдыё "%%_audio"
+    - audio: аўдыё
+    - Audio: Аўдыё
+    - Audio\: delete: Аўдыё: выдаліць
+    - Audio\: insert: Аўдыё: уставіць
+    - Audio\: select: Аўдыё: абраць
+    - Audio\: update: Аўдыё: абнавіць
+    - audios: аўдыё
+    - Audios: Аўдыё
+    - Avatar path: Шлях аватара
+    - Avatar: Аватар
+    - B: Б
+    - Belarusian: Беларускі
+    - bind to my IP address: прывязаць да майго IP-адраса
+    - Block: Блок
+    - Blocking the login for the number of minutes: Блакаванне ўваходу на колькасць хвілін
+    - Blocking will not affect existing sessions.: Блакаванне не паўплывае на існуючыя сеансы.
+    - Blocks: Блокі
+    - Breadcrumbs: Хлебныя крошкі
+    - Build number: Нумар зборкі
+    - bundle build number: нумар зборкі пакету
+    - bundle description: апісанне пакету
+    - Bundle for examples of custom profiles.: Пакет прыкладаў карыстацкіх профіляў.
+    - bundle id: id пакету
+    - bundle title: загаловак пакету
+    - Bundle with system.: Пакет з сістэмай.
+    - Button active: Кнопка актыўная
+    - button: кнопка
+    - Button: Кнопка
+    - Button\: text: Кнопка: тэкст
+    - Cache update form: Форма абнаўлення кэша
+    - cache: кэш
+    - cancel: адмяніць
+    - Canvas: Палатно
+    - Changes was deleted.: Змены былі выдалены.
+    - Changes was not deleted!: Змены не былі выдалены!
+    - Changes was not saved!: Змены не былі захаваны!
+    - Changes was saved.: Змены былі захаваны.
+    - Changing the value will not affect existing sessions.: Змена значэння не паўплывае на існуючыя сеансы.
+    - Charset: Кадзіроўка
+    - Check field again before submit.: Зноў праверце поле перад адпраўкай.
+    - Checkbox: Сцяжок
+    - Checkboxes: Сцяжкі
+    - checking: праверка
+    - Class "%%_class_name" not allowed.: Клас "%%_class_name" не дапускаецца.
+    - Class "%%_class_name" was not found.: Клас "%%_class_name" не знойдзены.
+    - click to open in new window: націсніце, каб адкрыць у новым акне
+    - click to open the menu item "%%_title": націсніце, каб адкрыць пункт меню "%%_title"
+    - click to open the tab "%%_title": націсніце, каб адкрыць укладку "%%_title"
+    - Color assignment form: Форма прысваення колеру
+    - color ID = "%%_id" and value = "%%_value": ID колеру = "%%_id" і значэнне = "%%_value"
+    - Color preset apply form: Форма прымянення каляровых перадусталёвак
+    - Color should be in the format "#abcdef", where "ab" is the value of the red component, "cd" — green and "ef" — blue.: Колер павінен быць у фармаце "#abcdef", дзе "ab" — гэта значэнне чырвонай кампаненты, "cd" — зялёнай і "ef" — сіняй.
+    - Color: Колер
+    - Colors was applied.: Колеры былі ўжыты.
+    - Colors was not applied!: Колеры не былі ўжыты!
+    - Colors: Колеры
+    - Conditions: Умовы
+    - Console settings form: Форма налад кансолі
+    - Console settings: Налады кансолі
+    - Content in the &lt;head&gt;: Змесціва ў &lt;head&gt;
+    - Content of the "global.cssd" file: Змесціва файла "global.cssd"
+    - Content of the "robots.txt" file: Змесціва файла robots.txt
+    - Content of the "sitemap.xml" file: Змесціва файла "sitemap.xml"
+    - Content: Змесціва
+    - Cookie domain: Дамен cookie
+    - Cookies are disabled. You cannot log in!: Cookies адключаны. Вы не можаце ўвайсці ў сістэму!
+    - Copyright © 20NN—20NN Author/Rightholder. All rights reserved.: Copyright © 20NN—20NN Аўтар/Праваўладальнік. Усе правы абаронены.
+    - Copyright © 2017—2022 Maxim Rysevets. All rights reserved.: Copyright © 2017—2022 Рысевец Максім Уладзіміравіч. Усе правы абаронены.
+    - copyright: аўтарскія правы
+    - Copyright: Аўтарскія правы
+    - Core: Ядро
+    - Cover: Вокладка
+    - Created: Створана
+    - Credentials for storage "%%_name" was not set!: Уліковыя дадзеныя для сховішча "%%_name" не былі зададзены!
+    - Credentials: Уліковыя дадзеныя
+    - Cron autorun frequency: Частата аўтазапуску Cron
+    - Cron last run: Апошні запуск Cron
+    - Current language: Бягучая мова
+    - Current page information: Інфармацыя бягучай старонкі
+    - Current password: Бягучы пароль
+    - Current: Бягучыя
+    - Data deletion form: Форма выдалення дадзеных
+    - Data hash: Хэш дадзеных
+    - Data ID: ID дадзеных
+    - Data in "data" format: Дадзеныя ў фармаце "data"
+    - Data insertion form: Форма ўстаўкі дадзеных
+    - Data management form: Форма кіравання дадзенымі
+    - Data update #%%_number for module "%%_title" (%%_id) was applied.: Абнаўленне дадзеных №%%_number для модуля "%%_title" (%%_id) было ўжыта.
+    - Data update #%%_number for module "%%_title" (%%_id) was not applied!: Абнаўленне дадзеных №%%_number для модуля "%%_title" (%%_id) не было ўжыта!
+    - Data update form: Форма абнаўлення дадзеных
+    - Data update is required: Патрабуецца абнаўленне дадзеных
+    - Data: Дадзеныя
+    - Database name: Імя базы дадзеных
+    - Date format: Фармат даты
+    - Date: Дата
+    - Date/time format: Фармат даты/часу
+    - Date/Time: Дата/Час
+    - Decimal point: Дзесятковая кропка
+    - Decorator settings: Налады афармлення
+    - Delete item of type "%%_type" with ID = "%%_id"?: Выдаліць элемент тыпу "%%_type" з ID = "%%_id"?
+    - delete: выдаліць
+    - Delete: Выдаліць
+    - Demo: Дэма
+    - depend from modules: залежыць ад модуляў
+    - depend from PHP extensions: залежыць ад PHP-пашырэнняў
+    - description: апісанне
+    - Description: Апісанне
+    - Develop: Распрацоўка
+    - Diagram type: Тып дыяграмы
+    - Diagram: Дыяграма
+    - Diagrams: Дыяграмы
+    - Digit: Лічба
+    - Directory for temporary upload is missing.: Каталог для часовай загрузкі адсутнічае.
+    - Directory permissions should be checked.: Дазвалення каталога павінны быць правераны.
+    - Distributed queries are not supported! Selection ID = "%%_id".: Размеркаваныя запыты не падтрымліваюцца! ID выбаркі = "%%_id".
+    - Do not forget to save the changes!: Не забудзьце захаваць змены!
+    - do not show: не паказваць
+    - Driver error code\: %%_code: Код памылкі драйвера: %%_code
+    - Driver error text\: %%_text: Тэкст памылкі драйвера: %%_text
+    - Driver is not selected!: Драйвер не абраны!
+    - Duplicate of type "%%_type" with ID = "%%_id" was found in module "%%_title"!: Быў знойдзены дублікат тыпу "%%_type" з ID = "%%_id" у модулі "%%_title"!
+    - duplicate of type "%%_type" with ID = "%%_id" was found in module with ID = "%%_module_id": быў знойдзены дублікат тыпу "%%_type" з ID = "%%_id" у модулі з ID = "%%_module_id"
+    - Duplicate of type "%%_type" with ID = "%%_id" was found in module with ID = "%%_module_id"!: Быў знойдзены дублікат тыпу "%%_type" з ID = "%%_id" у модулі з ID = "%%_module_id"!
+    - Each item must be contained in the "%%_root" array.: Кожны элемент павінен знаходзіцца ў масіве "%%_root".
+    - edit: рэдагаваць
+    - Edit: Рэдагаваць
+    - Eliminates the possibility of brute-force a password if an attacker knows the Email.: Ухіляе магчымасць падбору паролю калі зламыснік ведае адрас электроннай пошты.
+    - Eliminates the possibility of registering to a non-existent Email address.: Выключае магчымасць рэгістрацыі на неіснуючы адрас электроннай пошты.
+    - Email: Адрас электроннай пошты
+    - Enable cookies before login.: Уключыце cookies да пачатку ўваходу ў сістэму.
+    - English: Англійская
+    - enter edit mode: увайсці ў рэжым рэдагавання
+    - Entity "%%_entity" was installed.: Сутнасць "%%_entity" была ўсталявана.
+    - Entity "%%_entity" was not installed!: Сутнасць "%%_entity" не была ўсталявана!
+    - Entity "%%_entity" was not uninstalled!: Сутнасць "%%_entity" не была выдалена!
+    - Entity "%%_entity" was uninstalled.: Сутнасць "%%_entity" была выдалена.
+    - entity is embedded: сутнасць з'яўляецца убудаванай
+    - Error: Памылка
+    - Error\: %%_error: Памылка: %%_error
+    - event: падзея
+    - Event: Падзея
+    - events: падзеі
+    - Events: Падзеі
+    - Examples: Прыклады
+    - Examples\: %%_examples: Прыклады: %%_examples
+    - Execution: Выкананне
+    - expand: разгарнуць
+    - Expiration date: Дата заканчэння
+    - failure: няўдача
+    - Feedback form: Форма зваротнай сувязі
+    - Feedback with ID = "%%_id" has been sent.: Водгук c ID = "%%_id" быў адпраўлены.
+    - Feedback: Водгук
+    - Feedback\: delete: Водгук: выдаліць
+    - Feedback\: insert: Водгук: уставіць
+    - Feedback\: select: Водгук: абраць
+    - Feedback\: update: Водгук: абнавіць
+    - Feedbacks: Водгукі
+    - Field "%%_title" cannot be blank!: Поле "%%_title" не можа быць пустым!
+    - Field "%%_title" contains an error!: Поле "%%_title" змяшчае памылку!
+    - Field "%%_title" contains an incorrect date!: Поле "%%_title" змяшчае няправільную дату!
+    - Field "%%_title" contains an incorrect date/time!: Поле "%%_title" змяшчае няправільную дату/час!
+    - Field "%%_title" contains an incorrect Email address!: Поле "%%_title" змяшчае няправільны адрас электроннай пошты!
+    - Field "%%_title" contains an incorrect telephone number!: Поле "%%_title" змяшчае няправільны нумар тэлефона!
+    - Field "%%_title" contains an incorrect time!: Поле "%%_title" змяшчае няправільны час!
+    - Field "%%_title" contains an incorrect URL!: Поле "%%_title" змяшчае няправільны URL!
+    - Field "%%_title" contains an incorrect value!: Поле "%%_title" змяшчае няправільнае значэнне!
+    - Field "%%_title" contains the previously used combination of values!: Поле "%%_title" змяшчае раней выкарыстаную камбінацыю значэнняў!
+    - Field "%%_title" does not support multiple select!: Поле "%%_title" не падтрымлівае множны выбар!
+    - Field "%%_title" does not support uploading a file of this type!: Поле "%%_title" не падтрымлівае загрузку такога тыпу файла!
+    - Field "%%_title" has a changed value.: Поле "%%_title" мае змененае значэнне.
+    - Field "%%_title" should be enabled!: Поле "%%_title" павінна быць уключана!
+    - Field "%%_title" should be selected!: Поле "%%_title" павінна быць абрана!
+    - Field "%%_title".: Поле "%%_title".
+    - Field can contain a maximum of %%_number file%%_plural{number\|s}.: Поле можа змяшчаць максімум %%_number файл%%_plural{number|au-a}.
+    - Field can contain a minimum of %%_number file%%_plural{number\|s}.: Поле можа змяшчаць мінімум %%_number файл%%_plural{number|au-a}.
+    - Field can contain only %%_number file%%_plural{number\|s}.: Поле можа змяшчаць толькі %%_number файл%%_plural{number|au-a}.
+    - Field value at the current moment\: %%_value: Значэнне поля ў бягучы момант: %%_value
+    - Field value can contain a maximum of %%_number character%%_plural{number\|s}.: Значэнне поля можа змяшчаць максімум %%_number сімвал%%_plural{number|au-a}.
+    - Field value can contain a minimum of %%_number character%%_plural{number\|s}.: Значэнне поля можа змяшчаць мінімум %%_number сімвал%%_plural{number|au-a}.
+    - Field value can contain only %%_number character%%_plural{number\|s}.: Значэнне поля можа змяшчаць толькі %%_number сімвал%%_plural{number|au-a}.
+    - Field value can contain only the next characters\: %%_characters: Значэнне поля можа змяшчаць толькі наступныя сімвалы: %%_characters
+    - Field value can contain only the next classes\: %%_classes: Значэнне поля можа змяшчаць толькі наступныя класы: %%_classes
+    - Field value can contain Unicode.: Значэнне поля можа змяшчаць Юнікод.
+    - Field value cannot be greater than\: %%_value: Значэнне поля не можа быць больш чым: %%_value
+    - Field value cannot be less than\: %%_value: Значэнне поля не можа быць менш чым: %%_value
+    - Field value cannot be start with "%%_value".: Значэнне поля не павінна пачынацца з "%%_value".
+    - Field value cannot contain Unicode.: Значэнне поля не можа змяшчаць Юнікод.
+    - Field value does not match the regular expression "%%_expression".: Значэнне поля не адпавядае рэгулярнаму выразу "%%_expression".
+    - Field value is greater than %%_number.: Значэнне поля больш чым %%_number.
+    - Field value is less than %%_number.: Значэнне поля менш чым %%_number.
+    - Field value is not a valid number.: Значэнне поля не з'яўляецца дапушчальнай лічбай.
+    - Field value is not in valid range.: Значэнне поля не адпавядае дапушчальнаму дыяпазону.
+    - Field value should be represented in the international format of telephone numbers.: Значэнне поля павiнна быць прадстаўлена ў міжнародным фармаце тэлефонных нумароў.
+    - Field value should be start with "%%_value".: Значэнне поля павінна пачынацца з "%%_value".
+    - Field value should contain a minimum of %%_number character%%_plural{number\|s}.: Значэнне поля павінна змяшчаць мінімум %%_number сімвал%%_plural{number|au-a}.
+    - Field value should contain anchor.: Значэнне поля павінна змяшчаць якар.
+    - Field value should contain domain.: Значэнне поля павінна змяшчаць дамен.
+    - Field value should contain path.: Значэнне поля павінна змяшчаць шлях.
+    - Field value should contain protocol.: Значэнне поля павінна змяшчаць пратакол.
+    - Field value should contain query.: Значэнне поля павінна змяшчаць запыт.
+    - Field value should match the regular expression\: %%_expression: Значэнне поля павінна адпавядаць рэгулярнаму выразу: %%_expression
+    - Field value should not contain anchor.: Значэнне поля не павінна змяшчаць якар.
+    - Field value should not contain domain.: Значэнне поля не павінна змяшчаць дамен.
+    - Field value should not contain path.: Значэнне поля не павінна змяшчаць шлях.
+    - Field value should not contain protocol.: Значэнне поля не павінна змяшчаць пратакол.
+    - Field value should not contain query.: Значэнне поля не павінна змяшчаць запыт.
+    - Field: Поле
+    - Field\: text: Поле: тэкст
+    - Fields: Палі
+    - Fieldset nested: Група палёў укладзеная
+    - Fieldset: Група палёў
+    - File "%%_file" was deleted.: Файл "%%_file" быў выдалены.
+    - file "%%_file" was not deleted: файл "%%_file" не быў выдалены
+    - File "%%_file" was not deleted!: Файл "%%_file" не быў выдалены!
+    - File "%%_file" was not written to disc!: Файл "%%_file" не быў запісаны на дыск!
+    - File "%%_file" was written to disc.: Файл "%%_file" быў запісаны на дыск.
+    - file "%%_file": файл "%%_file"
+    - File can have a maximum size\: %%_value (PHP restriction): Файл можа мець максімальны памер: %%_value (абмежаванне PHP)
+    - File can have a maximum size\: %%_value: Файл можа мець максімальны памер: %%_value
+    - File can only be of the next types\: %%_types: Файл можа быць толькі наступных тыпаў: %%_types
+    - File is empty.: Файл пусты.
+    - File name can contain only the next characters\: %%_characters: Імя файла можа змяшчаць толькі наступныя сімвалы: %%_characters
+    - File name: Імя файла
+    - File not found: Файл не знойдзены
+    - file of this type is protected: файл гэтага тыпу абаронены
+    - file path: шлях да файла
+    - File permissions (if the file exists) and directory permissions should be checked.: Дазвалення файла (калі файл існуе) і дазвалення каталога павінны быць правераны.
+    - File permissions should be checked.: Дазвалення файла павінны быць правераны.
+    - File types: Тыпы файлаў
+    - File upload was stopped by PHP extension.: Загрузка файла была спыненая PHP-пашырэннем.
+    - File was copied from "%%_from" to "%%_to".: Файл быў скапіяваны з "%%_from" у "%%_to".
+    - file was not copied from "%%_from" to "%%_to": файл не быў скапіяваны з "%%_from" у "%%_to"
+    - File was not copied from "%%_from" to "%%_to"!: Файл не быў скапіяваны з "%%_from" у "%%_to"!
+    - File was not written to disc!: Файл не быў запісаны на дыск!
+    - File was only partially uploaded.: Файл быў загружаны толькі часткова.
+    - file: файл
+    - File: Файл
+    - File\: %%_file: Файл: %%_file
+    - Files from repository: Файлы з рэпазітара
+    - files: файлы
+    - Files: Файлы
+    - fix: выправіць
+    - Form elements: Элементы формы
+    - form: форма
+    - Form: Форма
+    - forms: формы
+    - Forms: Формы
+    - Fractional part is too long.: Дробавая частка надта доўгая.
+    - Front: Галоўная
+    - Function: Функцыя
+    - G: Г
+    - Galleries: Галерэі
+    - Gallery: Галерэя
+    - Gallery\: delete: Галерэя: выдаліць
+    - Gallery\: insert: Галерэя: уставіць
+    - Gallery\: select: Галерэя: абраць
+    - Gallery\: update: Галерэя: абнавіць
+    - generate: генераваць
+    - Generation done.: Генерацыя выканана.
+    - GiB: ГіБ
+    - Global CSS editing form: Форма рэдагавання глабальнага CSS
+    - Global CSS: Глабальны CSS
+    - Glyphs: Гліфы
+    - go to %%_language language: перайсці на %%_language мову
+    - go to <a href="/">front page</a>: перайсці на <a href="/">галоўную старонку</a>
+    - go to English language: перайсці на Ангельску мову
+    - go to page #%%_number: перайсці на старонку №%%_number
+    - go to page %%_link: перайсці на старонку %%_link
+    - go to Russian language: перайсці на Рускую мову
+    - go to section "%%_title": перайсці на падзел "%%_title"
+    - Group "%%_title" has a changed value.: Група "%%_title" мае змененае значэнне.
+    - Group "%%_title" should contain a maximum %%_number item%%_plural{number\|s}!: Група "%%_title" павінна змяшчаць максімальна %%_number элемент%%_plural{number|au-a}!
+    - Group "%%_title" should contain a minimum %%_number item%%_plural{number\|s}!: Група "%%_title" павінна змяшчаць мінімальна %%_number элемент%%_plural{number|au-a}!
+    - Group "%%_title" should contain at least one selected item!: Група "%%_title" павінна змяшчаць як мінімум адзін абраны элемент!
+    - Group "%%_title".: Група "%%_title".
+    - Group: Група
+    - Headers: Загалоўкі
+    - Hostname: Імя вузла сеткі
+    - HTTPS is required: Патрабуецца HTTPS
+    - I accept the terms of the license agreement.: Я прымаю ўмовы ліцэнзійнага пагаднення.
+    - If a domain is specified, then it and its subdomains are used.: Калі дамен зададзены, то выкарыстоўваецца ён і яго поддомены.
+    - If no domain is specified, then the current domain is used, excluding subdomains.: Калі дамен не зададзены, то выкарыстоўваецца бягучы дамен без уліку паддаменаў.
+    - Ignore this email if you have not completed any registration on %%_domain.: Праігнаруйце гэты ліст калі Вы не ажыццяўлялі ніякай рэгістрацыі на %%_domain.
+    - In mode "Anonymous users + Registered users", an attacker can send many fake anonymous votes!: У рэжыме "Ананімныя карыстальнікі + Зарэгістраваныя карыстальнікі" зламыснік можа паслаць мноства падробленых ананімных галасоў!
+    - Incorrect email or password!: Памылковы адрас электроннай пошты ці пароль!
+    - Incorrect value will make it impossible to log in!: Няправільнае значэнне прывядзе да немагчымасці ўваходу ў сістэму!
+    - Indent oversize is detected.: Выяўлена перавышэнне памеру водступу.
+    - Indent size is not even.: Памер адступлення нячэтны.
+    - Info\: manage: Інфармацыя: кіраваць
+    - Information about the selected entry: Інфармацыя пра абраны запіс
+    - Information: Інфармацыя
+    - Insert a new item of type "%%_entity_title_context" on new page.: Уставіць новы элемент тыпу "%%_entity_title_context" на новай старонцы.
+    - insert and update: уставіць і абнавіць
+    - Insert block: Уставіць блок
+    - insert: уставіць
+    - Insert: Уставіць
+    - insertion: устаўка
+    - install: усталяваць
+    - Install: Усталяваць
+    - Installation is not available because storage credentials was set!: Усталёўка недаступная, таму што уліковыя дадзеныя сховішча ўжо былі ўсталяваны.
+    - installation: усталёўка
+    - Installation: Усталёўка
+    - Instance with Row ID = "%%_row_id" was deleted.: Асобнік з Row ID = "%%_row_id" быў выдалены.
+    - Instance with Row ID = "%%_row_id" was inserted.: Асобнік з Row ID = "%%_row_id" быў даданы.
+    - Instance with Row ID = "%%_row_id" was not deleted!: Асобнік з Row ID = "%%_row_id" не быў выдалены!
+    - Instance with Row ID = "%%_row_id" was not inserted!: Асобнік з Row ID = "%%_row_id" не быў даданы!
+    - Instance with Row ID = "%%_row_id" was not updated!: Асобнік з Row ID = "%%_row_id" не быў абноўлены!
+    - Instance with Row ID = "%%_row_id" was updated.: Асобнік з Row ID = "%%_row_id" быў абноўлены.
+    - Instance: Асобнік
+    - Instances: Асобнікі
+    - interface: інтэрфейс
+    - Interface: Інтэрфейс
+    - interfaces: інтэрфейсы
+    - Interfaces: Інтэрфейсы
+    - Internet Explorer below version %%_number no longer supported!: Internet Explorer ніжэй версіі %%_number больш не падтрымліваецца!
+    - Invalid session was deleted!: Несапраўдны сеанс быў выдалены!
+    - Is current: Бягучы
+    - is embedded: убудаваны
+    - Is embedded: Убудаваны
+    - Is fixed IP: Фікс. IP
+    - It is recommended that you change your password directly on %%_domain.: Рэкамендуецца змяніць пароль непасрэдна на %%_domain.
+    - Item "%%_dpath_value" is positioned outside the allowed boundaries!: Элемент "%%_dpath_value" знаходзіцца па-за межамі дапушчальных межаў!
+    - Item "%%_dpath_value" must be of type "%%_type"!: Элемент "%%_dpath_value" павінен быць тыпу "%%_type"!
+    - Item "%%_dpath_value" must be one of the following types\: %%_types!: Элемент "%%_dpath_value" павінен быць адным з наступных тыпаў: %%_types!
+    - Item of type "%%_type" was deleted.: Элемент тыпу "%%_type" быў выдалены.
+    - Item of type "%%_type" was inserted.: Элемент тыпу "%%_type" быў даданы.
+    - Item of type "%%_type" was not deleted!: Элемент тыпу "%%_type" не быў выдалены!
+    - Item of type "%%_type" was not inserted!: Элемент тыпу "%%_type" не быў даданы!
+    - Item of type "%%_type" was not updated!: Элемент тыпу "%%_type" не быў абноўлены!
+    - Item of type "%%_type" was updated.: Элемент тыпу "%%_type" быў абноўлены.
+    - Item of type "%%_type" with ID = "%%_id" has been saved.: Элемент тыпу "%%_type" з ID = "%%_id" быў захаваны.
+    - Item of type "%%_type" with ID = "%%_id" was deleted physically.: Элемент тыпу "%%_type" з ID = "%%_id" быў выдалены фізічна.
+    - Item of type "%%_type" with ID = "%%_id" was deleted.: Элемент тыпу "%%_type" з ID = "%%_id" быў выдалены.
+    - Item of type "%%_type" with ID = "%%_id" was inserted.: Элемент тыпу "%%_type" з ID = "%%_id" быў даданы.
+    - Item of type "%%_type" with ID = "%%_id" was not deleted because it is embedded!: Элемент тыпу "%%_type" з ID = "%%_id" не быў выдалены, таму што ён з'яўляецца убудаваным!
+    - Item of type "%%_type" with ID = "%%_id" was not deleted!: Элемент тыпу "%%_type" з ID = "%%_id" не быў выдалены!
+    - Item of type "%%_type" with ID = "%%_id" was not inserted!: Элемент тыпу "%%_type" з ID = "%%_id" не быў даданы!
+    - Item of type "%%_type" with ID = "%%_id" was not updated!: Элемент тыпу "%%_type" з ID = "%%_id" не быў абноўлены!
+    - Item of type "%%_type" with ID = "%%_id" was updated.: Элемент тыпу "%%_type" з ID = "%%_id" быў абноўлены.
+    - Item of type "%%_type" with title "%%_title" has been saved.: Элемент тыпу "%%_type" з назвай "%%_title" быў захаваны.
+    - Item of type "%%_type" with title "%%_title" was deleted physically.: Элемент тыпу "%%_type" з назвай "%%_title" быў выдалены фізічна.
+    - Item of type "%%_type" with title "%%_title" was deleted.: Элемент тыпу "%%_type" з назвай "%%_title" быў выдалены.
+    - Item of type "%%_type" with title "%%_title" was inserted.: Элемент тыпу "%%_type" з назвай "%%_title" быў даданы.
+    - Item of type "%%_type" with title "%%_title" was not deleted because it is embedded!: Элемент тыпу "%%_type" з назвай "%%_title" не быў выдалены, таму што ён з'яўляецца убудаваным!
+    - Item of type "%%_type" with title "%%_title" was not deleted!: Элемент тыпу "%%_type" з назвай "%%_title" не быў выдалены!
+    - Item of type "%%_type" with title "%%_title" was not inserted!: Элемент тыпу "%%_type" з назвай "%%_title" не быў даданы!
+    - Item of type "%%_type" with title "%%_title" was not updated!: Элемент тыпу "%%_type" з назвай "%%_title" не быў абноўлены!
+    - Item of type "%%_type" with title "%%_title" was updated.: Элемент тыпу "%%_type" з назвай "%%_title" быў абноўлены.
+    - items: элементы
+    - Items: Элементы
+    - K: К
+    - Key "%%_key" does not exist!: Ключ "%%_key" не існуе!
+    - KiB: КіБ
+    - Kind: Від
+    - Language code: Код мовы
+    - Language selection menu: Меню выбару мовы
+    - Language: Мова
+    - Languages: Мовы
+    - launch: запуск
+    - Layout editing form: Форма рэдагавання макета
+    - Layout ID: ID макета
+    - Layout: Макет
+    - Layouts: Макеты
+    - Leading tab character found.: Знойдзены вядучы сімвал табуляцыі.
+    - Leave 0 if you want to use global page size settings.: Пакіньце 0, калі Вы жадаеце выкарыстоўваць глабальныя налады памеру старонкі.
+    - leave edit mode: пакінуць рэжым рэдагавання
+    - Leave the field blank if you do not want to change its value.: Пакіньце поле пустым, калі Вы не жадаеце змяняць ягонае значэнне.
+    - left to right (ltr): злева направа (ltr)
+    - left to right: злева направа
+    - Length: Даўжыня
+    - License agreement: Ліцэнзійнае пагадненне
+    - Light preset: Светлая перадусталёўка
+    - Limit: Ліміт
+    - Line\: %%_line: Радок: %%_line
+    - Linear diagram: Лінейная дыяграма
+    - linear: лінейны/ая
+    - Link active: Спасылка актыўная
+    - Link attributes: Атрыбуты спасылкі
+    - Link: Спасылка
+    - List: Спіс
+    - Lists: Спісы
+    - load: загрузка
+    - Load: Загрузка
+    - Local Date: Лакальная Дата
+    - Local Date/Time: Лакальная Дата/Час
+    - Local Time: Лакальны Час
+    - Locale settings form: Форма налад лакалі
+    - Locale: Лакаль
+    - Locale\: manage: Лакаль: кіраваць
+    - Logic: Логіка
+    - Login form: Форма ўваходу
+    - login: уваход
+    - Login: Уваход
+    - logotype: лагатып
+    - Logotype: Лагатып
+    - logotypes: лагатыпы
+    - Logotypes: Лагатыпы
+    - Logout form: Форма выхаду
+    - logout: выхад
+    - Logout: Выхад
+    - long session: працяглы сеанс
+    - LOST FIELD: СТРАЧАНАЕ ПОЛЕ
+    - LOST LAYOUT\: %%_id: СТРАЧАНЫ МАКЕТ: %%_id
+    - M: М
+    - Main color: Асноўны колер
+    - Main colors: Асноўныя колеры
+    - management for this entity is not available: кіраванне для гэтай сутнасьці недаступна
+    - Management: Кіраванне
+    - Managers: Кіраўнікі
+    - Match: Адпаведнасць
+    - Maximum number of votes: Максімальная колькасць галасоў
+    - Maximum width: Максімальная шырыня
+    - Memory for PHP: Памяць для PHP
+    - Menu active: Меню актыўнае
+    - Menu: Меню
+    - Menu\: link active: Меню: спасылка актыўная
+    - Menu\: link: Меню: спасылка
+    - Menu\: text: Меню: тэкст
+    - Menus: Меню
+    - Message from storage\: %%_message: Паведамленне ад сховішча: %%_message
+    - Message: Паведамленне
+    - Messages: Паведамленні
+    - META editing form: Форма рэдагавання META
+    - META: МЕТА
+    - MiB: МіБ
+    - Minimum width: Мінімальная шырыня
+    - Module "%%_title" (%%_id) cannot be enabled when you try to disable dependent module "%%_dependency_title" (%%_dependency_id)!: Модуль "%%_title" (%%_id) не можа быць уключаны, калі Вы спрабуеце адключыць залежны модуль "%%_dependency_title" (%%_dependency_id)!
+    - Module "%%_title" (%%_id) depend from module with ID = "%%_dependency_id" with minimal version = "%%_dependency_version"!: Модуль "%%_title" (%%_id) залежыць ад модуля з ID = "%%_dependency_id" з мінімальнай версіяй = "%%_dependency_version"!
+    - Module "%%_title" (%%_id) depend from PHP extension with ID = "%%_dependency_id" with minimal version = "%%_dependency_version"!: Модуль "%%_title" (%%_id) залежыць ад PHP-пашырэння з ID = "%%_dependency_id" з мінімальнай версіяй = "%%_dependency_version"!
+    - Module "%%_title" (%%_id) was disabled.: Модуль "%%_title" (%%_id) быў выключаны.
+    - Module "%%_title" (%%_id) was enabled.: Модуль "%%_title" (%%_id) быў уключаны.
+    - Module "%%_title" (%%_id) was installed.: Модуль "%%_title" (%%_id) быў усталяваны.
+    - Module "%%_title" (%%_id) was not installed!: Модуль "%%_title" (%%_id) не быў усталяваны!
+    - Module data "%%_title" (%%_id) was removed.: Дадзеныя модуля "%%_title" (%%_id) былі выдалены.
+    - Module for demonstrating capabilities.: Модуль для дэманстрацыі магчымасцяў.
+    - Module for development.: Модуль для распрацоўкі.
+    - Module for localization.: Модуль для лакалізацыі.
+    - Module for publishing projects.: Модуль для публікацыі праектаў.
+    - Module for storages support.: Модуль для падтрымкі сховішчаў дадзеных.
+    - Module for support the operation of the whole system.: Модуль для падтрымкі працы ўсёй сістэмы.
+    - Module for testing.: Модуль для тэставання.
+    - Module for translation into Belarusian language.: Модуль для перакладу на беларускую мову.
+    - Module for translation into Russian language.: Модуль для перакладу на рускую мову.
+    - Module for working with navigation elements.: Модуль для працы з элементамі навігацыі.
+    - Module for working with pages.: Модуль для працы са старонкамі.
+    - Module for working with polls.: Модуль для працы з апытаннямі.
+    - Module for working with user accounts and permissions.: Модуль для працы з акаўнтамі і дазваленнямі карыстальнікаў.
+    - Module ID: ID модуля
+    - Module installation form: Форма усталёўкі модуляў
+    - Module: Модуль
+    - Modules data deletion form: Форма выдалення дадзеных модуляў
+    - Modules data update form: Форма абнаўлення дадзеных модуляў
+    - Modules files update form: Форма абнаўлення файлаў модуляў
+    - Modules: Модулі
+    - Modules\: manage: Модулі: кіраваць
+    - More info in "%%_info".: Больш інфармацыі ў "%%_info".
+    - Multimedia: Мультымедыя
+    - Multiple choice: Множны выбар
+    - Multiplier: Множнік
+    - name: імя
+    - Name: Імя
+    - New field: Новае поле
+    - new item: новы элемент
+    - New password should be different from the current password!: Новы пароль павінен адрознівацца ад бягучага!
+    - New password: Новы пароль
+    - nickname: псеўданім
+    - Nickname: Псеўданім
+    - No additional parameters.: Няма дадатковых параметраў.
+    - No fields for select from storage! Selection ID = "%%_id".: Няма палёў для выбаркі са сховішча! ID выбаркі = "%%_id".
+    - no fields: няма палёў
+    - no items: няма элементаў
+    - no modules: няма модуляў
+    - No one item was selected!: Ні адзін элемент не быў абраны!
+    - no Selection with ID = "%%_id": няма выбаркі з ID = "%%_id"
+    - NO TITLE: НЯМА ЗАГАЛОЎКУ
+    - no updates: няма абнаўленняў
+    - no url: няма url
+    - no: не
+    - No: Не
+    - Number of login attempts: Колькасць спроб ўваходу
+    - Number: Нумар
+    - Object: Аб'ект
+    - ok: ок
+    - Okay: Добра
+    - Only unique value is allowed.: Дазваляецца толькі унікальнае значэнне.
+    - Operating System: Аперацыйная сістэма
+    - Order: Заказ
+    - Ordered list: Упарадкаваны спіс
+    - Origin: Паходжанне
+    - ORPHANED BLOCK: АСІРАЦЕЛЫ БЛОК
+    - Other: Іншыя
+    - Page actions: Дзеянні старонкі
+    - Page not found: Старонка не знойдзена
+    - Page title: Загаловак старонкі
+    - Page: Старонка
+    - Page\: delete: Старонка: выдаліць
+    - Page\: insert: Старонка: уставіць
+    - Page\: select: Старонка: абраць
+    - Page\: update: Старонка: абнавіць
+    - Pager settings: Налады пэйджара
+    - Pages: Старонкі
+    - Palette generation form: Форма генеравання палітры
+    - Palette: Палітра
+    - Parameter: Параметр
+    - Parameters: Параметры
+    - Parent ID: ID бацькі
+    - Password recovery on %%_domain: Аднаўленне пароля на %%_domain
+    - Password: Пароль
+    - path: шлях
+    - Path: Шлях
+    - pcs.: шт.
+    - Permission ID: ID дазвалення
+    - Permission: Дазваленне
+    - Permission\: select: Дазваленне: абраць
+    - Permission\: update: Дазваленне: абнавіць
+    - Permissions: Дазваленні
+    - PHP CURL version: PHP CURL версія
+    - PHP dependencies: PHP-залежнасці
+    - PHP extension "%%_extension" is not available!: PHP-пашырэнне "%%_extension" недаступна!
+    - PHP OPCache is enabled: PHP OPCache уключаны
+    - PHP OPCache JIT is enabled: PHP OPCache JIT уключаны
+    - PHP PCRE version: PHP PCRE версія
+    - PHP version: PHP версія
+    - picture "%%_picture": малюнак "%%_picture"
+    - Picture: Малюнак
+    - Picture\: delete: Малюнак: выдаліць
+    - Picture\: insert: Малюнак: уставіць
+    - Picture\: select: Малюнак: абраць
+    - Picture\: update: Малюнак: абнавіць
+    - Pictures: Малюнкі
+    - Poll: Апытанне
+    - Poll\: delete: Апытанне: выдаліць
+    - Poll\: insert: Апытанне: уставіць
+    - Poll\: select: Апытанне: абраць
+    - Poll\: update: Апытанне: абнавіць
+    - Polls: Апытанні
+    - Port: Порт
+    - Possible options can be seen on page\: %%_page: Магчымыя варыянты можна ўбачыць на старонцы: %%_page
+    - Poster path: Шлях плаката
+    - Poster: Плакат
+    - Prefix: Прэфікс
+    - Presets: Перадусталёўкі
+    - press to enable or disable the module "%%_title": націсніце, каб уключыць альбо выключыць модуль "%%_title"
+    - press to show description: націсніце, каб паказаць апісанне
+    - press to show more information: націсніце, каб паказаць дадатковую інфармацыю
+    - press to show more settings: націсніце, каб паказаць больш налад
+    - press to show or hide available colors: націсніце, каб паказаць альбо схаваць даступныя колеры
+    - press to show or hide nested content: націсніце, каб паказаць альбо схаваць укладзенае змесціва
+    - Previously used value was specified.: Было ўжыто раней выкарыстанае значэнне.
+    - Profile: Профіль
+    - Profiles: Профілі
+    - Project: Праект
+    - Projects: Праекты
+    - Query error!: Памылка запыту!
+    - query preparation process return the false: працэс падрыхтоўкі запыту вярнуў false
+    - Query settings: Налады запыту
+    - query: запыт
+    - Question: Пытанне
+    - Radial diagram: Кругавая дыяграма
+    - radial: кругавы/ая
+    - Radiobutton: Перамыкач
+    - Radiobuttons: Перамыкачы
+    - Range: Дыяпазон
+    - Read access: Доступ на чытанне
+    - Recommended minimum value\: %%_value: Рэкамендуемае мінімальнае значэнне: %%_value
+    - recovery: аднаўленне
+    - Recovery: Аднаўленне
+    - register: зарэгістраваць
+    - Registered user: Зарэгістраваны карыстальнік
+    - Registered user's breadcrumbs: Хлебныя крошкі зарэгістраванага карыстальніка
+    - Registered users: Зарэгістраваныя карыстальнікі
+    - Registered: Зарэгістраваны
+    - Registering a new user on %%_domain: Рэгістрацыя новага карыстальніка на %%_domain
+    - Registration form: Форма рэгістрацыі
+    - Registration via Email: Рэгістрацыя праз электронную пошту
+    - registration: рэгістрацыя
+    - Registration: Рэгістрацыя
+    - Relation: Сувязь
+    - Relation\: Role ↔ Permission: Сувязь: Роля ↔ Дазваленне
+    - Relation\: Role ↔ Permission\: delete: Сувязь: Роля ↔ Дазваленне: выдаліць
+    - Relation\: Role ↔ Permission\: insert: Сувязь: Роля ↔ Дазваленне: уставіць
+    - Relation\: Role ↔ Permission\: select: Сувязь: Роля ↔ Дазваленне: абраць
+    - Relation\: Role ↔ Permission\: update: Сувязь: Роля ↔ Дазваленне: абнавіць
+    - Relation\: Role ↔ User: Сувязь: Роля ↔ Карыстальнік
+    - Relation\: Role ↔ User\: delete: Сувязь: Роля ↔ Карыстальнік: выдаліць
+    - Relation\: Role ↔ User\: insert: Сувязь: Роля ↔ Карыстальнік: уставіць
+    - Relation\: Role ↔ User\: select: Сувязь: Роля ↔ Карыстальнік: абраць
+    - Relation\: Role ↔ User\: update: Сувязь: Роля ↔ Карыстальнік: абнавіць
+    - Relations: Сувязі
+    - Relations\: Role ↔ Permission: Сувязі: Роля ↔ Дазваленне
+    - Relations\: Role ↔ User: Сувязі: Роля ↔ Карыстальнік
+    - Reload this page and make changes again to prevent inconsistency.: Перазагрузіце гэтую старонку і зноў унясіце змены, каб прадухіліць нязладжанасць дзеянняў.
+    - Report: Справаздача
+    - required for modules: патрабуецца для модуляў
+    - reset: скінуць
+    - restore repository: аднавіць рэпазітар
+    - Restore the storage credentials in "%%_file" or reinstall this system on the page\: %%_link: Аднавіце ўліковыя дадзеныя сховішча ў "%%_file" альбо зноў усталюйце гэтую сістэму на старонцы: %%_link
+    - right to left (rtl): справа налева (rtl)
+    - right to left: справа налева
+    - robots.txt editing form: Форма рэдагавання robots.txt
+    - Role ID: ID ролі
+    - role: роля
+    - Role: Роля
+    - Role\: delete: Роля: выдаліць
+    - Role\: insert: Роля: уставіць
+    - Role\: select: Роля: абраць
+    - Role\: update: Роля: абнавіць
+    - roles: ролі
+    - Roles: Ролі
+    - Row ID: ID радка
+    - Russian: Рускі
+    - save: захаваць
+    - search: пошук
+    - Search: Пошук
+    - sec.: сек.
+    - Section "%%_title": Падзел "%%_title"
+    - Security settings form: Форма налад бяспекі
+    - Security: Бяспека
+    - Security\: manage: Бяспека: кіраваць
+    - select all rows: абраць усе радкі
+    - select: абраць
+    - Select: Абраць
+    - Selection list: Спіс выбару
+    - selection: выбарка
+    - Selection: Выбарка
+    - Selection\: delete: Выбарка: выдаліць
+    - Selection\: insert: Выбарка: уставіць
+    - Selection\: select: Выбарка: абраць
+    - Selection\: update: Выбарка: абнавіць
+    - selections: выбаркі
+    - Selections: Выбаркі
+    - send: адправіць
+    - Sequence: Паслядоўнасць
+    - Server time zone: Гадзінны пояс сервера
+    - Server: Сервер
+    - Service: Абслугоўванне
+    - Session duration in days when "long session" is not selected: Працягласць сеансу ў днях калі не абрана "працяглы сеанс"
+    - Session duration in days when "long session" is selected: Працягласць сеансу ў днях калі абрана "працяглы сеанс"
+    - Session with ID = "%%_id" was deleted.: Сеанс з ID = "%%_id" быў выдалены.
+    - Session with ID = "%%_id" was not deleted!: Сеанс з ID = "%%_id" не быў выдалены!
+    - Session: Сеанс
+    - Sessions: Сеансы
+    - settings page: старонка налад
+    - Settings: Налады
+    - Shared parameters: Агульныя параметры
+    - Short session\: %%_min day%%_plural{min\|s} \| long session\: %%_max day%%_plural{max\|s}: Кароткі сеанс = %%_min %%_plural{min|day} | працяглы сеанс = %%_max %%_plural{max|day}
+    - Simple layout: Просты макет
+    - Sitemap editing form: Форма рэдагавання Sitemap
+    - Size of uploaded file greater than %%_size.: Памер загружанага файла больш чым %%_size.
+    - Size of uploaded file greater than MAX_FILE_SIZE (MAX_FILE_SIZE is not supported).: Памер загружанага файла больш чым MAX_FILE_SIZE (MAX_FILE_SIZE не падтрымліваецца).
+    - size: памер
+    - Size: Памер
+    - Social networks: Сацыяльныя сеткі
+    - SQL state\: %%_state: SQL стан: %%_state
+    - SQL storage: SQL сховішча
+    - state: стан
+    - State: Стан
+    - Storage "%%_name" is not available!: Сховішча "%%_name" недаступна!
+    - Storage is not available with these credentials!: Сховішча недаступна з гэтымі уліковымі дадзенымі!
+    - storage: сховішча
+    - Storage: Сховішча
+    - Structures: Структуры
+    - success: поспех
+    - Switcher: Выключальнік
+    - Switchers: Выключальнікі
+    - System breadcrumbs: Сістэмныя хлебныя крошкі
+    - System information: Інфармацыя аб сістэме
+    - System installation parameters form: Форма параметраў усталёўкі сістэмы
+    - system logotype: лагатып сістэмы
+    - System menu: Сістэмнае меню
+    - System was installed.: Сістэма была ўсталявана.
+    - System was not installed!: Сістэма не была ўсталявана.
+    - System: Сістэма
+    - T: Т
+    - Table prefix: Прэфікс табліц
+    - Table: Табліца
+    - Table\: row even: Табліца: радок цотны
+    - Table\: row odd: Табліца: радок няцотны
+    - Tabs: Укладкі
+    - Tabs\: link active (no background): Укладкі: спасылка актыўная (няма фону)
+    - Tabs\: link active: Укладкі: спасылка актыўная
+    - Tabs\: link: Укладкі: спасылка
+    - Telephone number: Нумар тэлефона
+    - Template "%%_name" was not found!: Шаблён "%%_name" не быў знойдзены!
+    - Templates: Шаблоны
+    - Test execution form: Форма выканання тэсту
+    - Test: Тэст
+    - Tests: Тэсты
+    - Text area: Тэкставая вобласць
+    - Text direction code: Код кірунку тэксту
+    - Text direction: Напрамак тэксту
+    - Text: Тэкст
+    - Text\: delete: Тэкст: выдаліць
+    - Text\: insert: Тэкст: уставіць
+    - Text\: select: Тэкст: абраць
+    - Text\: update: Тэкст: абнавіць
+    - Texts: Тэкст
+    - The class name has been changed to "%%_new_class_name".: Імя класа было зменена на "%%_new_class_name".
+    - The following related items will also be deleted\:: Таксама будуць выдалены наступныя звязаныя элементы:
+    - The letter was not accepted for transmission!: Ліст не быў прыняты да перадачы!
+    - The minimum value cannot be greater than or equal to the maximum!: Мінімальнае значэнне не можа быць больш ці роўна максімальнаму!
+    - The minimum value cannot be greater than the maximum!: Мінімальнае значэнне не можа быць больш максімальнага!
+    - The removing module should be disabled at first. Embedded modules cannot be disabled.: Выдалены модуль спачатку павінен быць адключаны. Убудаваныя модулі не могуць быць адключаны.
+    - The report will be created after submitting the form.: Справаздача будзе створана пасля адпраўкі формы.
+    - This block will be inserted into the &lt;head&gt; of each page.: Дадзены блок будзе ўстаўлены ў &lt;head&gt; кожнай старонкі.
+    - This block will be inserted into the &lt;head&gt; of this page.: Дадзены блок будзе ўстаўлены ў &lt;head&gt; гэтай старонкі.
+    - This combination of values is already in use!: Такая камбінацыя значэнняў ужо выкарыстоўваецца!
+    - This content is not filtered and is presented as is.: Гэты змест не фільтруецца і ўяўляецца як ёсць.
+    - This page should be use HTTPS protocol!: Гэтая старонка павінна выкарыстоўваць HTTPS-пратакол!
+    - Thousands separator: Раздзяляльнік тысяч
+    - thumbnail: мініяцюра
+    - TiB: ТіБ
+    - Time format: Фармат часу
+    - Time zone: Гадзінны пояс
+    - Time: Час
+    - Title is visible: Загаловак бачны
+    - title: загаловак
+    - Title: Загаловак
+    - Token: Токен
+    - Tokens: Токены
+    - Total: Усяго
+    - Translation: Пераклад
+    - Translations: Пераклады
+    - Tree ID: ID дрэва
+    - Tree item: Пункт дрэва
+    - Tree item\: delete: Пункт дрэва: выдаліць
+    - Tree item\: insert: Пункт дрэва: уставіць
+    - Tree item\: select: Пункт дрэва: абраць
+    - Tree item\: update: Пункт дрэва: абнавіць
+    - Tree items: Пункты дрэва
+    - Tree: Дрэва
+    - Tree\: delete: Дрэва: выдаліць
+    - Tree\: insert: Дрэва: уставіць
+    - Tree\: select: Дрэва: абраць
+    - Tree\: update: Дрэва: абнавіць
+    - Trees: Дрэвы
+    - Try entering the value "127.0.0.1" or "localhost" if you get an error message such as "unknown mysql server host [\:\:1]".: Паспрабуйце ўвесці значэнне "127.0.0.1" альбо "localhost", калі Вы атрымліваеце паведамленне пра памылку выгляду "unknown mysql server host [::1]".
+    - type: тып
+    - Type: Тып
+    - Types: Типы
+    - Uninstall the modules where the dependencies were found and then you can install module "%%_title".: Выдаліце модулі, у якім былі выяўленыя залежнасці, і затым Вы зможаце ўсталяваць модуль "%%_title".
+    - uninstall: выдаліць
+    - Uninstall: Выдаліць
+    - Unordered list: Неўпарадкаваны спіс
+    - update: абнавіць
+    - Update: Абнавіць
+    - updated: абноўлена
+    - Updated: Абноўлена
+    - Use global META: Выкарыстоўваць глабальны МЕТА
+    - User agent: Агент карыстальніка
+    - User ID: ID карыстальніка
+    - User information: Інфармацыя аб карыстальніку
+    - User name: Імя карыстальніка
+    - User permissions: Дазвалення карыстальніка
+    - User roles: Ролі карыстальніка
+    - User type: Тып карыстальніка
+    - User update form: Форма абнаўлення карыстальніка
+    - User update: Абнаўленне карыстальніка
+    - User was not registered!: Карыстальнік не быў зарэгістраваны!
+    - User with this Email was already registered!: Карыстальнік з такім адрасам электроннай пошты ўжо быў зарэгістраваны!
+    - User with this Email was not registered!: Карыстальнік з такім адрасам электроннай пошты не быў зарэгістраваны!
+    - User with this nickname was already registered!: Карыстальнік з такім псеўданімам ужо быў зарэгістраваны!
+    - user: карыстальнік
+    - User: Карыстальнік
+    - User\: delete: Карыстальнік: выдаліць
+    - User\: insert: Карыстальнік: уставіць
+    - User\: select: Карыстальнік: абраць
+    - User\: update: Карыстальнік: абнавіць
+    - Users: Карыстальнікі
+    - UTC date/time: UTC дата/час
+    - val.: знач.
+    - Val.: Знач.
+    - Value in pixels.: Велічыня ў пікселях.
+    - Value was trimmed to the required length!: Значэнне было абрэзана да патрабаванай даўжыні!
+    - Value: Значэнне
+    - Values: Значэнні
+    - version: версія
+    - Version: Версія
+    - video "%%_video": відэа "%%_video"
+    - Video: Відэа
+    - Video\: delete: Відэа: выдаліць
+    - Video\: insert: Відэа: уставіць
+    - Video\: select: Відэа: абраць
+    - Video\: update: Відэа: абнавіць
+    - Videos: Відэа
+    - View customization form: Форма налады выгляду
+    - View more: Глядзець больш
+    - View: Выгляд
+    - View\: manage: Выгляд: кіраваць
+    - Visibility: Бачнасць
+    - Vote can be canceled: Голас можа быць адменены
+    - vote: галасаваць
+    - Voting form: Форма галасавання
+    - warning: папярэджанне
+    - Warning: Папярэджанне
+    - Web server: Вэб-сервер
+    - Weight: Вага
+    - Welcome, %%_nickname!: Сардэчна запрашаем, %%_nickname!
+    - When registering, the system itself generates a password and sends it to the Email.: Пры рэгістрацыі сістэма сама генеруе пароль і адпраўляе яго на электронную пошту.
+    - While editing this form, someone made changes in parallel and saved them!: Падчас рэдагавання гэтай формы хтосьці паралельна ўнёс змяненні і захаваў іх!
+    - Widget "%%_title".: Віджэт "%%_title".
+    - With it, you can speed up the system from 2-3x and more.: З ягонай дапамогай Вы можаце паскорыць сістэму ў 2-3 і больш разоў.
+    - wrong category: няправільная катэгорыя
+    - wrong cron key: няправільны ключ cron
+    - wrong entity name: няправільнае імя сутнасці
+    - wrong instance key: няправільны ключ асобніка
+    - wrong instance keys: няправільныя ключы асобніка
+    - wrong management group: няправільная група кіравання
+    - wrong pager value: няправільнае значэнне пэйджара
+    - wrong user nickname: няправільны псеўданім карыстальніка
+    - yes: так
+    - Yes: Так
+    - You are trying to upload too few files!: Вы спрабуеце загрузіць занадта мала файлаў!
+    - You are trying to upload too much files!: Вы спрабуеце загрузіць надта шмат файлаў!
+    - You have already uploaded %%_current_number file%%_plural{current_number\|s}.: Вы ўжо загрузілі %%_current_number файл%%_plural{current_number|au-a}.
+    - You have not made any changes before!: Вы не рабілі ніякіх змяненняў раней!
+    - You received this message because someone tried to recover the password from your account on %%_domain.: Вы атрымалі гэтае паведамленне, таму што хтосьці спрабаваў аднавіць пароль ад Вашага акаўнту на %%_domain.
+    - You received this message because this email address was specified when registering on %%_domain.: Вы атрымалі гэтае паведамленне, таму што пры рэгістрацыі на %%_domain быў ўказаны гэты адрас электроннай пошты.
+    - Your answer was accepted.: Ваш адказ быў прыняты.
+    - Your answer was canceled.: Ваш адказ быў адменены.
+    - Your answer was not accepted!: Ваш адказ не быў прыняты!
+    - Your answer was not canceled!: Ваш адказ не быў адменены!
+    - Your Email is not shown publicly on %%_domain and it is never shared with third parties!: Ваш адрас электроннай пошты не адлюстроўваецца публічна на %%_domain і ён ніколі не перадаецца трэцім асобам!
+    - Your Email is\: %%_email: Ваш адрас электроннай пошты: %%_email
+    - Your new password on %%_domain was automatically generated\: %%_new_password: Ваш новы пароль на %%_domain быў аўтаматычна згенераваны: %%_new_password
+    - Your new password on %%_domain was changed automatically to\: %%_new_password: Ваш новы пароль на %%_domain быў зменены аўтаматычна на: %%_new_password
+    - Your password is\: %%_password: Ваш пароль: %%_password

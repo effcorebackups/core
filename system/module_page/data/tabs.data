@@ -1,0 +1,5 @@
+tabs
+- view|tabs
+    id: view
+- seo|tabs
+    id: seo

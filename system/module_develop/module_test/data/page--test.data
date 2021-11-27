@@ -1,0 +1,49 @@
+pages
+- tests|page
+    id: tests
+    title: Tests
+    url: %^(?<base>/develop/tests)(/
+>>>>>>>>>>>(?<id>[a-z0-9_]+)|)$%
+    is_https: true
+    access
+      roles
+      - =: admins
+    blocks
+    - system
+      - block__tree_sql__user_registered|block_preset_link
+          id: block__tree_sql__user_registered
+          title: Registered user's menu
+          attributes
+          - data-block: true
+          - data-id: block__tree_sql__user_registered
+          - data-style: at-right
+      - block__tree__system|block_preset_link
+          id: block__tree__system
+    - breadcrumbs
+      - block__breadcrumbs__system|block_preset_link
+          id: block__breadcrumbs__system
+    - messages
+      - block__messages|block_preset_link
+          id: block__messages
+    - title
+      - block__title|block_preset_link
+          id: block__title
+    - tabs
+      - block__tabs|block
+          title: Tabs
+          title_is_visible: false
+          attributes
+          - data-id: block__tabs
+          type: link
+          source: tabs/test/tests
+    # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+    - content
+      - block__form__test|block
+          title: Test execution form
+          title_is_visible: false
+          attributes
+          - data-id: block__form__test
+          type: link
+          source: forms/test/test
+          properties
+          - title_is_visible: false

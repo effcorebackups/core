@@ -1,0 +1,477 @@
+layouts
+- universal|layout
+    id: universal
+    title: Universal layout | profile "Default"
+    children
+    - system|area
+        id: system
+    - header|area
+        id: header
+        tag_name: header
+    - menu|area
+        id: menu
+    - content|area
+        type: table
+        children
+        - left|area
+            id: left
+            type: column
+            tag_name: aside
+            attributes
+            - data-area-group-id: left
+            - style: width: 200px
+        - center|area
+            type: column
+            attributes
+            - data-area-group-id: center
+            children
+            - breadcrumbs|area
+                id: breadcrumbs
+            - messages|area
+                id: messages
+                render_weight: -500
+            - title|area
+                id: title
+            - tabs|area
+                id: tabs
+            - content|area
+                id: content
+                render_weight: +500
+            - grid_2x2|area
+                type: table
+                attributes
+                - data-area-group-id: grid_2x2
+                children
+                - col_1_1|area
+                    id: grid_2x2_col_1_1
+                    type: column
+                - col_1_2|area
+                    id: grid_2x2_col_1_2
+                    type: column
+            - grid_4x4|area
+                type: table
+                attributes
+                - data-area-group-id: grid_4x4
+                children
+                - row_1|area
+                    type: row
+                    children
+                    - col_1_1|area
+                        id: grid_4x4_col_1_1
+                        type: column
+                    - col_1_2|area
+                        id: grid_4x4_col_1_2
+                        type: column
+                - row_2|area
+                    type: row
+                    children
+                    - col_2_1|area
+                        id: grid_4x4_col_2_1
+                        type: column
+                    - col_2_2|area
+                        id: grid_4x4_col_2_2
+                        type: column
+        - right|area
+            id: right
+            type: column
+            tag_name: aside
+            attributes
+            - data-area-group-id: right
+            - style: width: 200px
+    - footer|area
+        id: footer
+        tag_name: footer
+- grid_2x5|layout
+    id: grid_2x5
+    title: Grid 2x5 | profile "Default"
+    children
+    - system|area
+        id: system
+    - header|area
+        id: header
+        tag_name: header
+    - menu|area
+        id: menu
+    - breadcrumbs|area
+        id: breadcrumbs
+    - messages|area
+        id: messages
+        render_weight: -500
+    - title|area
+        id: title
+    - tabs|area
+        id: tabs
+    - content|area
+        id: content
+        render_weight: +500
+    - grid_2x5|area
+        type: table
+        attributes
+        - data-area-group-id: grid_2x5
+        children
+        - row_1|area
+            type: row
+            children
+            - col_1_1|area
+                id: col_1_1
+                type: column
+            - col_1_2|area
+                id: col_1_2
+                type: column
+        - row_2|area
+            type: row
+            children
+            - col_2_1|area
+                id: col_2_1
+                type: column
+            - col_2_2|area
+                id: col_2_2
+                type: column
+        - row_3|area
+            type: row
+            children
+            - col_3_1|area
+                id: col_3_1
+                type: column
+            - col_3_2|area
+                id: col_3_2
+                type: column
+        - row_4|area
+            type: row
+            children
+            - col_4_1|area
+                id: col_4_1
+                type: column
+            - col_4_2|area
+                id: col_4_2
+                type: column
+        - row_5|area
+            type: row
+            children
+            - col_5_1|area
+                id: col_5_1
+                type: column
+            - col_5_2|area
+                id: col_5_2
+                type: column
+    - footer|area
+        id: footer
+        tag_name: footer
+- grid_3x5|layout
+    id: grid_3x5
+    title: Grid 3x5 | profile "Default"
+    children
+    - system|area
+        id: system
+    - header|area
+        id: header
+        tag_name: header
+    - menu|area
+        id: menu
+    - breadcrumbs|area
+        id: breadcrumbs
+    - messages|area
+        id: messages
+        render_weight: -500
+    - title|area
+        id: title
+    - tabs|area
+        id: tabs
+    - content|area
+        id: content
+        render_weight: +500
+    - grid_3x5|area
+        type: table
+        attributes
+        - data-area-group-id: grid_3x5
+        children
+        - row_1|area
+            type: row
+            children
+            - col_1_1|area
+                id: col_1_1
+                type: column
+            - col_1_2|area
+                id: col_1_2
+                type: column
+            - col_1_3|area
+                id: col_1_3
+                type: column
+        - row_2|area
+            type: row
+            children
+            - col_2_1|area
+                id: col_2_1
+                type: column
+            - col_2_2|area
+                id: col_2_2
+                type: column
+            - col_2_3|area
+                id: col_2_3
+                type: column
+        - row_3|area
+            type: row
+            children
+            - col_3_1|area
+                id: col_3_1
+                type: column
+            - col_3_2|area
+                id: col_3_2
+                type: column
+            - col_3_3|area
+                id: col_3_3
+                type: column
+        - row_4|area
+            type: row
+            children
+            - col_4_1|area
+                id: col_4_1
+                type: column
+            - col_4_2|area
+                id: col_4_2
+                type: column
+            - col_4_3|area
+                id: col_4_3
+                type: column
+        - row_5|area
+            type: row
+            children
+            - col_5_1|area
+                id: col_5_1
+                type: column
+            - col_5_2|area
+                id: col_5_2
+                type: column
+            - col_5_3|area
+                id: col_5_3
+                type: column
+    - footer|area
+        id: footer
+        tag_name: footer
+- grid_4x5|layout
+    id: grid_4x5
+    title: Grid 4x5 | profile "Default"
+    children
+    - system|area
+        id: system
+    - header|area
+        id: header
+        tag_name: header
+    - menu|area
+        id: menu
+    - breadcrumbs|area
+        id: breadcrumbs
+    - messages|area
+        id: messages
+        render_weight: -500
+    - title|area
+        id: title
+    - tabs|area
+        id: tabs
+    - content|area
+        id: content
+        render_weight: +500
+    - grid_4x5|area
+        type: table
+        attributes
+        - data-area-group-id: grid_4x5
+        children
+        - row_1|area
+            type: row
+            children
+            - col_1_1|area
+                id: col_1_1
+                type: column
+            - col_1_2|area
+                id: col_1_2
+                type: column
+            - col_1_3|area
+                id: col_1_3
+                type: column
+            - col_1_4|area
+                id: col_1_4
+                type: column
+        - row_2|area
+            type: row
+            children
+            - col_2_1|area
+                id: col_2_1
+                type: column
+            - col_2_2|area
+                id: col_2_2
+                type: column
+            - col_2_3|area
+                id: col_2_3
+                type: column
+            - col_2_4|area
+                id: col_2_4
+                type: column
+        - row_3|area
+            type: row
+            children
+            - col_3_1|area
+                id: col_3_1
+                type: column
+            - col_3_2|area
+                id: col_3_2
+                type: column
+            - col_3_3|area
+                id: col_3_3
+                type: column
+            - col_3_4|area
+                id: col_3_4
+                type: column
+        - row_4|area
+            type: row
+            children
+            - col_4_1|area
+                id: col_4_1
+                type: column
+            - col_4_2|area
+                id: col_4_2
+                type: column
+            - col_4_3|area
+                id: col_4_3
+                type: column
+            - col_4_4|area
+                id: col_4_4
+                type: column
+        - row_5|area
+            type: row
+            children
+            - col_5_1|area
+                id: col_5_1
+                type: column
+            - col_5_2|area
+                id: col_5_2
+                type: column
+            - col_5_3|area
+                id: col_5_3
+                type: column
+            - col_5_4|area
+                id: col_5_4
+                type: column
+    - footer|area
+        id: footer
+        tag_name: footer
+- grid_5x5|layout
+    id: grid_5x5
+    title: Grid 5x5 | profile "Default"
+    children
+    - system|area
+        id: system
+    - header|area
+        id: header
+        tag_name: header
+    - menu|area
+        id: menu
+    - breadcrumbs|area
+        id: breadcrumbs
+    - messages|area
+        id: messages
+        render_weight: -500
+    - title|area
+        id: title
+    - tabs|area
+        id: tabs
+    - content|area
+        id: content
+        render_weight: +500
+    - grid_5x5|area
+        type: table
+        attributes
+        - data-area-group-id: grid_5x5
+        children
+        - row_1|area
+            type: row
+            children
+            - col_1_1|area
+                id: col_1_1
+                type: column
+            - col_1_2|area
+                id: col_1_2
+                type: column
+            - col_1_3|area
+                id: col_1_3
+                type: column
+            - col_1_4|area
+                id: col_1_4
+                type: column
+            - col_1_5|area
+                id: col_1_5
+                type: column
+        - row_2|area
+            type: row
+            children
+            - col_2_1|area
+                id: col_2_1
+                type: column
+            - col_2_2|area
+                id: col_2_2
+                type: column
+            - col_2_3|area
+                id: col_2_3
+                type: column
+            - col_2_4|area
+                id: col_2_4
+                type: column
+            - col_2_5|area
+                id: col_2_5
+                type: column
+        - row_3|area
+            type: row
+            children
+            - col_3_1|area
+                id: col_3_1
+                type: column
+            - col_3_2|area
+                id: col_3_2
+                type: column
+            - col_3_3|area
+                id: col_3_3
+                type: column
+            - col_3_4|area
+                id: col_3_4
+                type: column
+            - col_3_5|area
+                id: col_3_5
+                type: column
+        - row_4|area
+            type: row
+            children
+            - col_4_1|area
+                id: col_4_1
+                type: column
+            - col_4_2|area
+                id: col_4_2
+                type: column
+            - col_4_3|area
+                id: col_4_3
+                type: column
+            - col_4_4|area
+                id: col_4_4
+                type: column
+            - col_4_5|area
+                id: col_4_5
+                type: column
+        - row_5|area
+            type: row
+            children
+            - col_5_1|area
+                id: col_5_1
+                type: column
+            - col_5_2|area
+                id: col_5_2
+                type: column
+            - col_5_3|area
+                id: col_5_3
+                type: column
+            - col_5_4|area
+                id: col_5_4
+                type: column
+            - col_5_5|area
+                id: col_5_5
+                type: column
+    - footer|area
+        id: footer
+        tag_name: footer

@@ -1,0 +1,292 @@
+selections
+- instance_select-project|selection
+    id: instance_select-project
+    decorator_settings
+    - view_type: table-dl
+    query_settings
+    - conditions
+      - id_!f: ~project.id
+      - id_operator: =
+      - id_!v|text
+          is_apply_translation: false
+          is_apply_tokens: true
+          text: %%_selection_project_id_context
+    fields
+    - project.id
+        type: field
+        entity_name: project
+        entity_field_name: id
+        weight: 400
+    - project.title
+        type: field
+        entity_name: project
+        entity_field_name: title
+        settings
+        - filters
+          - 400: translate
+        weight: 380
+    - project.description
+        type: field
+        entity_name: project
+        entity_field_name: description
+        weight: 360
+    - project.created
+        type: field
+        entity_name: project
+        entity_field_name: created
+        weight: 340
+    - project.updated
+        type: field
+        entity_name: project
+        entity_field_name: updated
+        weight: 320
+- instance_select-release|selection
+    id: instance_select-release
+    decorator_settings
+    - view_type: table-dl
+    query_settings
+    - conditions
+      - id_project
+        - id_project_!f: ~release.id_project
+        - id_project_operator: =
+        - id_project_!v|text
+            is_apply_translation: false
+            is_apply_tokens: true
+            text: %%_selection_release_id_project_context
+      - conjunction: and
+      - build
+        - build_!f: ~release.build
+        - build_operator: =
+        - build_!v|text
+            is_apply_translation: false
+            is_apply_tokens: true
+            text: %%_selection_release_build_context
+    fields
+    - release.id_project
+        type: field
+        entity_name: release
+        entity_field_name: id_project
+        weight: 400
+    - release.build
+        type: field
+        entity_name: release
+        entity_field_name: build
+        weight: 380
+    - release.description
+        type: field
+        entity_name: release
+        entity_field_name: description
+        weight: 360
+    - release.path
+        type: field
+        entity_name: release
+        entity_field_name: path
+        weight: 340
+    - release.hash_sum
+        type: field
+        entity_name: release
+        entity_field_name: hash_sum
+        weight: 320
+    - release.created
+        type: field
+        entity_name: release
+        entity_field_name: created
+        weight: 300
+    - release.updated
+        type: field
+        entity_name: release
+        entity_field_name: updated
+        weight: 280
+    - release.downloads_num
+        type: field
+        entity_name: release
+        entity_field_name: downloads_num
+        weight: 260
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+- instance_select_multiple-project|selection
+    id: instance_select_multiple-project
+    pager_is_enabled: true
+    decorator_settings
+    - view_type: table-adaptive
+    query_settings
+    - limit: 50
+    fields
+    - project.id
+        type: field
+        entity_name: project
+        entity_field_name: id
+        weight: 400
+    - project.title
+        type: field
+        entity_name: project
+        entity_field_name: title
+        settings
+        - filters
+          - 400: translate
+        weight: 380
+    - project.created
+        type: field
+        entity_name: project
+        entity_field_name: created
+        weight: 360
+    - project.updated
+        type: field
+        entity_name: project
+        entity_field_name: updated
+        weight: 340
+- instance_select_multiple-release|selection
+    id: instance_select_multiple-release
+    pager_is_enabled: true
+    decorator_settings
+    - view_type: table-adaptive
+    query_settings
+    - limit: 50
+    fields
+    - release.id_project
+        type: field
+        entity_name: release
+        entity_field_name: id_project
+        weight: 400
+    - release.build
+        type: field
+        entity_name: release
+        entity_field_name: build
+        weight: 380
+    - release.created
+        type: field
+        entity_name: release
+        entity_field_name: created
+        weight: 360
+    - release.updated
+        type: field
+        entity_name: release
+        entity_field_name: updated
+        weight: 340
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+- release_current|selection
+    id: release_current
+    title|text
+      is_apply_translation: true
+      is_apply_tokens: true
+      text: Current release of the project "%%_id_project_context"
+    decorator_settings
+    - view_type: table-dl
+    query_settings
+    - conditions
+      - id_project_!f: ~release.id_project
+      - id_project_operator: =
+      - id_project_!v|text
+          is_apply_translation: false
+          is_apply_tokens: true
+          text: %%_id_project_context
+    - order
+      - build_!f: ~release.build
+      - type: DESC
+    - limit: 1
+    fields
+    - release.build
+        type: field
+        entity_name: release
+        entity_field_name: build
+    - release.path
+        type: field
+        entity_name: release
+        entity_field_name: path
+        is_visible: false
+    - release_url
+        type: markup
+        title: Link
+        markup|markup
+          tag_name: a
+          attributes
+          - href|text
+              is_apply_translation: false
+              is_apply_tokens: true
+              text: http://%%_request_host/%%_selection_release_path_context
+          children
+          - data|text
+              is_apply_translation: false
+              is_apply_tokens: true
+              text: http://%%_request_host/%%_selection_release_path_context
+    - release.hash_sum
+        type: field
+        entity_name: release
+        entity_field_name: hash_sum
+    - release.created
+        type: field
+        entity_name: release
+        entity_field_name: created
+    - release.updated
+        type: field
+        entity_name: release
+        entity_field_name: updated
+    - release.description
+        type: field
+        entity_name: release
+        entity_field_name: description
+        settings
+        - filters
+          - 400: translate
+- releases|selection
+    id: releases
+    title|text
+      is_apply_translation: true
+      is_apply_tokens: true
+      text: Releases of the project "%%_id_project_context"
+    pager_is_enabled: true
+    decorator_settings
+    - view_type: table-dl
+    query_settings
+    - conditions
+      - id_project_!f: ~release.id_project
+      - id_project_operator: =
+      - id_project_!v|text
+          is_apply_translation: false
+          is_apply_tokens: true
+          text: %%_id_project_context
+    - order
+      - build_!f: ~release.build
+      - type: DESC
+    - limit: 50
+    fields
+    - release.build
+        type: field
+        entity_name: release
+        entity_field_name: build
+    - release.path
+        type: field
+        entity_name: release
+        entity_field_name: path
+        is_visible: false
+    - release_url
+        type: markup
+        title: Link
+        markup|markup
+          tag_name: a
+          attributes
+          - href|text
+              is_apply_tokens: true
+              text: http://%%_request_host/%%_selection_release_path_context
+          children
+          - data|text
+              is_apply_tokens: true
+              text: http://%%_request_host/%%_selection_release_path_context
+    - release.hash_sum
+        type: field
+        entity_name: release
+        entity_field_name: hash_sum
+    - release.created
+        type: field
+        entity_name: release
+        entity_field_name: created
+    - release.updated
+        type: field
+        entity_name: release
+        entity_field_name: updated
+    - release.description
+        type: field
+        entity_name: release
+        entity_field_name: description
+        settings
+        - filters
+          - 400: translate

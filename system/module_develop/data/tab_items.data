@@ -1,0 +1,98 @@
+tab_items
+- nosql_events|tab_item
+    id: nosql_events
+    id_parent: null
+    id_tab: data_nosql
+    action_name: events
+    title: Events
+    weight: +500
+- nosql_trees|tab_item
+    id: nosql_trees
+    id_parent: null
+    id_tab: data_nosql
+    action_name: trees
+    title: Trees
+    weight: +480
+- nosql_selections|tab_item
+    id: nosql_selections
+    id_parent: null
+    id_tab: data_nosql
+    action_name: selections
+    title: Selections
+    weight: +460
+- nosql_file_types|tab_item
+    id: nosql_file_types
+    id_parent: null
+    id_tab: data_nosql
+    action_name: file_types
+    title: File types
+    weight: +440
+- nosql_templates|tab_item
+    id: nosql_templates
+    id_parent: null
+    id_tab: data_nosql
+    action_name: templates
+    title: Templates
+    weight: +420
+- nosql_tokens|tab_item
+    id: nosql_tokens
+    id_parent: null
+    id_tab: data_nosql
+    action_name: tokens
+    title: Tokens
+    weight: +400
+- nosql_translations|tab_item
+    id: nosql_translations
+    id_parent: null
+    id_tab: data_nosql
+    action_name: translations
+    title: Translations
+    weight: +380
+- structures_classes|tab_item
+    id: structures_classes
+    id_parent: null
+    id_tab: structures
+    action_name: class
+    action_name_default: class/list
+    title: Classes
+    weight: +500
+- structures_classes_list|tab_item
+    id: structures_classes_list
+    id_parent: structures_classes
+    id_tab: structures
+    action_name: class/list
+    title: List
+- structures_classes_diagram|tab_item
+    id: structures_classes_diagram
+    id_parent: structures_classes
+    id_tab: structures
+    action_name: class/diagram
+    title: Diagram
+- structures_interfaces|tab_item
+    id: structures_interfaces
+    id_parent: null
+    id_tab: structures
+    action_name: interface
+    action_name_default: interface/list
+    title: Interfaces
+    weight: +480
+- structures_interfaces_list|tab_item
+    id: structures_interfaces_list
+    id_parent: structures_interfaces
+    id_tab: structures
+    action_name: interface/list
+    title: List
+- structures_traits|tab_item
+    id: structures_traits
+    id_parent: null
+    id_tab: structures
+    action_name: trait
+    action_name_default: trait/list
+    title: Traits
+    weight: +460
+- structures_traits_list|tab_item
+    id: structures_traits_list
+    id_parent: structures_traits
+    id_tab: structures
+    action_name: trait/list
+    title: List

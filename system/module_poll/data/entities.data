@@ -1,0 +1,248 @@
+entities
+- poll|entity
+    name: poll
+    title: Poll
+    title_plural: Polls
+    catalog_name: polls
+    managing_is_enabled: true
+    has_parallel_checking: true
+    ws_is_embedded: true
+    ws_module_id: true
+    ws_data: true
+    access_select
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_poll__select
+    access_insert
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_poll__insert
+    access_update
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_poll__update
+    access_delete
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_poll__delete
+    fields
+    - id
+        title: ID
+        type: autoincrement
+        not_null: true
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_id_number
+        managing_control_properties
+        - weight: +400
+        managing_control_element_attributes
+        - disabled: true
+    - question
+        title: Question
+        type: varchar
+        size: 2048
+        collate: nocase
+        not_null: true
+        check: (question <> '')
+        filter_insert: \effcore\core::return_htmlspecialchars_encoded
+        filter_update: \effcore\core::return_htmlspecialchars_encoded
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_text
+        managing_control_properties
+        - weight: +380
+        managing_control_element_attributes
+        - maxlength: 2048
+    - expired
+        title: Expiration date
+        type: datetime
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +360
+    - diagram_type
+        title: Diagram type
+        type: varchar
+        size: 32
+        collate: nocase
+        not_null: true
+        check: (diagram_type <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_select
+        managing_control_properties
+        - values
+          - not_selected: - select -
+          - linear: Linear diagram
+          - radial: Radial diagram
+        - weight: +340
+    - user_type
+        title: User type
+        type: integer
+        not_null: true
+        default: 1
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_select
+        managing_control_properties
+        - description|text
+            text: In mode "Anonymous users + Registered users", an attacker can send many fake anonymous votes!
+        - values
+          - not_selected: - select -
+          - 1: Registered users
+          - 0: Anonymous users + Registered users
+        - selected
+          - =: 1
+        - weight: +320
+    - total_max
+        title: Maximum number of votes
+        type: integer
+        not_null: true
+        default: 1000000
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_number
+        managing_control_properties
+        - weight: +300
+        managing_control_element_attributes
+        - min: 1
+        - max: 50000000
+        managing_control_element_attributes_on_insert
+        - value: 1000000
+    - is_multiple
+        title: Multiple choice
+        type: boolean
+        not_null: true
+        default: 0
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_switcher
+        managing_control_properties
+        - weight: +280
+    - is_cancelable
+        title: Vote can be canceled
+        type: boolean
+        not_null: true
+        default: 0
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_switcher
+        managing_control_properties
+        - weight: +260
+    - created
+        title: Created
+        type: datetime
+        default: null
+        check: (created <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +240
+    - updated
+        title: Updated
+        type: datetime
+        default: null
+        check: (updated <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +220
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    indexes
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated
+- poll_answer|entity
+    name: poll_answer
+    title: Poll answer
+    title_plural: Poll answers
+    catalog_name: poll_answers
+    ws_data: true
+    fields
+    - id
+        title: ID
+        type: autoincrement
+        not_null: true
+    - id_poll
+        title: Poll ID
+        type: integer
+        not_null: true
+    - answer
+        title: Answer
+        type: varchar
+        size: 2048
+        collate: nocase
+        not_null: true
+        check: (answer <> '')
+        filter_insert: \effcore\core::return_htmlspecialchars_encoded
+        filter_update: \effcore\core::return_htmlspecialchars_encoded
+    - weight
+        title: Weight
+        type: integer
+        not_null: true
+        default: 0
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    - foreign_id_poll
+        type: foreign
+        fields
+        - =: id_poll
+        references: polls
+        references_fields
+        - =: id
+- poll_vote|entity
+    name: poll_vote
+    title: Poll vote
+    title_plural: Poll votes
+    catalog_name: poll_votes
+    fields
+    - id_answer
+        title: Answer ID
+        type: integer
+        not_null: true
+    - id_user
+        title: User ID
+        type: integer
+        default: null
+    - id_session
+        title: Session ID
+        type: varchar
+        size: 255
+        collate: nocase
+        default: null
+        check: (id_session <> '')
+    constraints
+    - foreign_id_answer
+        type: foreign
+        fields
+        - =: id_answer
+        references: poll_answers
+        references_fields
+        - =: id
+    - foreign_id_user
+        type: foreign
+        fields
+        - =: id_user
+        references: users
+        references_fields
+        - =: id
+    indexes
+    - index_id_session
+        type: index
+        fields
+        - =: id_session

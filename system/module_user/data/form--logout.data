@@ -1,0 +1,13 @@
+forms
+- logout|form
+    attributes
+    - id: logout
+    - method: post
+    - novalidate: true
+    children
+    - sessions|node
+    - button_logout|button
+        title: logout
+        attributes
+        - value: logout
+        weight: -500

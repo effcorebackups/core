@@ -1,0 +1,131 @@
+pages
+- data_nosql|page
+    id: data_nosql
+    title: NoSQL data
+    url: %^(?<base>/develop/data_nosql)(/
+>>>>>>>>>>>(?<type>events|
+>>>>>>>>>>>>>>>>>>>selections|
+>>>>>>>>>>>>>>>>>>>trees|
+>>>>>>>>>>>>>>>>>>>file_types|
+>>>>>>>>>>>>>>>>>>>templates|
+>>>>>>>>>>>>>>>>>>>tokens|
+>>>>>>>>>>>>>>>>>>>translations)(/
+>>>>>>>>>>>(?<id>[a-z0-9_]+)|)|)$%
+    is_https: true
+    access
+      roles
+      - =: admins
+    blocks
+    - system
+      - block__tree_sql__user_registered|block_preset_link
+          id: block__tree_sql__user_registered
+          title: Registered user's menu
+          attributes
+          - data-block: true
+          - data-id: block__tree_sql__user_registered
+          - data-style: at-right
+      - block__tree__system|block_preset_link
+          id: block__tree__system
+    - breadcrumbs
+      - block__breadcrumbs__system|block_preset_link
+          id: block__breadcrumbs__system
+    - messages
+      - block__messages|block_preset_link
+          id: block__messages
+    - title
+      - block__title|block_preset_link
+          id: block__title
+    - tabs
+      - block__tabs|block
+          title: Tabs
+          title_is_visible: false
+          attributes
+          - data-id: block__tabs
+          type: link
+          source: tabs/develop/data_nosql
+    # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+    - content
+      - block__form__cache_update|block
+          title: Cache update form
+          title_is_visible: false
+          attributes
+          - data-id: block__form__cache_update
+          type: link
+          source: forms/core/cache_update
+      - block__nosql_events|block
+          title: Events
+          title_is_visible: false
+          attributes
+          - data-id: block__nosql_events
+          display
+            check: page_args
+            where: type
+            match: %^events$%
+          type: code
+          source: \effcore\modules\develop\events_page_data_nosql::block_markup__nosql_events
+      - block__nosql_trees|block
+          title: Trees
+          title_is_visible: false
+          attributes
+          - data-id: block__nosql_trees
+          display
+            check: page_args
+            where: type
+            match: %^trees$%
+          type: code
+          source: \effcore\modules\develop\events_page_data_nosql::block_markup__nosql_tree
+      - block__nosql_selections|block
+          title: Selections
+          title_is_visible: false
+          attributes
+          - data-id: block__nosql_selections
+          display
+            check: page_args
+            where: type
+            match: %^selections$%
+          type: code
+          source: \effcore\modules\develop\events_page_data_nosql::block_markup__nosql_selections
+      - block__nosql_file_types|block
+          title: File types
+          title_is_visible: false
+          attributes
+          - data-id: block__nosql_file_types
+          display
+            check: page_args
+            where: type
+            match: %^file_types$%
+          type: code
+          source: \effcore\modules\develop\events_page_data_nosql::block_markup__nosql_file_types
+      - block__nosql_templates|block
+          title: Templates
+          title_is_visible: false
+          attributes
+          - data-id: block__nosql_templates
+          display
+            check: page_args
+            where: type
+            match: %^templates$%
+          type: code
+          source: \effcore\modules\develop\events_page_data_nosql::block_markup__nosql_templates
+      - block__nosql_tokens|block
+          title: Tokens
+          title_is_visible: false
+          attributes
+          - data-id: block__nosql_tokens
+          display
+            check: page_args
+            where: type
+            match: %^tokens$%
+          type: code
+          source: \effcore\modules\develop\events_page_data_nosql::block_markup__nosql_tokens
+      - block__nosql_translations|block
+          title: Translations
+          title_is_visible: false
+          attributes
+          - data-id: block__nosql_translations
+          display
+            check: page_args
+            where: type
+            match: %^translations$%
+          type: code
+          source: \effcore\modules\develop\events_page_data_nosql::block_markup__nosql_translations

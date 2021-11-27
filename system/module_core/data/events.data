@@ -1,0 +1,108 @@
+events
+  on_module_install
+  - core|event
+      for: core
+      handler: \effcore\modules\core\events_module::on_install
+  on_module_enable
+  - core|event
+      for: core
+      handler: \effcore\modules\core\events_module::on_enable
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  on_update_files
+  - system|event
+      for: system
+      handler: \effcore\modules\core\events_module_update::on_update_files
+  on_repo_restore
+  - system|event
+      for: system
+      handler: \effcore\modules\core\events_module_update::on_repo_restore
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  on_cron_run
+  - core|event
+      for: core
+      handler: \effcore\modules\core\events_module::on_cron_run
+# ═════════════════════════════════════════════════════════════════════
+  on_breadcrumbs_build_before
+  - system|event
+      for: system
+      weight: +600
+      handler: \effcore\modules\core\events_page::on_breadcrumbs_build_before
+  - user_registered|event
+      for: user_registered
+      weight: +600
+      handler: \effcore\modules\core\events_page::on_breadcrumbs_build_before
+  - user_anonymous|event
+      for: user_anonymous
+      weight: +600
+      handler: \effcore\modules\core\events_page::on_breadcrumbs_build_before
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  on_file_load
+  - not_found|event
+      for: not_found
+      handler: \effcore\modules\core\events_file::on_load_not_found
+  - dynamic|event
+      for: dynamic
+      handler: \effcore\modules\core\events_file::on_load_dynamic
+  - static|event
+      for: static
+      handler: \effcore\modules\core\events_file::on_load_static
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  on_form_build
+  - install|event
+      for: install
+      handler: \effcore\modules\core\events_form_install::on_build
+  on_form_init
+  - install|event
+      for: install
+      handler: \effcore\modules\core\events_form_install::on_init
+  - modules_install|event
+      for: modules_install
+      handler: \effcore\modules\core\events_form_modules_install::on_init
+  - modules_uninstall|event
+      for: modules_uninstall
+      handler: \effcore\modules\core\events_form_modules_uninstall::on_init
+  - modules_update_data|event
+      for: modules_update_data
+      handler: \effcore\modules\core\events_form_modules_update_data::on_init
+  - modules_update_files|event
+      for: modules_update_files
+      handler: \effcore\modules\core\events_form_modules_update_files::on_init
+  on_form_validate
+  - install|event
+      for: install
+      handler: \effcore\modules\core\events_form_install::on_validate
+  - modules_install|event
+      for: modules_install
+      handler: \effcore\modules\core\events_form_modules_install::on_validate
+  - modules_uninstall|event
+      for: modules_uninstall
+      handler: \effcore\modules\core\events_form_modules_uninstall::on_validate
+  on_form_submit
+  - install|event
+      for: install
+      handler: \effcore\modules\core\events_form_install::on_submit
+  - modules_install|event
+      for: modules_install
+      handler: \effcore\modules\core\events_form_modules_install::on_submit
+  - modules_uninstall|event
+      for: modules_uninstall
+      handler: \effcore\modules\core\events_form_modules_uninstall::on_submit
+  - modules_update_data|event
+      for: modules_update_data
+      handler: \effcore\modules\core\events_form_modules_update_data::on_submit
+  - modules_update_files|event
+      for: modules_update_files
+      handler: \effcore\modules\core\events_form_modules_update_files::on_submit
+  - cache_update|event
+      for: cache_update
+      handler: \effcore\modules\core\events_form_cache_update::on_submit
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  on_page_build_before
+  - install|event
+      for: install
+      weight: +600
+      handler: \effcore\modules\core\events_page_install::on_redirect
+  - modules|event
+      for: modules
+      weight: +600
+      handler: \effcore\modules\core\events_page_modules::on_redirect

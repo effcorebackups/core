@@ -1,0 +1,13 @@
+forms
+- modules_update_data|form
+    attributes
+    - id: modules_update_data
+    - method: post
+    - novalidate: true
+    children
+    - info|fieldset
+    - button_apply|button
+        title: apply
+        attributes
+        - value: apply
+        weight: -500

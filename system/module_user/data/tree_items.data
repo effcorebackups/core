@@ -1,0 +1,13 @@
+tree_items
+- security|tree_item
+    id: security
+    id_parent: manage
+    id_tree: system
+    title: Security
+    url: /manage/security
+    weight: +420
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage__security

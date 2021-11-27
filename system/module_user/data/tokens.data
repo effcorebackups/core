@@ -1,0 +1,22 @@
+tokens
+# ─────────────────────────────────────────────────────────────────────
+# global tokens
+# ─────────────────────────────────────────────────────────────────────
+- user_id
+    type: code
+    handler: \effcore\modules\user\events_token::on_apply
+- email
+    type: code
+    handler: \effcore\modules\user\events_token::on_apply
+- nickname
+    type: code
+    handler: \effcore\modules\user\events_token::on_apply
+- avatar_path
+    type: code
+    handler: \effcore\modules\user\events_token::on_apply
+# ─────────────────────────────────────────────────────────────────────
+# context tokens
+# ─────────────────────────────────────────────────────────────────────
+- nickname_page_context
+    type: code
+    handler: \effcore\modules\user\events_token::on_apply

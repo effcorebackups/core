@@ -1,0 +1,3 @@
+settings
+  cron_last_run_date: null
+  cron_auto_run_frequency: 300

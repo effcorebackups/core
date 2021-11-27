@@ -1,0 +1,40 @@
+pages
+- locale|page
+    id: locale
+    title: Locale
+    url: /manage/locale
+    is_https: true
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage__locale
+    blocks
+    - system
+      - block__tree_sql__user_registered|block_preset_link
+          id: block__tree_sql__user_registered
+          title: Registered user's menu
+          attributes
+          - data-block: true
+          - data-id: block__tree_sql__user_registered
+          - data-style: at-right
+      - block__tree__system|block_preset_link
+          id: block__tree__system
+    - breadcrumbs
+      - block__breadcrumbs__system|block_preset_link
+          id: block__breadcrumbs__system
+    - messages
+      - block__messages|block_preset_link
+          id: block__messages
+    - title
+      - block__title|block_preset_link
+          id: block__title
+    # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+    - content
+      - block__form__locale|block
+          title: Locale settings form
+          title_is_visible: false
+          attributes
+          - data-id: block__form__locale
+          type: link
+          source: forms/locale/locale

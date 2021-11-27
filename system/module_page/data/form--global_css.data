@@ -1,0 +1,23 @@
+forms
+- global_css|form
+    attributes
+    - id: global_css
+    - method: post
+    - novalidate: true
+    children
+    - settings|fieldset
+        children
+        - content|field_textarea
+            title: Content of the "global.cssd" file
+            element_attributes
+            - data-style: code-editor
+            - name: content
+            - required: false
+            - minlength: null
+            - maxlength: 16777215
+            - rows: 20
+    - button_save|button
+        title: save
+        attributes
+        - value: save
+        weight: -500

@@ -1,0 +1,16 @@
+instances
+# ─────────────────────────────────────────────────────────────────────
+# instances for perform the tests
+# ─────────────────────────────────────────────────────────────────────
+- test_text|instance
+    entity_name: text
+    values
+    - id: test
+    - description: Text for perform the tests
+    - text: some text
+- role_test|instance
+    entity_name: role
+    values
+    - id: test
+    - title: Test
+    - is_embedded: 1

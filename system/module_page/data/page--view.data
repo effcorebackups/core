@@ -1,0 +1,102 @@
+pages
+- view|page
+    id: view
+    title: View
+    url: %^(?<base>/manage/view)(/
+>>>>>>>>>>>(?<type>colors/current|
+>>>>>>>>>>>>>>>>>>>colors/presets|
+>>>>>>>>>>>>>>>>>>>layouts|
+>>>>>>>>>>>>>>>>>>>global_css|
+>>>>>>>>>>>>>>>>>>>settings)(/
+>>>>>>>>>>>(?<id>[a-z0-9_]+)|)|)$%
+    is_https: true
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage__view
+    blocks
+    - system
+      - block__tree_sql__user_registered|block_preset_link
+          id: block__tree_sql__user_registered
+          title: Registered user's menu
+          attributes
+          - data-block: true
+          - data-id: block__tree_sql__user_registered
+          - data-style: at-right
+      - block__tree__system|block_preset_link
+          id: block__tree__system
+    - breadcrumbs
+      - block__breadcrumbs__system|block_preset_link
+          id: block__breadcrumbs__system
+    - messages
+      - block__messages|block_preset_link
+          id: block__messages
+    - title
+      - block__title|block_preset_link
+          id: block__title
+    - tabs
+      - block__tabs|block
+          title: Tabs
+          title_is_visible: false
+          attributes
+          - data-id: block__tabs
+          type: link
+          source: tabs/page/view
+    # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+    - content
+      - block__form__colors|block
+          title: Color assignment form
+          title_is_visible: false
+          attributes
+          - data-id: block__form__colors
+          display
+            check: page_args
+            where: type
+            match: %^colors/current$%
+          type: link
+          source: forms/page/colors
+      - block__form__colors_preset|block
+          title: Color preset apply form
+          title_is_visible: false
+          attributes
+          - data-id: block__form__colors_preset
+          display
+            check: page_args
+            where: type
+            match: %^colors/presets$%
+          type: link
+          source: forms/page/colors_preset
+      - block__form__layout|block
+          title: Layout editing form
+          title_is_visible: false
+          attributes
+          - data-id: block__form__layout
+          display
+            check: page_args
+            where: type
+            match: %^layouts$%
+          type: link
+          source: forms/page/layout
+      - block__form__global_css|block
+          title: Global CSS editing form
+          title_is_visible: false
+          attributes
+          - data-id: block__form__global_css
+          display
+            check: page_args
+            where: type
+            match: %^global_css$%
+          type: link
+          source: forms/page/global_css
+      - block__form__view_settings|block
+          title: View customization form
+          title_is_visible: false
+          attributes
+          - data-id: block__form__view_settings
+          display
+            check: page_args
+            where: type
+            match: %^settings$%
+          type: link
+          source: forms/page/view_settings

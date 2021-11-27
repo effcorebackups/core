@@ -1,0 +1,189 @@
+forms
+- colors|form
+    attributes
+    - id: colors
+    - method: post
+    - novalidate: true
+    children
+    - colors_main|fieldset
+        title: Main colors
+        children
+        - color__page_id|group_palette
+            title: Page
+            attributes
+            - required: true
+            element_attributes
+            - name: color__page_id
+        - color__text_id|group_palette
+            title: Text
+            attributes
+            - required: true
+            element_attributes
+            - name: color__text_id
+        - color__main_id|group_palette
+            title: Main color
+            attributes
+            - required: true
+            element_attributes
+            - name: color__main_id
+        - color__link_id|group_palette
+            title: Link
+            attributes
+            - required: true
+            element_attributes
+            - name: color__link_id
+        - color__link_active_id|group_palette
+            title: Link active
+            attributes
+            - required: true
+            element_attributes
+            - name: color__link_active_id
+        - color__table_row_odd_id|group_palette
+            title: Table: row odd
+            attributes
+            - required: true
+            element_attributes
+            - name: color__table_row_odd_id
+        - color__table_row_even_id|group_palette
+            title: Table: row even
+            attributes
+            - required: true
+            element_attributes
+            - name: color__table_row_even_id
+    - colors_menu|fieldset
+        title: Menu
+        children
+        - color__menu_id|group_palette
+            title: Menu
+            attributes
+            - required: true
+            element_attributes
+            - name: color__menu_id
+        - color__menu_active_id|group_palette
+            title: Menu active
+            attributes
+            - required: true
+            element_attributes
+            - name: color__menu_active_id
+        - color__menu_text_id|group_palette
+            title: Menu: text
+            attributes
+            - required: true
+            element_attributes
+            - name: color__menu_text_id
+        - color__menu_link_id|group_palette
+            title: Menu: link
+            attributes
+            - required: true
+            element_attributes
+            - name: color__menu_link_id
+        - color__menu_link_active_id|group_palette
+            title: Menu: link active
+            attributes
+            - required: true
+            element_attributes
+            - name: color__menu_link_active_id
+    - colors_tabs|fieldset
+        title: Tabs
+        children
+        - color__tabs_id|group_palette
+            title: Tabs
+            attributes
+            - required: true
+            element_attributes
+            - name: color__tabs_id
+        - color__tabs_link_id|group_palette
+            title: Tabs: link
+            attributes
+            - required: true
+            element_attributes
+            - name: color__tabs_link_id
+        - color__tabs_link_active_id|group_palette
+            title: Tabs: link active
+            attributes
+            - required: true
+            element_attributes
+            - name: color__tabs_link_active_id
+        - color__tabs_link_active_no_bg_id|group_palette
+            title: Tabs: link active (no background)
+            attributes
+            - required: true
+            element_attributes
+            - name: color__tabs_link_active_no_bg_id
+    - colors_state|fieldset
+        title: State
+        children
+        - color__ok_id|group_palette
+            title: Okay
+            attributes
+            - required: true
+            element_attributes
+            - name: color__ok_id
+        - color__warning_id|group_palette
+            title: Warning
+            attributes
+            - required: true
+            element_attributes
+            - name: color__warning_id
+        - color__error_id|group_palette
+            title: Error
+            attributes
+            - required: true
+            element_attributes
+            - name: color__error_id
+    - colors_fieldset|fieldset
+        title: Form elements
+        children
+        - color__fieldset_id|group_palette
+            title: Fieldset
+            attributes
+            - required: true
+            element_attributes
+            - name: color__fieldset_id
+        - color__fieldset_nested_id|group_palette
+            title: Fieldset nested
+            attributes
+            - required: true
+            element_attributes
+            - name: color__fieldset_nested_id
+        - color__field_id|group_palette
+            title: Field
+            attributes
+            - required: true
+            element_attributes
+            - name: color__field_id
+        - color__field_text_id|group_palette
+            title: Field: text
+            attributes
+            - required: true
+            element_attributes
+            - name: color__field_text_id
+        - color__button_id|group_palette
+            title: Button
+            attributes
+            - required: true
+            element_attributes
+            - name: color__button_id
+        - color__button_active_id|group_palette
+            title: Button active
+            attributes
+            - required: true
+            element_attributes
+            - name: color__button_active_id
+        - color__button_text_id|group_palette
+            title: Button: text
+            attributes
+            - required: true
+            element_attributes
+            - name: color__button_text_id
+    - button_save|button
+        title: save
+        attributes
+        - value: save
+        weight: -500
+    - button_reset|button
+        title: reset
+        break_on_validate: true
+        attributes
+        - value: reset
+        weight: -520

@@ -1,0 +1,41 @@
+forms
+- view_settings|form
+    attributes
+    - id: view_settings
+    - method: post
+    - novalidate: true
+    children
+    - page|fieldset
+        title: Page
+        children
+        - width_min|field_number
+            title: Minimum width
+            description: Value in pixels.
+            element_attributes
+            - name: width_min
+            - min: 0
+            - max: 10000
+        - width_max|field_number
+            title: Maximum width
+            description: Value in pixels.
+            element_attributes
+            - name: width_max
+            - min: 0
+            - max: 10000
+        - meta_viewport|field_text
+            title: META viewport
+            element_attributes
+            - name: meta_viewport
+            - maxlength: 2000
+    - button_save|button
+        title: save
+        attributes
+        - value: save
+        weight: -500
+    - button_reset|button
+        title: reset
+        break_on_request_value_set: true
+        break_on_validate: true
+        attributes
+        - value: reset
+        weight: -520

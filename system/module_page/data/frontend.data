@@ -1,0 +1,37 @@
+frontend
+- page_all__page|frontend
+    display
+      check: url
+      where: path
+      match: %^.*$%
+    styles
+    - page_style
+        path: frontend/page.cssd?page_id=%%_page_id_context
+        weight: +500
+        attributes
+        - rel: stylesheet
+        - media: all
+    scripts
+    - page_script
+        path: frontend/page.js
+        weight: +500
+        attributes
+        - defer: true
+- form_all__page|frontend
+    display
+      check: block
+      where: dpath
+      match: %^forms/.*$%
+    styles
+    - form_style
+        path: frontend/form.cssd
+        weight: +400
+        attributes
+        - rel: stylesheet
+        - media: all
+    scripts
+    - form_script
+        path: frontend/form.js
+        weight: +400
+        attributes
+        - defer: true

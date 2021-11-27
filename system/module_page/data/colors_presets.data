@@ -1,0 +1,31 @@
+colors_presets
+- light|color_preset
+    id: light
+    title: Light preset
+    colors
+      color__page_id: white
+      color__text_id: black
+      color__main_id: lightblue_l1
+      color__link_id: lightblue_l1
+      color__link_active_id: black
+      color__table_row_odd_id: gray_r10
+      color__table_row_even_id: white
+      color__menu_id: lightblue_l6
+      color__menu_active_id: lightblue_l4
+      color__menu_text_id: white
+      color__menu_link_id: white
+      color__menu_link_active_id: gold_r1
+      color__tabs_id: lightblue_l3
+      color__tabs_link_id: lightblue_l1
+      color__tabs_link_active_id: white
+      color__tabs_link_active_no_bg_id: black
+      color__ok_id: state_ok
+      color__warning_id: state_warning
+      color__error_id: state_error
+      color__fieldset_id: gray_r10
+      color__fieldset_nested_id: white
+      color__field_id: white
+      color__field_text_id: black
+      color__button_id: lightblue_l2
+      color__button_active_id: lightblue_l1
+      color__button_text_id: white

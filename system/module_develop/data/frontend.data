@@ -1,0 +1,13 @@
+frontend
+- page_all__develop|frontend
+    display
+      check: url
+      where: path
+      match: %^/develop/.*$%
+    styles
+    - page_style
+        path: frontend/develop.cssd?page_id=%%_page_id_context
+        weight: -500
+        attributes
+        - rel: stylesheet
+        - media: all

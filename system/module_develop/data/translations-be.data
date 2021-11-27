@@ -1,0 +1,263 @@
+translations
+- be|translation
+    code: be
+    data
+    - Paragraph content. Paragraph content. Paragraph content. Paragraph content.
+>>>>> Paragraph content. Paragraph content. Paragraph content. Paragraph content.
+>>>>> Paragraph content. Paragraph content. Paragraph content. Paragraph content.
+>>>>> Paragraph content. Paragraph content. Paragraph content. Paragraph content.&NewLine;: 
+>>>>> Тэкст параграфа. Тэкст параграфа. Тэкст параграфа. Тэкст параграфа.
+>>>>> Тэкст параграфа. Тэкст параграфа. Тэкст параграфа. Тэкст параграфа.
+>>>>> Тэкст параграфа. Тэкст параграфа. Тэкст параграфа. Тэкст параграфа.
+>>>>> Тэкст параграфа. Тэкст параграфа. Тэкст параграфа. Тэкст параграфа.&NewLine;
+    - &ndash; request header param "%%_value": &ndash; header-параметр запыту "%%_value"
+    - &ndash; request post param "%%_name" = "%%_value": &ndash; post-параметр запыту "%%_name" = "%%_value"
+    - &ndash; response header param "%%_name" = "%%_value": &ndash; header-параметр адказу "%%_name" = "%%_value"
+    - &ndash; response param "%%_name" = "%%_value": &ndash; параметр адказу "%%_name" = "%%_value"
+    - + the extension is always enabled: + пашырэнне заўсёды ўключана
+    - ± the extension is enabled by default: ± пашырэнне ўключана па змаўчанні
+    - − the extension is not enabled by default: − пашырэнне ня ўключана па змаўчанні
+    - action "%%_name" will be started: дзеянне "%%_name" будзе запушчана
+    - action with rowid = "%%_rowid" will be started: дзеянне з rowid = "%%_rowid" будзе запушчана
+    - All releases: Усе выпускі
+    - All types of messages you can see above.: Усе тыпы паведамленняў Вы можаце ўбачыць вышэй.
+    - ANONYMOUS USER: АНАНІМНЫ КАРЫСТАЛЬНІК
+    - arguments: аргументы
+    - Autoincrement: Аўтаінкрымент
+    - autoload: аўтазагрузка
+    - beginning: пачатак
+    - Call "%%_call" for #%%_number: Выклік "%%_call" для #%%_number
+    - Call "%%_call" on click "%%_click": Выклік "%%_call" на націск "%%_click"
+    - call "%%_call": выклік "%%_call"
+    - Call "%%_call": Выклік "%%_call"
+    - catalog "%%_catalog_name" in storage "%%_storage_name" will be initialized: каталаг "%%_catalog_name" у сховішчы "%%_storage_name" будзе ініцыялізаваны
+    - cell #%%_number: ячэйка №%%_number
+    - changing permissions for role = "%%_role": змена дазваленняў для ролі = "%%_role"
+    - changing roles for user with nickname = "%%_nickname": змена роляў для карыстальніка з псеўданімам = "%%_nickname"
+    - Checkbox 1: Сцяжок 1
+    - Checkbox 2 (checked): Сцяжок 2 (адзначаны)
+    - Checkbox 3 (disabled): Сцяжок 3 (адключаны)
+    - Checkbox 4 (disabled + checked): Сцяжок 4 (адключаны + адзначаны)
+    - checking on "%%_operand_1" %%_operator "%%_operand_2": праверка на "%%_operand_1" %%_operator "%%_operand_2"
+    - Classes: Класы
+    - Collations: Параўнанні
+    - Color for generation: Колер для генерацыі
+    - Console: Кансоль
+    - Constraints: Абмежаванні
+    - CPU load time: Час загрузкі працэсара
+    - Current release of the project "%%_id_project_context": Бягучы рэліз праекта "%%_id_project_context"
+    - Decorators dynamic: Дэкаратары дынамічныя
+    - Decorators static: Дэкаратары статычныя
+    - default text: тэкст па змаўчанні
+    - Default type.: Тып па змаўчанні.
+    - Demonstration form: Дэманстрацыйная форма
+    - Demonstration menu NoSQL: Меню дэманстрацыйнае NoSQL
+    - Demonstration menu SQL: Меню дэманстрацыйнае SQL
+    - Demonstration menu via decorator: Меню дэманстрацыйнае праз дэкаратар
+    - Demonstration of field types for Selection: Дэманстрацыя тыпаў палёў у выбаркі
+    - Demonstration of selection of "demo_data" entities with joining with "demo_join" entities where ID >= 100: Дэманстрацыя выбаркі сутнасцяў "demo_data" з аб'яднаннем з сутнасцямі "demo_join" дзе ID >= 100
+    - Demonstration of selection of "demo_data" entities with joining with "demo_join" entities: Дэманстрацыя выбаркі сутнасцяў "demo_data" з аб'яднаннем з сутнасцямі "demo_join"
+    - Demonstration of selection of entities "demo_types": Дэманстрацыя выбаркі сутнасцяў "demo_types"
+    - Description for messages: Апісанне для паведамленняў
+    - Displaying the console will result in a %%_value increase in RAM consumption!: Адлюстраванне кансолі прывядзе да павелічэння спажывання АЗП на %%_value!
+    - Embedded elements: Убудаваныя элементы
+    - ending: заканчэнне
+    - Error message #%%_number!: Паведамленне пра памылку №%%_number!
+    - error state = %%_state<br>error code = %%_code<br>error text = %%_text<br>query = "%%_query": стан памылкі = %%_state<br>код памылкі = %%_code<br>тэкст памылкі = %%_text<br>запыт = "%%_query"
+    - error state = %%_state<br>error code = %%_code<br>error text = %%_text<br>query = "%%_query"<br>arguments = [%%_args]: стан памылкі = %%_state<br>код памылкі = %%_code<br>тэкст памылкі = %%_text<br>запыт = "%%_query"<br>аргументы = [%%_args]
+    - event system was initialized: сістэма падзей была ініцыялізавана
+    - Example of update 1: Прыклад абнаўлення 1
+    - Example of update 2 (outstripping): Прыклад абнаўлення 2 (апераджальнае)
+    - Example of update 3 (outstripping): Прыклад абнаўлення 3 (апераджальнае)
+    - Example of update description 1.: Прыклад апісання абнаўлення 1.
+    - Example of update description 2.: Прыклад апісання абнаўлення 2.
+    - Example of update description 3.: Прыклад апісання абнаўлення 3.
+    - Execution plan: План выканання
+    - Export diagram to file "%%_file" for using with "StarUML" software.: Экспарт дыяграмы ў файл "%%_file" для выкарыстання ў праграме "StarUML".
+    - Field #1: Поле №1
+    - Field #2: Поле №2
+    - Field #3: Поле №3
+    - Field binary: Поле binary
+    - Field blob: Поле blob
+    - Field boolean: Поле boolean
+    - Field date: Поле date
+    - Field datetime: Поле datetime
+    - Field foreign: Поле foreign
+    - Field index unique: Поле index unique
+    - Field index: Поле index
+    - Field integer: Поле integer
+    - Field nocase: Поле nocase
+    - Field primary: Поле primary
+    - Field real: Поле real
+    - Field time: Поле time
+    - Field unique: Поле unique
+    - Field varchar: Поле varchar
+    - FILES AND DIRECTORIES: ФАЙЛЫ І КАТАЛОГІ
+    - FILTRATION OF PARAMETERS: ФІЛЬТРАЦЫЯ ПАРАМЕТРАЎ
+    - For ID: Для ID
+    - found user ID = "%%_id_user" by nickname = "%%_nickname": знойдзены ID карыстальніка = "%%_id_user" па псеўданіме = "%%_nickname"
+    - Full report: Поўная справаздача
+    - Group 1: Група 1
+    - Group 2 (inserted from code): Група 2 (устаўлена з кода)
+    - Handler: Апрацоўшчык
+    - Hash sum (md5): Хэш-сума (md5)
+    - Hash sum: Хэш-сума
+    - head cell #%%_number: загалоўная ячэйка №%%_number
+    - Header %%_size: Загаловак %%_size
+    - If the "step" attribute is "60" then the "\:00" seconds will be truncated.: Калі атрыбут "step" роўны "60", тады секунды ":00" будуць абразацца.
+    - If the "value_current_if_null" parameter is "true" and the initial value is not specified, the current value will be used.: Калі параметр "value_current_if_null" роўны "true" і пачатковае значэнне не пазначана, тады будзе выкарыстоўвацца бягучае значэнне.
+    - Indexes: Індэксы
+    - init.: ініцыял.
+    - Is even: Цотнае
+    - item #%%_number: пункт №%%_number
+    - item #1: пункт №1
+    - item #1.1: пункт №1.1
+    - item #1.2: пункт №1.2
+    - item #1.2.1: пункт №1.2.1
+    - item #1.2.2: пункт №1.2.2
+    - item #1.2.3 (from code): пункт №1.2.3 (з кода)
+    - item #1.2.3: пункт №1.2.3
+    - item #1.3: пункт №1.3
+    - item #2: пункт №2
+    - item #3 (from code): пункт №3 (з кода)
+    - item #3: пункт №3
+    - Join: Злучэнне
+    - Joins: Злучэння
+    - Main content of Micro Tab #%%_num: Асноўны змест мікра-ўкладкі №%%_num
+    - make request to "%%_url": зрабіць запыт на "%%_url"
+    - Markup dynamic: Разметка дынамічная
+    - Markup static: Разметка статычная
+    - memory consumption: спажыванне памяці
+    - method private: метад прыватны
+    - method protected: метад абаронены
+    - method public: метад публічны
+    - Module dependencies from PHP extensions: Залежнасці модуляў ад PHP-пашырэнняў
+    - Multiplier (left): Множнік (левы)
+    - Multiplier (right): Множнік (правы)
+    - namespace: прастора імёнаў
+    - NoSQL data: NoSQL дадзеныя
+    - Notice message #%%_number.: Паведамленне №%%_number.
+    - Number of downloads: Колькасць загрузак
+    - Ok message #%%_number.: Добрае паведамленне №%%_number.
+    - Option 1 (selected): Опцыя 1 (абрана)
+    - Option 2 (disabled): Опцыя 2 (адключана)
+    - Option 3: Опцыя 3
+    - Option 4: Опцыя 4
+    - Option 5 (inserted + disabled from code): Опцыя 5 (устаўлена + адключана з кода)
+    - Option 6 (inserted from code): Опцыя 6 (устаўлена з кода)
+    - Option 7 (inserted from code): Опцыя 7 (устаўлена з кода)
+    - Option 8 (inserted from code): Опцыя 8 (устаўлена з кода)
+    - Option 9 (inserted from code): Опцыя 9 (устаўлена з кода)
+    - Parameter 1: Параметр 1
+    - Parameter 2: Параметр 2
+    - Parameter 3: Параметр 3
+    - Parameter 4: Параметр 4
+    - Password hash sum: Хэш-сума пароля
+    - permissions after insertion\: %%_permissions: дазваленні пасля ўстаўкі: %%_permissions
+    - permissions before insertion\: %%_permissions: дазваленні перад устаўкай: %%_permissions
+    - PHP ext.: PHP-паш.
+    - PHP extension: PHP-пашырэнне
+    - PHP functions usage: Выкарыстоўванне PHP-функцый
+    - Pos.: Паз.
+    - Project ID: ID праекта
+    - property private: уласцівасць прыватная
+    - property protected: уласцівасць абароненая
+    - property public: уласцівасць публічная
+    - proxy server = %%_proxy: проксі-сервер = %%_proxy
+    - Proxy server: Проксі-сервер
+    - Quantity of iterations: Колькасць ітэрацый
+    - Radiobutton 1: Перамыкач 1
+    - Radiobutton 2 (checked): Перамыкач 2 (адзначаны)
+    - Radiobutton 3 (disabled): Перамыкач 3 (адключаны)
+    - RAM load dynamics: Дынаміка загрузкі АЗП
+    - real checking on "%%_operand_real_1" %%_operator "%%_operand_real_2": рэальная праверка на "%%_operand_real_1" %%_operator "%%_operand_real_2"
+    - REGISTERED USER + ROLE: ЗАРЭГІСТРАВАНЫ КАРЫСТАЛЬНІК + РОЛЯ
+    - REGISTERED USER: ЗАРЭГІСТРАВАНЫ КАРЫСТАЛЬНІК
+    - Relation (tree view): Сувязь (у выглядзе дрэва)
+    - Release (current): Выпуск (бягучы)
+    - Release: Выпуск
+    - Releases of the project "%%_id_project_context": Выпускі праекта "%%_id_project_context"
+    - Releases: Выпускі
+    - repeat %%_cur from %%_max: паўтор %%_cur з %%_max
+    - result of checking is = "%%_result": вынік праверкі = "%%_result"
+    - return = "%%_return": вяртанне = "%%_return"
+    - roles after insertion\: %%_roles: ролі пасля ўстаўкі: %%_roles
+    - roles before insertion\: %%_roles: ролі перад устаўкай: %%_roles
+    - row with auto id value = 1: радок з аўтаматычным значэннем id = 1
+    - row with auto id value = 2: радок з аўтаматычным значэннем id = 2
+    - row with auto id value = 3: радок з аўтаматычным значэннем id = 3
+    - row with default values: радок са значэннямі па змаўчанні
+    - row with non-default values: радок са значэннямі ня па змаўчанні
+    - Security of Roles: Бяспека роляў
+    - Security of Server Settings: Бяспека налад сэрвэра
+    - Selection list (multiple select): Спіс выбару (множны выбар)
+    - Selection of "demo_data" entities + join: Выбарка сутнасцяў "demo_data" + join
+    - Sequence hash: Хэш паслядоўнасці
+    - show for admin: паказваць адміністратару
+    - show for everyone: паказваць усім
+    - simple string: просты радок
+    - some description: нейкае апісанне
+    - stack: стэк
+    - storage "%%_name" was initialized: сховішча "%%_name" было ініцыялізавана
+    - string with parameter = %%_n: радок з параметрам = %%_n
+    - string with plural value = %%_number second%%_plural{number\|s}: радок з множным лікам = %%_number секунд%%_plural{number|a-ji}
+    - submission: перадача
+    - Switcher 1: Выключальнік 1
+    - Switcher 2 (checked): Выключальнік 2 (адзначаны)
+    - Switcher 3 (disabled): Выключальнік 3 (адключаны)
+    - Switcher 4 (disabled + checked): Выключальнік 4 (адключаны + адзначаны)
+    - Tab 1: Укладка 1
+    - Tab 2: Укладка 2
+    - Tab 3: Укладка 3
+    - Text for perform the tests: Тэкст для выканання тэстаў
+    - text with translation and token demo_text = "%%_demo_text": тэкст з перакладам і токенам demo_text = "%%_demo_text"
+    - text with translation: тэкст з перакладам
+    - The report was generated in real time.: Справаздача была створана ў рэжыме рэальнага часу.
+    - The system can search for the used functions only for enabled PHP modules!: Сістэма можа шукаць выкарыстоўваныя функцыі толькі для ўключаных PHP-модуляў!
+    - The test was failed!: Тэст не атрымаўся!
+    - The test was successful.: Тэст выкананы паспяхова.
+    - The test will not succeed if the "Registration via Email" option is enabled!: Тэст не выканацца паспяхова калі ўключаная опцыя "Рэгістрацыя праз электронную пошту"!
+    - there will be try to delete all permissions: будзе спроба выдаліць усе дазваленні
+    - there will be try to delete all roles: будзе спроба выдаліць усе ролі
+    - there will be try to insert permissions\: %%_permissions: будзе спроба ўставіць дазваленні: %%_permissions
+    - there will be try to insert roles\: %%_roles: будзе спроба ўставіць ролі: %%_roles
+    - This description is always shown.: Гэта апісанне заўсёды паказваецца.
+    - This description is shown on top.: Гэта апісанне паказана зверху.
+    - To improve performance, the console in the file types ".cssd" and ".jsd" will only be displayed in the "show for everyone" mode.: Для павышэння прадукцыйнасці кансоль у файлах тыпу ".cssd" і ".jsd" будзе адлюстроўвацца толькі ў рэжыме "паказаць усім".
+    - Total generation time: Агульны час генерацыі
+    - Total run time\: %%_time sec.: Агульны час выканання: %%_time сек.
+    - Traits: Трэйты
+    - transposition "action after": перастаноўка "action after"
+    - transposition "action before": перастаноўка "action before"
+    - transposition "action" #%%_num: перастаноўка "action" №%%_num
+    - TRANSPOSITION %%_cur FROM %%_max \| %%_state: ПЕРАСТАНОЎКА %%_cur З %%_max | %%_state
+    - TRANSPOSITIONS [-1 … length + 2]: ПЕРАСТАНОЎКІ [-1 … length + 2]
+    - TRANSPOSITIONS OF "..": ПЕРАСТАНОЎКІ ".."
+    - TRANSPOSITIONS OF ".": ПЕРАСТАНОЎКІ "."
+    - TRANSPOSITIONS OF "": ПЕРАСТАНОЎКІ ""
+    - TRANSPOSITIONS OF "/": ПЕРАСТАНОЎКІ "/"
+    - TRANSPOSITIONS OF "~": ПЕРАСТАНОЎКІ "~"
+    - Type "%%_type" from code: Тып "%%_type" з кода
+    - Type "%%_type": Тып "%%_type"
+    - UML Diagram: UML-дыяграма
+    - unique value 1: унікальнае значэнне 1
+    - unique value 2: унікальнае значэнне 2
+    - unique value 3: унікальнае значэнне 3
+    - Usage frequency: Частата выкарыстоўвання
+    - validation_1: валідацыя_1
+    - validation_2: валідацыя_2
+    - validation_3: валідацыя_3
+    - value 1: значэнне 1
+    - value 1.1: значэнне 1.1
+    - value 1.2: значэнне 1.2
+    - value 1.3: значэнне 1.3
+    - value 2: значэнне 2
+    - value 2.1: значэнне 2.1
+    - value 2.2: значэнне 2.2
+    - value 2.3: значэнне 2.3
+    - value 3: значэнне 3
+    - value 3.1: значэнне 3.1
+    - value 3.2: значэнне 3.2
+    - value 3.3: значэнне 3.3
+    - value_set: знач_уст
+    - Warning message #%%_number.: Папераджальнае паведамленне №%%_number.

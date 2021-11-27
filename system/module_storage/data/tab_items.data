@@ -1,0 +1,12 @@
+tab_items
+- data_content_selection|tab_item
+    id: data_content_selection
+    id_parent: data_content_page
+    id_tab: data
+    action_name: content/selection
+    title: Selections
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_selection__select

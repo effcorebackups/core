@@ -1,0 +1,960 @@
+entities
+- cache_validation|entity
+    name: cache_validation
+    title: Cache for validation process
+    title_plural: Caches for validation process
+    catalog_name: cache_validation
+    ws_data: true
+    fields
+    - id
+        title: ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        check: (id <> '')
+    - created
+        title: Created
+        type: integer
+        not_null: true
+    - updated
+        title: Updated
+        type: integer
+        not_null: true
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    indexes
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+- audio|entity
+    name: audio
+    title: Audio
+    title_plural: Audios
+    catalog_name: audios
+    managing_is_enabled: true
+    has_parallel_checking: true
+    ws_is_embedded: true
+    ws_module_id: true
+    ws_data: true
+    access_select
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_audio__select
+    access_insert
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_audio__insert
+    access_update
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_audio__update
+    access_delete
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_audio__delete
+    fields
+    - id
+        title: ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        check: (id <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_id_text
+        managing_control_properties
+        - is_validate_uniqueness: true
+        - weight: +400
+        managing_control_element_attributes_on_update
+        - disabled: true
+    - description
+        title: Description
+        type: varchar
+        size: 1024
+        collate: nocase
+        not_null: true
+        check: (description <> '')
+        filter_insert: \effcore\core::return_htmlspecialchars_encoded
+        filter_update: \effcore\core::return_htmlspecialchars_encoded
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_text
+        managing_control_properties
+        - weight: +380
+        managing_control_element_attributes
+        - maxlength: 1024
+    - attributes
+        title: Attributes
+        type: blob
+        filter_select: unserialize
+        filter_insert: \effcore\core::data_serialize
+        filter_update: \effcore\core::data_serialize
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\widget_attributes
+        managing_control_properties
+        - name_complex: attributes
+        - weight: +360
+    - path
+        title: Path
+        type: varchar
+        size: 255
+        collate: nocase
+        default: null
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_file_audio
+        managing_control_properties
+        - title: Audio
+        - max_file_size: 30M
+        - upload_dir: audios/
+        - fixed_name: audio-%%_instance_id_context
+        - weight: +340
+    - created
+        title: Created
+        type: datetime
+        default: null
+        check: (created <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +320
+    - updated
+        title: Updated
+        type: datetime
+        default: null
+        check: (updated <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +300
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    - unique_path
+        type: unique
+        fields
+        - =: path
+    indexes
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated
+- gallery|entity
+    name: gallery
+    title: Gallery
+    title_plural: Galleries
+    catalog_name: galleries
+    managing_is_enabled: true
+    ws_is_embedded: true
+    ws_module_id: true
+    ws_data: true
+    access_select
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_gallery__select
+    access_insert
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_gallery__insert
+    access_update
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_gallery__update
+    access_delete
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_gallery__delete
+    fields
+    - id
+        title: ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        check: (id <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_id_text
+        managing_control_properties
+        - is_validate_uniqueness: true
+        - weight: +400
+        managing_control_element_attributes_on_update
+        - disabled: true
+    - title
+        title: Title
+        type: varchar
+        size: 1024
+        collate: nocase
+        not_null: true
+        check: (title <> '')
+        filter_insert: \effcore\core::return_htmlspecialchars_encoded
+        filter_update: \effcore\core::return_htmlspecialchars_encoded
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_text
+        managing_control_properties
+        - weight: +380
+        managing_control_element_attributes
+        - maxlength: 1024
+    - attributes
+        title: Attributes
+        type: blob
+        filter_select: unserialize
+        filter_insert: \effcore\core::data_serialize
+        filter_update: \effcore\core::data_serialize
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\widget_attributes
+        managing_control_properties
+        - name_complex: attributes
+        - weight: +360
+    - items
+        title: Items
+        type: blob
+        filter_select: unserialize
+        filter_insert: \effcore\core::data_serialize
+        filter_update: \effcore\core::data_serialize
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\widget_files_multimedia
+        managing_control_properties
+        - upload_dir: galleries/
+        - fixed_name: gallery-%%_instance_id_context-%%_item_id_context
+        - name_complex: items
+        - thumbnails
+          - =: small
+          - =: middle
+          - =: big
+        - poster_thumbnails
+          - =: small
+          - =: middle
+          - =: big
+        - cover_thumbnails
+          - =: small
+          - =: middle
+          - =: big
+        - weight: +340
+    - created
+        title: Created
+        type: datetime
+        default: null
+        check: (created <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +320
+    - updated
+        title: Updated
+        type: datetime
+        default: null
+        check: (updated <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +300
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    indexes
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated
+- page|entity
+    name: page
+    title: Page
+    title_plural: Pages
+    catalog_name: pages
+    managing_is_enabled: true
+    has_button_insert_and_update: true
+    has_message_for_additional_controls: true
+    has_parallel_checking: true
+    ws_is_embedded: true
+    ws_module_id: true
+    ws_origin: true
+    ws_data: true
+    access_select
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page__select
+    access_insert
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page__insert
+    access_update
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page__update
+    access_delete
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page__delete
+    fields
+    - id
+        title: ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        check: (id <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_id_text
+        managing_control_properties
+        - is_validate_uniqueness: true
+        - weight: +400
+        managing_control_element_attributes_on_update
+        - disabled: true
+    - id_layout
+        title: Layout ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        default: simple
+        check: (id_layout <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_layout
+        managing_control_properties
+        - weight: +380
+        managing_control_properties_on_insert
+        - selected
+          - =: simple
+        managing_control_element_attributes_on_update
+        - disabled: true
+    - title
+        title: Title
+        type: varchar
+        size: 1024
+        collate: nocase
+        not_null: true
+        check: (title <> '')
+        filter_insert: \effcore\core::return_htmlspecialchars_encoded
+        filter_update: \effcore\core::return_htmlspecialchars_encoded
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_text
+        managing_control_properties
+        - weight: +360
+        managing_control_element_attributes
+        - maxlength: 1024
+        - required: null
+    - url
+        title: URL
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        check: (url <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_url_page
+        managing_control_properties
+        - is_validate_uniqueness: true
+        - weight: +340
+        managing_control_element_attributes
+        - maxlength: 255
+    - is_https
+        title: HTTPS is required
+        type: boolean
+        not_null: true
+        default: 0
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_switcher
+        managing_control_properties
+        - weight: +320
+    - lang_code
+        title: Language code
+        type: varchar
+        size: 2
+        collate: nocase
+        default: null
+        check: (lang_code <> '')
+        filter_insert: \effcore\core::return_null_if_empty
+        filter_update: \effcore\core::return_null_if_empty
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_language
+        managing_control_properties
+        - title__not_selected: - system value -
+        - weight: +300
+        managing_control_element_attributes
+        - required: null
+    - text_direction
+        title: Text direction code
+        type: varchar
+        size: 3
+        collate: nocase
+        not_null: true
+        default: ltr
+        check: (text_direction <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_text_direction
+        managing_control_properties
+        - disabled
+          - =: rtl
+        - selected
+          - =: ltr
+        - weight: +280
+        managing_control_element_attributes_on_update
+        - disabled: true
+    - charset
+        title: Charset
+        type: varchar
+        size: 32
+        collate: nocase
+        not_null: true
+        default: utf-8
+        check: (charset <> '')
+        filter_insert: \effcore\core::return_htmlspecialchars_encoded
+        filter_update: \effcore\core::return_htmlspecialchars_encoded
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_text
+        managing_control_properties
+        - weight: +260
+        managing_control_element_attributes
+        - disabled: true
+        - maxlength: 32
+        - value: utf-8
+    - meta
+        title: META
+        type: blob
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_textarea
+        managing_control_properties
+        - description|text_multiline
+            text
+            - 0: This block will be inserted into the &lt;head&gt; of this page.
+            - 1: This content is not filtered and is presented as is.
+            - 2: An example of its content can be: meta description, meta keywords, custom meta fields (for example, google-site-verification), custom CSS blocks, custom JS blocks (for example, Google Analytics).
+        - weight: +240
+        managing_control_element_attributes
+        - minlength: null
+        - maxlength: 65535
+        - required: null
+    - is_use_global_meta
+        title: Use global META
+        type: boolean
+        not_null: true
+        default: 1
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_switcher
+        managing_control_properties
+        - weight: +220
+        managing_control_element_attributes
+        - checked: true
+    - access
+        title: Read access
+        type: blob
+        filter_select: unserialize
+        filter_insert: \effcore\core::data_serialize
+        filter_update: \effcore\core::data_serialize
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\widget_access
+        managing_control_properties
+        - weight: +200
+    - blocks
+        title: Blocks
+        type: blob
+        filter_select: unserialize
+        filter_insert: \effcore\core::data_serialize
+        filter_update: \effcore\core::data_serialize
+        managing_control_properties
+        - weight: +180
+    - created
+        title: Created
+        type: datetime
+        default: null
+        check: (created <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +160
+    - updated
+        title: Updated
+        type: datetime
+        default: null
+        check: (updated <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +140
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    - unique_url
+        type: unique
+        fields
+        - =: url
+    indexes
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated
+- picture|entity
+    name: picture
+    title: Picture
+    title_plural: Pictures
+    catalog_name: pictures
+    managing_is_enabled: true
+    has_parallel_checking: true
+    ws_is_embedded: true
+    ws_module_id: true
+    ws_data: true
+    access_select
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_picture__select
+    access_insert
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_picture__insert
+    access_update
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_picture__update
+    access_delete
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_picture__delete
+    fields
+    - id
+        title: ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        check: (id <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_id_text
+        managing_control_properties
+        - is_validate_uniqueness: true
+        - weight: +400
+        managing_control_element_attributes_on_update
+        - disabled: true
+    - description
+        title: Description
+        type: varchar
+        size: 1024
+        collate: nocase
+        not_null: true
+        check: (description <> '')
+        filter_insert: \effcore\core::return_htmlspecialchars_encoded
+        filter_update: \effcore\core::return_htmlspecialchars_encoded
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_text
+        managing_control_properties
+        - weight: +380
+        managing_control_element_attributes
+        - maxlength: 1024
+    - attributes
+        title: Attributes
+        type: blob
+        filter_select: unserialize
+        filter_insert: \effcore\core::data_serialize
+        filter_update: \effcore\core::data_serialize
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\widget_attributes
+        managing_control_properties
+        - name_complex: attributes
+        - weight: +360
+    - path
+        title: Path
+        type: varchar
+        size: 255
+        collate: nocase
+        default: null
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_file_picture
+        managing_control_properties
+        - title: Picture
+        - max_file_size: 1M
+        - upload_dir: pictures/
+        - fixed_name: picture-%%_instance_id_context
+        - types_allowed
+          - =: jpeg
+          - =: jpg
+          - =: png
+          - =: gif
+          - =: svg
+          - =: svgd
+        - thumbnails
+          - =: small
+          - =: middle
+          - =: big
+        - weight: +340
+    - link_attributes
+        title: Link attributes
+        type: blob
+        filter_select: unserialize
+        filter_insert: \effcore\core::data_serialize
+        filter_update: \effcore\core::data_serialize
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\widget_attributes
+        managing_control_properties
+        - name_complex: link_attributes
+        - weight: +320
+    - url
+        title: URL
+        type: varchar
+        size: 2048
+        collate: nocase
+        default: null
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_url
+        managing_control_properties
+        - weight: +300
+        managing_control_element_attributes
+        - maxlength: 2048
+        - required: null
+    - created
+        title: Created
+        type: datetime
+        default: null
+        check: (created <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +280
+    - updated
+        title: Updated
+        type: datetime
+        default: null
+        check: (updated <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +260
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    - unique_path
+        type: unique
+        fields
+        - =: path
+    indexes
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated
+- text|entity
+    name: text
+    title: Text
+    title_plural: Texts
+    catalog_name: texts
+    managing_is_enabled: true
+    has_parallel_checking: true
+    ws_is_embedded: true
+    ws_module_id: true
+    ws_data: true
+    access_select
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_text__select
+    access_insert
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_text__insert
+    access_update
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_text__update
+    access_delete
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_text__delete
+    fields
+    - id
+        title: ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        check: (id <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_id_text
+        managing_control_properties
+        - is_validate_uniqueness: true
+        - weight: +400
+        managing_control_element_attributes_on_update
+        - disabled: true
+    - description
+        title: Description
+        type: varchar
+        size: 1024
+        collate: nocase
+        not_null: true
+        check: (description <> '')
+        filter_insert: \effcore\core::return_htmlspecialchars_encoded
+        filter_update: \effcore\core::return_htmlspecialchars_encoded
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_text
+        managing_control_properties
+        - weight: +380
+        managing_control_element_attributes
+        - maxlength: 1024
+    - attributes
+        title: Attributes
+        type: blob
+        filter_select: unserialize
+        filter_insert: \effcore\core::data_serialize
+        filter_update: \effcore\core::data_serialize
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\widget_attributes
+        managing_control_properties
+        - name_complex: attributes
+        - weight: +360
+    - text
+        title: Text
+        type: blob
+        filter_insert: \effcore\core::return_null_if_empty
+        filter_update: \effcore\core::return_null_if_empty
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_textarea
+        managing_control_properties
+        - weight: +340
+        managing_control_element_attributes
+        - minlength: null
+        - maxlength: 16777215
+        - required: null
+    - created
+        title: Created
+        type: datetime
+        default: null
+        check: (created <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +320
+    - updated
+        title: Updated
+        type: datetime
+        default: null
+        check: (updated <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +300
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    indexes
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated
+- video|entity
+    name: video
+    title: Video
+    title_plural: Videos
+    catalog_name: videos
+    managing_is_enabled: true
+    has_parallel_checking: true
+    ws_is_embedded: true
+    ws_module_id: true
+    ws_data: true
+    access_select
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_video__select
+    access_insert
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_video__insert
+    access_update
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_video__update
+    access_delete
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__content_page_video__delete
+    fields
+    - id
+        title: ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        check: (id <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_id_text
+        managing_control_properties
+        - is_validate_uniqueness: true
+        - weight: +400
+        managing_control_element_attributes_on_update
+        - disabled: true
+    - description
+        title: Description
+        type: varchar
+        size: 1024
+        collate: nocase
+        not_null: true
+        check: (description <> '')
+        filter_insert: \effcore\core::return_htmlspecialchars_encoded
+        filter_update: \effcore\core::return_htmlspecialchars_encoded
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_text
+        managing_control_properties
+        - weight: +380
+        managing_control_element_attributes
+        - maxlength: 1024
+    - attributes
+        title: Attributes
+        type: blob
+        filter_select: unserialize
+        filter_insert: \effcore\core::data_serialize
+        filter_update: \effcore\core::data_serialize
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\widget_attributes
+        managing_control_properties
+        - name_complex: attributes
+        - weight: +360
+    - path
+        title: Path
+        type: varchar
+        size: 255
+        collate: nocase
+        default: null
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_file_video
+        managing_control_properties
+        - title: Video
+        - max_file_size: 500M
+        - upload_dir: videos/
+        - fixed_name: video-%%_instance_id_context
+        - weight: +340
+    - poster_path
+        title: Poster path
+        type: varchar
+        size: 255
+        collate: nocase
+        default: null
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_file_picture
+        managing_control_properties
+        - title: Poster
+        - max_file_size: 1M
+        - upload_dir: videos/
+        - fixed_name: video-%%_instance_id_context-poster
+        - thumbnails
+          - =: small
+          - =: middle
+          - =: big
+        - weight: +320
+    - created
+        title: Created
+        type: datetime
+        default: null
+        check: (created <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +300
+    - updated
+        title: Updated
+        type: datetime
+        default: null
+        check: (updated <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +280
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    - unique_path
+        type: unique
+        fields
+        - =: path
+    - unique_poster_path
+        type: unique
+        fields
+        - =: poster_path
+    indexes
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated

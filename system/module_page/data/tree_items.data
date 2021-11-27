@@ -1,0 +1,35 @@
+tree_items
+- front|tree_item
+    id: front
+    id_parent: null
+    id_tree: system
+    title: Front
+    url: /
+    weight: +500
+    access
+      roles
+      - =: registered
+- view|tree_item
+    id: view
+    id_parent: manage
+    id_tree: system
+    title: View
+    url: /manage/view
+    weight: +480
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage__view
+- seo|tree_item
+    id: seo
+    id_parent: manage
+    id_tree: system
+    title: SEO
+    url: /manage/seo
+    weight: +460
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage__seo

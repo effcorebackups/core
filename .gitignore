@@ -1,0 +1,9 @@
+/dynamic/*
+!/dynamic/cache/readme.md
+!/dynamic/data/readme.md
+!/dynamic/files/readme.md
+!/dynamic/logs/readme.md
+!/dynamic/tmp/readme.md
+
+/modules/*
+!/modules/readme.md

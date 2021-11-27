@@ -1,0 +1,13 @@
+tree_items
+- data|tree_item
+    id: data
+    id_parent: manage
+    id_tree: system
+    title: Data
+    url: /manage/data
+    weight: +500
+    access
+      roles
+      - =: admins
+      permissions_match
+      - =: %^manage_data__.+__select$%

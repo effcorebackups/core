@@ -1,0 +1,5 @@
+storages
+- sql|storage_sql_pdo
+    name: sql
+- data|storage_nosql_data
+    name: data

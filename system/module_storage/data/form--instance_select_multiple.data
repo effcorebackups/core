@@ -1,0 +1,39 @@
+forms
+- instance_select_multiple|form
+    managing_group_id: null
+    entity_name: null
+    category_id: null
+    is_show_result_message: true
+    _selection: null
+    _selected_instances: null
+    attributes
+    - id: instance_select_multiple
+    - enctype: multipart/form-data
+    - method: post
+    - novalidate: true
+    children
+    - button_insert|button
+        title: null
+        break_on_request_value_set: true
+        break_on_validate: true
+        attributes
+        - title|text
+            is_apply_tokens: true
+            text: Insert a new item of type "%%_entity_title_context" on new page.
+        - data-style: insert
+        - value: insert
+    - actions|field_select
+        title: Actions
+        element_attributes
+        - name: actions
+        - disabled: true
+        values
+        - not_selected: - select -
+        - delete: Delete
+    - data|node
+    - button_apply|button
+        title: apply
+        attributes
+        - value: apply
+        - disabled: true
+        weight: -500

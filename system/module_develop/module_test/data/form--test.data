@@ -1,0 +1,24 @@
+forms
+- test|form
+    attributes
+    - id: test
+    - method: post
+    - novalidate: true
+    children
+    - params|fieldset
+        title: Parameters
+    - report|fieldset
+        title: Report
+        children
+        - document|markup
+            tag_name: x-document
+            attributes
+            - data-style: report
+            children
+            - data|text
+                text: The report will be created after submitting the form.
+    - button_launch|button
+        title: launch
+        attributes
+        - value: launch
+        weight: -500

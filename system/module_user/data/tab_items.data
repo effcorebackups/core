@@ -1,0 +1,95 @@
+tab_items
+- data_user|tab_item
+    id: data_user
+    id_parent: null
+    id_tab: data
+    action_name: user
+    action_name_default: user/user
+    title: User
+    weight: +460
+    access
+      roles
+      - =: admins
+      permissions_match
+      - =: %^manage_data__user_.+__select$%
+- data_user_user|tab_item
+    id: data_user_user
+    id_parent: data_user
+    id_tab: data
+    action_name: user/user
+    title: Users
+    weight: +500
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user__select
+      permissions_match
+      - =: %^manage_data__user_user_.+__select$%
+- data_user_role|tab_item
+    id: data_user_role
+    id_parent: data_user_user
+    id_tab: data
+    action_name: user/role
+    title: Roles
+    weight: +500
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_role__select
+- data_user_rel_role_ws_user|tab_item
+    id: data_user_rel_role_ws_user
+    id_parent: data_user_user
+    id_tab: data
+    action_name: user/relation_role_ws_user
+    title: Relations: Role ↔ User
+    weight: +480
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_rel_role_ws_user__select
+- data_user_rel_role_ws_perm|tab_item
+    id: data_user_rel_role_ws_perm
+    id_parent: data_user_user
+    id_tab: data
+    action_name: user/relation_role_ws_permission
+    title: Relations: Role ↔ Permission
+    weight: +460
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_rel_role_ws_perm__select
+- data_user_permission|tab_item
+    id: data_user_permission
+    id_parent: data_user_user
+    id_tab: data
+    action_name: user/permission
+    title: Permissions
+    weight: +440
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_user_permission__select
+- data_user_feedback|tab_item
+    id: data_user_feedback
+    id_parent: data_user
+    id_tab: data
+    action_name: user/feedback
+    title: Feedbacks
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__user_feedback__select
+# ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+- security_settings|tab_item
+    id: security_settings
+    id_parent: null
+    id_tab: security
+    action_name: settings
+    title: Settings
+    weight: +500

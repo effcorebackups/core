@@ -1,0 +1,13 @@
+tree_items
+- locale|tree_item
+    id: locale
+    id_parent: manage
+    id_tree: system
+    title: Locale
+    url: /manage/locale
+    weight: +440
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage__locale

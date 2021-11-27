@@ -1,0 +1,14 @@
+pages
+- cron|page
+    id: cron
+    title: Cron
+    url: %^/manage/cron/(?<key>[a-f0-9]{40})$%
+    access
+      roles
+      - =: anonymous
+      - =: registered
+    blocks
+    - content
+      - block__cron|block
+          type: code
+          source: \effcore\modules\core\events_page_cron::block_markup__cron

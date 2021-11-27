@@ -1,0 +1,336 @@
+entities
+- tree|entity
+    name: tree
+    title: Tree
+    title_plural: Trees
+    catalog_name: trees
+    managing_is_enabled: true
+    managing_group_id: menu
+    has_parallel_checking: true
+    ws_is_embedded: true
+    ws_module_id: true
+    ws_data: true
+    access_select
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__menu_tree__select
+    access_insert
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__menu_tree__insert
+    access_update
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__menu_tree__update
+    access_delete
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__menu_tree__delete
+    fields
+    - id
+        title: ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        check: (id <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_id_text
+        managing_control_properties
+        - is_validate_uniqueness: true
+        - weight: +400
+        managing_control_element_attributes_on_update
+        - disabled: true
+    - title
+        title: Title
+        type: varchar
+        size: 1024
+        collate: nocase
+        not_null: true
+        check: (title <> '')
+        filter_insert: \effcore\core::return_htmlspecialchars_encoded
+        filter_update: \effcore\core::return_htmlspecialchars_encoded
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_text
+        managing_control_properties
+        - weight: +380
+        managing_control_element_attributes
+        - maxlength: 1024
+    - title_is_visible
+        title: Title is visible
+        type: boolean
+        not_null: true
+        default: 1
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_logic
+        managing_control_properties
+        - weight: +360
+        managing_control_properties_on_insert
+        - selected
+          - =: 1
+    - attributes
+        title: Attributes
+        type: blob
+        filter_select: unserialize
+        filter_insert: \effcore\core::data_serialize
+        filter_update: \effcore\core::data_serialize
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\widget_attributes
+        managing_control_properties
+        - name_complex: attributes
+        - weight: +340
+    - created
+        title: Created
+        type: datetime
+        default: null
+        check: (created <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +320
+    - updated
+        title: Updated
+        type: datetime
+        default: null
+        check: (updated <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +300
+    - access
+        title: Read access
+        type: blob
+        filter_select: unserialize
+        filter_insert: \effcore\core::data_serialize
+        filter_update: \effcore\core::data_serialize
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\widget_access
+        managing_control_properties
+        - weight: +280
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    indexes
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated
+- tree_item|entity
+    name: tree_item
+    title: Tree item
+    title_plural: Tree items
+    catalog_name: tree_items
+    managing_is_enabled: true
+    managing_group_id: menu
+    has_parallel_checking: true
+    ws_is_embedded: true
+    ws_module_id: true
+    ws_data: true
+    access_select
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__menu_tree_item__select
+    access_insert
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__menu_tree_item__insert
+    access_update
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__menu_tree_item__update
+    access_delete
+      roles
+      - =: admins
+      permissions
+      - =: manage_data__menu_tree_item__delete
+    fields
+    - id
+        title: ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        check: (id <> '')
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_id_text
+        managing_control_properties
+        - is_validate_uniqueness: true
+        - weight: +400
+        managing_control_element_attributes_on_update
+        - disabled: true
+    - id_tree
+        title: Tree ID
+        type: varchar
+        size: 255
+        collate: nocase
+        not_null: true
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_relation
+        managing_control_properties
+        - related_entity_name: tree
+        - related_entity_field_id_name: id
+        - related_entity_field_title_name: title
+        - weight: +380
+        managing_control_element_attributes
+        - disabled: true
+    - id_parent
+        title: Parent ID
+        type: varchar
+        size: 255
+        collate: nocase
+        default: null
+        filter_insert: \effcore\core::return_null_if_empty
+        filter_update: \effcore\core::return_null_if_empty
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_relation
+        managing_control_properties
+        - related_entity_name: tree_item
+        - related_entity_field_id_name: id
+        - related_entity_field_id_parent_name: id_parent
+        - related_entity_field_title_name: title
+        - title__not_selected: - root -
+        - weight: +360
+        managing_control_element_attributes
+        - required: null
+    - title
+        title: Title
+        type: varchar
+        size: 1024
+        collate: nocase
+        not_null: true
+        check: (title <> '')
+        filter_insert: \effcore\core::return_htmlspecialchars_encoded
+        filter_update: \effcore\core::return_htmlspecialchars_encoded
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_text
+        managing_control_properties
+        - weight: +340
+        managing_control_element_attributes
+        - maxlength: 1024
+    - attributes
+        title: Attributes
+        type: blob
+        filter_select: unserialize
+        filter_insert: \effcore\core::data_serialize
+        filter_update: \effcore\core::data_serialize
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\widget_attributes
+        managing_control_properties
+        - name_complex: attributes
+        - weight: +320
+    - url
+        title: URL
+        type: varchar
+        size: 2048
+        collate: nocase
+        default: null
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_url
+        managing_control_properties
+        - weight: +300
+        managing_control_element_attributes
+        - maxlength: 2048
+        - required: null
+    - link_attributes
+        title: Link attributes
+        type: blob
+        filter_select: unserialize
+        filter_insert: \effcore\core::data_serialize
+        filter_update: \effcore\core::data_serialize
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\widget_attributes
+        managing_control_properties
+        - name_complex: link_attributes
+        - weight: +280
+    - weight
+        title: Weight
+        type: integer
+        not_null: true
+        default: 0
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\field_weight
+        managing_control_properties
+        - weight: +260
+    - created
+        title: Created
+        type: datetime
+        default: null
+        check: (created <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +240
+    - updated
+        title: Updated
+        type: datetime
+        default: null
+        check: (updated <> '')
+        managing_control_class: \effcore\field_datetime_local
+        managing_control_properties
+        - weight: +220
+    - access
+        title: Read access
+        type: blob
+        filter_select: unserialize
+        filter_insert: \effcore\core::data_serialize
+        filter_update: \effcore\core::data_serialize
+        managing_is_enabled_on_insert: true
+        managing_is_enabled_on_update: true
+        managing_control_class: \effcore\widget_access
+        managing_control_properties
+        - weight: +200
+    constraints
+    - primary_id
+        type: primary
+        fields
+        - =: id
+    - foreign_id_tree
+        type: foreign
+        fields
+        - =: id_tree
+        references: trees
+        references_fields
+        - =: id
+    - foreign_id_parent
+        type: foreign
+        fields
+        - =: id_parent
+        references: tree_items
+        references_fields
+        - =: id
+    indexes
+    - index_weight
+        type: index
+        fields
+        - =: weight
+    - index_created
+        type: index
+        fields
+        - =: created
+    - index_updated
+        type: index
+        fields
+        - =: updated

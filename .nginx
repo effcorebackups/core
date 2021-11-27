@@ -1,0 +1,51 @@
+# before start nginx on the 127.0.0.1:
+# - copy this file outside the site root path (this file will be reset to default state after each system update)
+# - insert "include path-to-this-file;" to the file "/usr/local/etc/nginx/nginx.conf" or
+# - insert "include path-to-this-file;" to the file           "/etc/nginx/nginx.conf"
+# - here replace the %%_root to your site root path
+# - here replace the %%_include to "/usr/local/etc/nginx/fastcgi.conf" or
+# - here replace the %%_include to           "/etc/nginx/fastcgi.conf"
+# - here replace the %%_domain_crt         to domain certificate path
+# - here replace the %%_domain_private_key to domain private key path
+
+server {
+  listen 127.0.0.1:80;
+  server_name 127.0.0.1;
+  client_max_body_size 100M;
+  location ^~ /dynamic/cache/ {deny all; error_log off;}
+  location ^~ /dynamic/data/  {deny all; error_log off;}
+  location ^~ /dynamic/logs/  {deny all; error_log off;}
+  location ~ /web.config$     {deny all; error_log off;}
+  location ~ /\.              {deny all; error_log off;}
+  location ~ /\~              {deny all; error_log off;}
+  location / {
+    root %%_root;
+    fastcgi_index index.php;
+    fastcgi_pass 127.0.0.1:9000;
+    include %%_include;
+    fastcgi_param SCRIPT_NAME /index.php;
+    fastcgi_param SCRIPT_FILENAME $document_root/index.php;
+  }
+}
+
+server {
+  listen 127.0.0.1:443 ssl;
+  server_name 127.0.0.1;
+  client_max_body_size 100M;
+  ssl_certificate     %%_domain_crt;
+  ssl_certificate_key %%_domain_private_key;
+  location ^~ /dynamic/cache/ {deny all; error_log off;}
+  location ^~ /dynamic/data/  {deny all; error_log off;}
+  location ^~ /dynamic/logs/  {deny all; error_log off;}
+  location ~ /web.config$     {deny all; error_log off;}
+  location ~ /\.              {deny all; error_log off;}
+  location ~ /\~              {deny all; error_log off;}
+  location / {
+    root %%_root;
+    fastcgi_index index.php;
+    fastcgi_pass 127.0.0.1:9000;
+    include %%_include;
+    fastcgi_param SCRIPT_NAME /index.php;
+    fastcgi_param SCRIPT_FILENAME $document_root/index.php;
+  }
+}

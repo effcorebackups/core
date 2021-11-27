@@ -1,0 +1,54 @@
+pages
+- info|page
+    id: info
+    title: Information
+    url: /manage/info
+    is_https: true
+    access
+      roles
+      - =: admins
+      permissions
+      - =: manage__info
+    blocks
+    - system
+      - block__tree_sql__user_registered|block_preset_link
+          id: block__tree_sql__user_registered
+          title: Registered user's menu
+          attributes
+          - data-block: true
+          - data-id: block__tree_sql__user_registered
+          - data-style: at-right
+      - block__tree__system|block_preset_link
+          id: block__tree__system
+    - breadcrumbs
+      - block__breadcrumbs__system|block_preset_link
+          id: block__breadcrumbs__system
+    - messages
+      - block__messages|block_preset_link
+          id: block__messages
+    - title
+      - block__title|block_preset_link
+          id: block__title
+    # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+    - content
+      - block__system_info|block
+          title: System information
+          title_is_visible: false
+          attributes
+          - data-id: block__system_info
+          type: code
+          source: \effcore\modules\core\events_page_info::block_markup__system_info
+      - block__service_info|block
+          title: Service
+          attributes
+          - data-id: block__service_info
+          - data-style: title-is-simple
+          type: code
+          source: \effcore\modules\core\events_page_info::block_markup__service_info
+      - block__environment_info|block
+          title: Server
+          attributes
+          - data-id: block__environment_info
+          - data-style: title-is-simple
+          type: code
+          source: \effcore\modules\core\events_page_info::block_markup__environment_info

@@ -1,0 +1,2979 @@
+tests
+- security__server_settings|test
+    id: security__server_settings
+    title: Security of Server Settings
+    params
+    - quantity_of_iterations|field_number
+        title: Quantity of iterations
+        element_attributes
+        - name: quantity_of_iterations
+        - value: 1
+        - min: 1
+        - max: 20
+    - proxy|field_text
+        title: Proxy server
+        description|text
+          text: Examples: %%_examples
+          args
+          - examples: "127.0.0.1:8888" | "127.0.0.1:4321"
+        element_attributes
+        - name: proxy
+        - required: false
+    - is_https|field_switcher
+        title: HTTPS
+        element_attributes
+        - name: is_https
+    scenario
+    - repeat|step_repeat
+        quantity|param_from_form
+          name: quantity_of_iterations
+        actions
+  # ─────────────────────────────────────────────────────────────────────
+  # TRANSPOSITION OF THE "" CHARACTER
+  # ═════════════════════════════════════════════════════════════════════
+  # domain/
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain//page
+  # domain/section/
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain/.type
+  # domain/file.
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain//file.type
+  # domain/directory/.type
+  # domain/directory/file.
+  # ─────────────────────────────────────────────────────────────────────
+        - title_for_transposition_of_empty|step_title
+            title: TRANSPOSITIONS OF ""
+        # url "/"
+        - request_url--|step_request
+            url: /
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 200
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "//page"
+        - request_url---page|step_request
+            url: //page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check---page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/section/"
+        - request_url--section-|step_request
+            url: /section/
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section-|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 302
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--section--location|step_check
+            check: token
+            where: %%_test_response_location
+            match: %^(http[s]{0,1}://%%_request_host{preg_quote}/section|/section)$%
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--section--length|step_check
+            check: token
+            where: %%_test_response_content_length
+            match: 0
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/.type"
+        - request_url--.type|step_request
+            url: /.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/file."
+        - request_url--file.|step_request
+            url: /file.
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--file.|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "//file.type"
+        - request_url---file.type|step_request
+            url: //file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check---file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/.type"
+        - request_url--directory-.type|step_request
+            url: /directory/.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--directory-.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/file."
+        - request_url--directory-file.|step_request
+            url: /directory/file.
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-file.|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+  # ─────────────────────────────────────────────────────────────────────
+  # TRANSPOSITION OF THE "/" CHARACTER
+  # ═════════════════════════════════════════════════════════════════════
+  # domain//page
+  # domain//
+  # domain/page/
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain//section/page
+  # domain///page
+  # domain/section//page
+  # domain/section//
+  # domain/section/page/
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain//file.type
+  # domain//.type
+  # domain/file/.type
+  # domain/file./type
+  # domain/file./
+  # domain/file.type/
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain//directory/file.type
+  # domain///file.type
+  # domain/directory//file.type
+  # domain/directory//.type
+  # domain/directory/file/.type
+  # domain/directory/file./type
+  # domain/directory/file./
+  # domain/directory/file.type/
+  # ─────────────────────────────────────────────────────────────────────
+        - title_for_transposition_of_slash|step_title
+            title: TRANSPOSITIONS OF "/"
+        # url "//page"
+        - request_url---page|step_request
+            url: //page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check---page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "//"
+        - request_url---|step_request
+            url: //
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check---|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 302
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check----location|step_check
+            check: token
+            where: %%_test_response_location
+            match: %^(http[s]{0,1}://%%_request_host{preg_quote}/|/)$%
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/page/"
+        - request_url--page-|step_request
+            url: /page/
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--page-|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 302
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--page--location|step_check
+            check: token
+            where: %%_test_response_location
+            match: %^(http[s]{0,1}://%%_request_host{preg_quote}/page|/page)$%
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "//section/page"
+        - request_url---section-page|step_request
+            url: //section/page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check---section-page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "///page"
+        - request_url----page|step_request
+            url: ///page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check----page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/section//page"
+        - request_url--section--page|step_request
+            url: /section//page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section--page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/section//"
+        - request_url--section--|step_request
+            url: /section//
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section--|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 302
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--section---location|step_check
+            check: token
+            where: %%_test_response_location
+            match: %^(http[s]{0,1}://%%_request_host{preg_quote}/section|/section)$%
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/section/page/"
+        - request_url--section-page-|step_request
+            url: /section/page/
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section-page-|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 302
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--section-page--location|step_check
+            check: token
+            where: %%_test_response_location
+            match: %^(http[s]{0,1}://%%_request_host{preg_quote}/section/page|/section/page)$%
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "//file.type"
+        - request_url---file.type|step_request
+            url: //file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check---file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "//.type"
+        - request_url---.type|step_request
+            url: //.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check---.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check---.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/file/.type"
+        - request_url--file-.type|step_request
+            url: /file/.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--file-.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--file-.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/file./type"
+        - request_url--file.-type|step_request
+            url: /file./type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--file.-type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/file./"
+        - request_url--file.-|step_request
+            url: /file./
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--file.-|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 302
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--file.--location|step_check
+            check: token
+            where: %%_test_response_location
+            match: %^(http[s]{0,1}://%%_request_host{preg_quote}/file\.|/file\.)$%
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/file.type/"
+        - request_url--file.type-|step_request
+            url: /file.type/
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--file.type-|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 302
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--file.type--location|step_check
+            check: token
+            where: %%_test_response_location
+            match: %^(http[s]{0,1}://%%_request_host{preg_quote}/file\.type|/file\.type)$%
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "//directory/file.type"
+        - request_url---directory-file.type|step_request
+            url: //directory/file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check---directory-file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "///file.type"
+        - request_url----file.type|step_request
+            url: ///file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check----file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory//file.type"
+        - request_url--directory--file.type|step_request
+            url: /directory//file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory--file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory//.type"
+        - request_url--directory--.type|step_request
+            url: /directory//.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory--.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--directory--.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/file/.type"
+        - request_url--directory-file-.type|step_request
+            url: /directory/file/.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-file-.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--directory-file-.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/file./type"
+        - request_url--directory-file.-type|step_request
+            url: /directory/file./type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-file.-type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/file./"
+        - request_url--directory-file.-|step_request
+            url: /directory/file./
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-file.-|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 302
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--directory-file.--location|step_check
+            check: token
+            where: %%_test_response_location
+            match: %^(http[s]{0,1}://%%_request_host{preg_quote}/directory/file\.|/directory/file\.)$%
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/file.type/"
+        - request_url--directory-file.type-|step_request
+            url: /directory/file.type/
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-file.type-|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 302
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--directory-file.type--location|step_check
+            check: token
+            where: %%_test_response_location
+            match: %^(http[s]{0,1}://%%_request_host{preg_quote}/directory/file\.type|/directory/file\.type)$%
+            on_failure
+            - return_result|step_return
+                value: 0
+  # ─────────────────────────────────────────────────────────────────────
+  # TRANSPOSITION OF THE "~" CHARACTER
+  # ═════════════════════════════════════════════════════════════════════
+  # domain/~page
+  # domain/~
+  # domain/page~
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain/~section/page
+  # domain/~/page
+  # domain/section~/page
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain/section/~page
+  # domain/section/~
+  # domain/section/page~
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain/~file.type
+  # domain/~.type
+  # domain/file~.type
+  # domain/file.~type
+  # domain/file.~
+  # domain/file.type~
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain/~directory/file.type
+  # domain/~/file.type
+  # domain/directory~/file.type
+  # domain/directory/~file.type
+  # domain/directory/~.type
+  # domain/directory/file~.type
+  # domain/directory/file.~type
+  # domain/directory/file.~
+  # domain/directory/file.type~
+  # ─────────────────────────────────────────────────────────────────────
+        - title_for_transposition_of_tilda|step_title
+            title: TRANSPOSITIONS OF "~"
+        # url "/~page"
+        - request_url--~page|step_request
+            url: /~page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--~page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--~page-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/~"
+        - request_url--~|step_request
+            url: /~
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--~|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--~-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/page~"
+        - request_url--page~|step_request
+            url: /page~
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--page~|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/~section/page"
+        - request_url--~section-page|step_request
+            url: /~section/page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--~section-page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--~section-page-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/~/page"
+        - request_url--~-page|step_request
+            url: /~/page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--~-page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--~-page-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/section~/page"
+        - request_url--section~-page|step_request
+            url: /section~/page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section~-page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/section/~page"
+        - request_url--section-~page|step_request
+            url: /section/~page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section-~page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--section-~page-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/section/~"
+        - request_url--section-~|step_request
+            url: /section/~
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section-~|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--section-~-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/section/page~"
+        - request_url--section-page~|step_request
+            url: /section/page~
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section-page~|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/~file.type"
+        - request_url--~file.type|step_request
+            url: /~file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--~file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--~file.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/~.type"
+        - request_url--~.type|step_request
+            url: /~.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--~.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--~.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/file~.type"
+        - request_url--file~.type|step_request
+            url: /file~.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--file~.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/file.~type"
+        - request_url--file.~type|step_request
+            url: /file.~type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--file.~type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/file.~"
+        - request_url--file.~|step_request
+            url: /file.~
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--file.~|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/file.type~"
+        - request_url--file.type~|step_request
+            url: /file.type~
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--file.type~|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/~directory/file.type"
+        - request_url--~directory-file.type|step_request
+            url: /~directory/file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--~directory-file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--~directory-file.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/~/file.type"
+        - request_url--~-file.type|step_request
+            url: /~/file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--~-file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--~-file.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory~/file.type"
+        - request_url--directory~-file.type|step_request
+            url: /directory~/file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory~-file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/~file.type"
+        - request_url--directory-~file.type|step_request
+            url: /directory/~file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-~file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--directory-~file.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/~.type"
+        - request_url--directory-~.type|step_request
+            url: /directory/~.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-~.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--directory-~.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/file~.type"
+        - request_url--directory-file~.type|step_request
+            url: /directory/file~.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-file~.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/file.~type"
+        - request_url--directory-file.~type|step_request
+            url: /directory/file.~type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-file.~type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/file.~"
+        - request_url--directory-file.~|step_request
+            url: /directory/file.~
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-file.~|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/file.type~"
+        - request_url--directory-file.type~|step_request
+            url: /directory/file.type~
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-file.type~|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+  # ─────────────────────────────────────────────────────────────────────
+  # TRANSPOSITION OF THE "." CHARACTER
+  # ═════════════════════════════════════════════════════════════════════
+  # domain/.page
+  # domain/.
+  # domain/page.
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain/.section/page
+  # domain/./page
+  # domain/section./page
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain/section/.page
+  # domain/section/.
+  # domain/section/page.
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain/.file.type
+  # domain/..type
+  # domain/file..type
+  # domain/file..
+  # domain/file.type.
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain/.directory/file.type
+  # domain/./file.type
+  # domain/directory./file.type
+  # domain/directory/.file.type
+  # domain/directory/..type
+  # domain/directory/file..type
+  # domain/directory/file..
+  # domain/directory/file.type.
+  # ─────────────────────────────────────────────────────────────────────
+        - title_for_transposition_of_dot|step_title
+            title: TRANSPOSITIONS OF "."
+        # url "/.page"
+        - request_url--.page|step_request
+            url: /.page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--.page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--.page-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/."
+        - request_url--.|step_request
+            url: /.
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--.|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/page."
+        - request_url--page.|step_request
+            url: /page.
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--page.|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/.section/page"
+        - request_url--.section-page|step_request
+            url: /.section/page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--.section-page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--.section-page-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/./page"
+        - request_url--.-page|step_request
+            url: /./page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--.-page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/section./page"
+        - request_url--section.-page|step_request
+            url: /section./page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section.-page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/section/.page"
+        - request_url--section-.page|step_request
+            url: /section/.page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section-.page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--section-.page-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/section/."
+        - request_url--section-.|step_request
+            url: /section/.
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section-.|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/section/page."
+        - request_url--section-page.|step_request
+            url: /section/page.
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section-page.|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/.file.type"
+        - request_url--.file.type|step_request
+            url: /.file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--.file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--.file.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/..type"
+        - request_url--..type|step_request
+            url: /..type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--..type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--..type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/file..type"
+        - request_url--file..type|step_request
+            url: /file..type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--file..type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/file.."
+        - request_url--file..|step_request
+            url: /file..
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--file..|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/file.type."
+        - request_url--file.type.|step_request
+            url: /file.type.
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--file.type.|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/.directory/file.type"
+        - request_url--.directory-file.type|step_request
+            url: /.directory/file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--.directory-file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--.directory-file.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/./file.type"
+        - request_url--.-file.type|step_request
+            url: /./file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--.-file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory./file.type"
+        - request_url--directory.-file.type|step_request
+            url: /directory./file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory.-file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/.file.type"
+        - request_url--directory-.file.type|step_request
+            url: /directory/.file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-.file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--directory-.file.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/..type"
+        - request_url--directory-..type|step_request
+            url: /directory/..type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-..type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--directory-..type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/file..type"
+        - request_url--directory-file..type|step_request
+            url: /directory/file..type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-file..type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/file.."
+        - request_url--directory-file..|step_request
+            url: /directory/file..
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-file..|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/file.type."
+        - request_url--directory-file.type.|step_request
+            url: /directory/file.type.
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-file.type.|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+  # ─────────────────────────────────────────────────────────────────────
+  # TRANSPOSITION OF THE ".." CHARACTERS
+  # ═════════════════════════════════════════════════════════════════════
+  # domain/..page
+  # domain/..
+  # domain/page..
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain/..section/page
+  # domain/../page
+  # domain/section../page
+  # domain/section/..page
+  # domain/section/..
+  # domain/section/page..
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain/..file.type
+  # domain/...type
+  # domain/file...type
+  # domain/file...
+  # domain/file.type..
+  # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
+  # domain/..directory/file.type
+  # domain/../file.type
+  # domain/directory../file.type
+  # domain/directory/..file.type
+  # domain/directory/...type
+  # domain/directory/file...type
+  # domain/directory/file...
+  # domain/directory/file.type..
+  # ─────────────────────────────────────────────────────────────────────
+        - title_for_transposition_of_dots|step_title
+            title: TRANSPOSITIONS OF ".."
+        # url "/..page"
+        - request_url--..page|step_request
+            url: /..page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--..page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--..page-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/.."
+        - request_url--..|step_request
+            url: /..
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--..|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 400
+            on_failure
+            - if-iis|step_check
+                check: token
+                where: %%_test_software_name
+                match: microsoft-iis
+                on_success
+                - if-iis-403|step_check
+                    check: token
+                    where: %%_test_response_http_code
+                    match: 403
+                    on_failure
+                    - return_result|step_return
+                        value: 0
+                on_failure
+                - return_result|step_return
+                    value: 0
+        # url "/page.."
+        - request_url--page..|step_request
+            url: /page..
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--page..|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/..section/page"
+        - request_url--..section-page|step_request
+            url: /..section/page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--..section-page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--..section-page-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/../page"
+        - request_url--..-page|step_request
+            url: /../page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--..-page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 400
+            on_failure
+            - if-iis|step_check
+                check: token
+                where: %%_test_software_name
+                match: microsoft-iis
+                on_success
+                - if-iis-403|step_check
+                    check: token
+                    where: %%_test_response_http_code
+                    match: 403
+                    on_failure
+                    - return_result|step_return
+                        value: 0
+                on_failure
+                - return_result|step_return
+                    value: 0
+        # url "/section../page"
+        - request_url--section..-page|step_request
+            url: /section../page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section..-page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/section/..page"
+        - request_url--section-..page|step_request
+            url: /section/..page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section-..page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--section-..page-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/section/.."
+        - request_url--section-..|step_request
+            url: /section/..
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section-..|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/section/page.."
+        - request_url--section-page..|step_request
+            url: /section/page..
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--section-page..|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/..file.type"
+        - request_url--..file.type|step_request
+            url: /..file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--..file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--..file.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/...type"
+        - request_url--...type|step_request
+            url: /...type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--...type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--...type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/file...type"
+        - request_url--file...type|step_request
+            url: /file...type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--file...type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/file..."
+        - request_url--file...|step_request
+            url: /file...
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--file...|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/file.type.."
+        - request_url--file.type..|step_request
+            url: /file.type..
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--file.type..|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/..directory/file.type"
+        - request_url--..directory-file.type|step_request
+            url: /..directory/file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--..directory-file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--..directory-file.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/../file.type"
+        - request_url--..-file.type|step_request
+            url: /../file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--..-file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 400
+            on_failure
+            - if-iis|step_check
+                check: token
+                where: %%_test_software_name
+                match: microsoft-iis
+                on_success
+                - if-iis-403|step_check
+                    check: token
+                    where: %%_test_response_http_code
+                    match: 403
+                    on_failure
+                    - return_result|step_return
+                        value: 0
+                on_failure
+                - return_result|step_return
+                    value: 0
+        # url "/directory../file.type"
+        - request_url--directory..-file.type|step_request
+            url: /directory../file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory..-file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/..file.type"
+        - request_url--directory-..file.type|step_request
+            url: /directory/..file.type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-..file.type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--directory-..file.type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/...type"
+        - request_url--directory-...type|step_request
+            url: /directory/...type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-...type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--directory-...type-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/file...type"
+        - request_url--directory-file...type|step_request
+            url: /directory/file...type
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-file...type|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/file..."
+        - request_url--directory-file...|step_request
+            url: /directory/file...
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-file...|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/directory/file.type.."
+        - request_url--directory-file.type..|step_request
+            url: /directory/file.type..
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--directory-file.type..|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+  # ─────────────────────────────────────────────────────────────────────
+  # FILTRATION OF PARAMETERS
+  # ═════════════════════════════════════════════════════════════════════
+  # /?page=1
+  # /?page=1&unkwond=true
+  # /login?page=1
+  # /login?page=1&unkwond=true
+  # ─────────────────────────────────────────────────────────────────────
+        - title_for_filtration_of_parameters|step_title
+            title: FILTRATION OF PARAMETERS
+        # url "/?page=1"
+        - request_url--?page=1|step_request
+            url: /?page=1
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--?page=1|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 200
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/?page=1&unknown=true"
+        - request_url--?page=1&unknown=true|step_request
+            url: /?page=1&unknown=true
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--?page=1&unknown=true|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 302
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--?page=1&unknown=true=-location|step_check
+            check: token
+            where: %%_test_response_location
+            match: %^(http[s]{0,1}://%%_request_host{preg_quote}/\?page=1|/\?page=1)$%
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/login?page=1"
+        - request_url--login?page=1|step_request
+            url: /login?page=1
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--login?page=1|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 200
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/login?page=1&unknown=true"
+        - request_url--login?page=1&unknown=true|step_request
+            url: /login?page=1&unknown=true
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--login?page=1&unknown=true|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 302
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--login?page=1&unknown=true-location|step_check
+            check: token
+            where: %%_test_response_location
+            match: %^(http[s]{0,1}://%%_request_host{preg_quote}/login\?page=1|/login\?page=1)$%
+            on_failure
+            - return_result|step_return
+                value: 0
+  # ─────────────────────────────────────────────────────────────────────
+  # FILES AND DIRECTORIES
+  # ═════════════════════════════════════════════════════════════════════
+  # /../../../../../../etc/passwd
+  # /~/.ssh/id_rsa
+  # /~/any_file
+  # /.git
+  # /.git/config
+  # /dynamic/.git
+  # /dynamic/.git/config
+  # /.editorconfig
+  # /.gitattributes
+  # /.gitignore
+  # /.htaccess
+  # /.nginx
+  # /web.config
+  # /index.php
+  # /license.md
+  # /readme
+  # /readme/about-en.md
+  # /shell
+  # /shell/dynamic_reset.sh
+  # /dynamic
+  # /dynamic/cache
+  # /dynamic/cache/data_original.php
+  # /dynamic/cache/readme.md
+  # /dynamic/cache/structures.php
+  # /dynamic/data
+  # /dynamic/data/boot.php
+  # /dynamic/data/changes.php
+  # /dynamic/data/data.sqlite
+  # /dynamic/data/readme.md
+  # /dynamic/files
+  # /dynamic/files/readme.md
+  # /dynamic/logs
+  # /dynamic/logs/readme.md
+  # /dynamic/tmp
+  # /dynamic/tmp/readme.md
+  # /modules
+  # /modules/readme.md
+  # /system
+  # /system/boot.php
+  # /system/bundle.data
+  # /system/module_page
+  # /system/module_page/module.data
+  # /system/module_page/backend/markers.php
+  # /system/module_page/data/entities.data
+  # /system/module_page/frontend/form.cssd
+  # /system/module_page/frontend/form.js
+  # /system/module_page/frontend/pictures/icons-element.svgd
+  # /system/module_page/frontend/template--canvas_svg.tpl
+  # /system/module_core/frontend/core.jsd
+  # /system/module_captcha/frontend/captcha.css
+  # ─────────────────────────────────────────────────────────────────────
+        - title_for_files_and_directories|step_title
+            title: FILES AND DIRECTORIES
+        # url "/../../../../../../etc/passwd"
+        - request_url--..-..-..-..-..-..-etc-passwd|step_request
+            url: /../../../../../../etc/passwd
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--..-..-..-..-..-..-etc-passwd|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 400
+            on_failure
+            - if-iis|step_check
+                check: token
+                where: %%_test_software_name
+                match: microsoft-iis
+                on_success
+                - if-iis-403|step_check
+                    check: token
+                    where: %%_test_response_http_code
+                    match: 403
+                    on_failure
+                    - return_result|step_return
+                        value: 0
+                on_failure
+                - return_result|step_return
+                    value: 0
+        # url "/~/.ssh/id_rsa"
+        - request_url--~-.ssh-id_rsa|step_request
+            url: /~/.ssh/id_rsa
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--~-.ssh-id_rsa|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--~-.ssh-id_rsa-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/~/any_file"
+        - request_url--~-any_file|step_request
+            url: /~/any_file
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--~-any_file|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--~-any_file-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/.git"
+        - request_url--.git|step_request
+            url: /.git
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--.git|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--.git-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/.git/config"
+        - request_url--.git-config|step_request
+            url: /.git/config
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--.git-config|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--.git-config-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/.git"
+        - request_url--dynamic-.git|step_request
+            url: /dynamic/.git
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-.git|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--dynamic-.git-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/.git/config"
+        - request_url--dynamic-.git-config|step_request
+            url: /dynamic/.git/config
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-.git-config|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--dynamic-.git-config-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/.editorconfig"
+        - request_url--.editorconfig|step_request
+            url: /.editorconfig
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--.editorconfig|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--.editorconfig-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/.gitattributes"
+        - request_url--.gitattributes|step_request
+            url: /.gitattributes
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--.gitattributes|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--.gitattributes-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/.gitignore"
+        - request_url--.gitignore|step_request
+            url: /.gitignore
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--.gitignore|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--.gitignore-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/.htaccess"
+        - request_url--.htaccess|step_request
+            url: /.htaccess
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--.htaccess|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--.htaccess-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/.nginx"
+        - request_url--.nginx|step_request
+            url: /.nginx
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--.nginx|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--.nginx-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/web.config"
+        - request_url--web.config|step_request
+            url: /web.config
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--web.config|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--web.config-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/index.php"
+        - request_url--index.php|step_request
+            url: /index.php
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--index.php|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--index.php-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: system-exit
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/license.md"
+        - request_url--license.md|step_request
+            url: /license.md
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--license.md|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--license.md-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: system-exit
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/readme"
+        - request_url--readme|step_request
+            url: /readme
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--readme|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/readme/about-en.md"
+        - request_url--readme-about-en.md|step_request
+            url: /readme/about-en.md
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--readme-about-en.md|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--readme-about-en.md-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: system-exit
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/shell"
+        - request_url--shell|step_request
+            url: /shell
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--shell|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/shell/dynamic_reset.sh"
+        - request_url--shell-dynamic_reset.sh|step_request
+            url: /shell/dynamic_reset.sh
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--shell-dynamic_reset.sh|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--shell-dynamic_reset.sh-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: system-exit
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic"
+        - request_url--dynamic|step_request
+            url: /dynamic
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/cache"
+        - request_url--dynamic-cache|step_request
+            url: /dynamic/cache
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-cache|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/cache/data_original.php"
+        - request_url--dynamic-cache-data_original.php|step_request
+            url: /dynamic/cache/data_original.php
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-cache-data_original.php|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--dynamic-cache-data_original.php-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/cache/readme.md"
+        - request_url--dynamic-cache-readme.md|step_request
+            url: /dynamic/cache/readme.md
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-cache-readme.md|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--dynamic-cache-readme.md-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/cache/structures.php"
+        - request_url--dynamic-cache-structures.php|step_request
+            url: /dynamic/cache/structures.php
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-cache-structures.php|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--dynamic-cache-structures.php-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/data"
+        - request_url--dynamic-data|step_request
+            url: /dynamic/data
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-data|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/data/boot.php"
+        - request_url--dynamic-data-boot.php|step_request
+            url: /dynamic/data/boot.php
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-data-boot.php|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--dynamic-data-boot.php-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/data/changes.php"
+        - request_url--dynamic-data-changes.php|step_request
+            url: /dynamic/data/changes.php
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-data-changes.php|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--dynamic-data-changes.php-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/data/data.sqlite"
+        - request_url--dynamic-data-data.sqlite|step_request
+            url: /dynamic/data/data.sqlite
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-data-data.sqlite|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--dynamic-data-data.sqlite-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/data/readme.md"
+        - request_url--dynamic-data-readme.md|step_request
+            url: /dynamic/data/readme.md
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-data-readme.md|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--dynamic-data-readme.md-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/files"
+        - request_url--dynamic-files|step_request
+            url: /dynamic/files
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-files|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/files/readme.md"
+        - request_url--dynamic-files-readme.md|step_request
+            url: /dynamic/files/readme.md
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-files-readme.md|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--dynamic-files-readme.md-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: system-exit
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/logs"
+        - request_url--dynamic-logs|step_request
+            url: /dynamic/logs
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-logs|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/logs/readme.md"
+        - request_url--dynamic-logs-readme.md|step_request
+            url: /dynamic/logs/readme.md
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-logs-readme.md|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--dynamic-logs-readme.md-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: 
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/tmp"
+        - request_url--dynamic-tmp|step_request
+            url: /dynamic/tmp
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-tmp|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/dynamic/tmp/readme.md"
+        - request_url--dynamic-tmp-readme.md|step_request
+            url: /dynamic/tmp/readme.md
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--dynamic-tmp-readme.md|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--dynamic-tmp-readme.md-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: system-exit
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/modules"
+        - request_url--modules|step_request
+            url: /modules
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--modules|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/modules/readme.md"
+        - request_url--modules-readme.md|step_request
+            url: /modules/readme.md
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--modules-readme.md|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--modules-readme.md-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: system-exit
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/system"
+        - request_url--system|step_request
+            url: /system
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--system|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/system/boot.php"
+        - request_url--system-boot.php|step_request
+            url: /system/boot.php
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--system-boot.php|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--system-boot.php-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: system-exit
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/system/bundle.data"
+        - request_url--system-bundle.data|step_request
+            url: /system/bundle.data
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--system-bundle.data|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--system-bundle.data-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: system-exit
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/system/module_page"
+        - request_url--system-module_page|step_request
+            url: /system/module_page
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--system-module_page|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 404
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/system/module_page/module.data"
+        - request_url--system-module_page-module.data|step_request
+            url: /system/module_page/module.data
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--system-module_page-module.data|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--system-module_page-module.data-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: system-exit
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/system/module_page/backend/markers.php"
+        - request_url--system-module_page-backend-markers.php|step_request
+            url: /system/module_page/backend/markers.php
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--system-module_page-backend-markers.php|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--system-module_page-backend-markers.php-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: system-exit
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/system/module_page/data/entities.data"
+        - request_url--system-module_page-data-entities.data|step_request
+            url: /system/module_page/data/entities.data
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--system-module_page-data-entities.data|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--system-module_page-data-entities.data-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: system-exit
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/system/module_page/frontend/form.cssd"
+        - request_url--system-module_page-frontend-form.cssd|step_request
+            url: /system/module_page/frontend/form.cssd
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--system-module_page-frontend-form.cssd|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 200
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/system/module_page/frontend/form.js"
+        - request_url--system-module_page-frontend-form.js|step_request
+            url: /system/module_page/frontend/form.js
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--system-module_page-frontend-form.js|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 200
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/system/module_page/frontend/pictures/icons-element.svgd"
+        - request_url--system-module_page-frontend-pictures-icons-element.svgd|step_request
+            url: /system/module_page/frontend/pictures/icons-element.svgd
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--system-module_page-frontend-pictures-icons-element.svgd|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 200
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/system/module_page/frontend/template--canvas_svg.tpl"
+        - request_url--system-module_page-frontend-template--canvas_svg.tpl|step_request
+            url: /system/module_page/frontend/template--canvas_svg.tpl
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--system-module_page-frontend-template--canvas_svg.tpl|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 403
+            on_failure
+            - return_result|step_return
+                value: 0
+        - response_check--system-module_page-frontend-template--canvas_svg.tpl-return_level|step_check
+            check: token
+            where: %%_test_response_return_level
+            match: system-exit
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/system/module_core/frontend/core.jsd"
+        - request_url--system-module_core-frontend-core.jsd|step_request
+            url: /system/module_core/frontend/core.jsd
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--system-module_core-frontend-core.jsd|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 200
+            on_failure
+            - return_result|step_return
+                value: 0
+        # url "/system/module_captcha/frontend/captcha.css"
+        - request_url--system-module_captcha-frontend-captcha.css|step_request
+            url: /system/module_captcha/frontend/captcha.css
+            is_https|param_from_form
+              name: is_https
+            proxy|param_from_form
+              name: proxy
+        - response_check--system-module_captcha-frontend-captcha.css|step_check
+            check: token
+            where: %%_test_response_http_code
+            match: 200
+            on_failure
+            - return_result|step_return
+                value: 0
+  # ─────────────────────────────────────────────────────────────────────
+  # return
+  # ─────────────────────────────────────────────────────────────────────
+    - return_result|step_return
+        value: 1
