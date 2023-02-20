@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class Step_Repeat {
+class Test_step_Repeat {
 
     public $id;
     public $quantity = 1;

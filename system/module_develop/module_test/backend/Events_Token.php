@@ -10,7 +10,7 @@ use effcore\Captcha;
 use effcore\Core;
 use effcore\Module;
 use effcore\Request;
-use effcore\Step_Request;
+use effcore\Test_step_Request;
 use effcore\User;
 
 abstract class Events_Token {
@@ -27,7 +27,7 @@ abstract class Events_Token {
         if ($name === 'test_password_random' && count($args) === 1) {if (!isset( static::$cache['test_password_random'][Core::hash_get($args[0])] )) static::$cache['test_password_random'][Core::hash_get($args[0])] =         User::password_generate();                                         return static::$cache['test_password_random'][Core::hash_get($args[0])];}
         if ($name === 'test_cookies') {
             $result = [];
-            foreach (Step_Request::$history as $c_response) {
+            foreach (Test_step_Request::$history as $c_response) {
                 if ( isset($c_response['headers']['Set-Cookie']) ) {
                     foreach ($c_response['headers']['Set-Cookie'] as $c_cookie) {
                         $c_key   = Core::array_key_first($c_cookie['parsed']);
@@ -37,7 +37,7 @@ abstract class Events_Token {
         }
         if ($name === 'test_captcha') {
             if (Module::is_enabled('captcha')) {
-                $last_response = end(Step_Request::$history);
+                $last_response = end(Test_step_Request::$history);
                 if ($last_response) {
                     $captcha = Captcha::select_by_id(Core::ip_to_hex($last_response['info']['primary_ip']));
                     return $captcha->characters ?? null;
@@ -45,14 +45,14 @@ abstract class Events_Token {
             }
         }
         if ($name === 'test_form_validation_id' && count($args) === 1) {
-            $last_response = end(Step_Request::$history);
+            $last_response = end(Test_step_Request::$history);
             if ($last_response) {
                 return $last_response['headers']['X-Form-Validation-Id--'.$args[0]] ?? '';
             }
         }
         if (strpos($name, 'test_response_') === 0) {
             $type = substr($name, strlen('test_response_'));
-            $last_response = end(Step_Request::$history);
+            $last_response = end(Test_step_Request::$history);
             if ($last_response) {
                 if ($type === 'content'        && isset($last_response['data'])                                                                                ) return (string)$last_response['data'];
                 if ($type === 'http_code'      && isset($last_response['info'])    && array_key_exists('http_code',                  $last_response['info']   )) return    (int)$last_response['info']['http_code'];

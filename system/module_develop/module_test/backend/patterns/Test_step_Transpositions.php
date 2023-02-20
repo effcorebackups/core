@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class Step_Transpositions {
+class Test_step_Transpositions {
 
     public $action_before;
     public $actions = [];

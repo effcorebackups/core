@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class Step_Set_user_roles {
+class Test_step_Set_user_roles {
 
     public $nickname;
     public $roles = [];

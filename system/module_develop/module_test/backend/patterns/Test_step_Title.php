@@ -6,9 +6,9 @@
 
 namespace effcore;
 
-class Step_Code {
+class Test_step_Title {
 
-    public $handler;
+    public $title;
     public $args = [];
     public $is_apply_tokens = true;
 
@@ -19,8 +19,7 @@ class Step_Code {
                  $args[$c_key] = Token::apply($c_value);
             else $args[$c_key] =              $c_value;
         $c_results['reports'][$dpath]['dpath'] = '### dpath: '.$dpath;
-        $c_results['reports'][$dpath][] = new Text('call "%%_call"', ['call' => $this->handler]);
-        call_user_func_array($this->handler, ['test' => &$test, 'dpath' => $dpath.'::'.Core::handler_get_method($this->handler), 'c_results' => &$c_results] + $args);
+        $c_results['reports'][$dpath][] = new Text($this->title, $args);
     }
 
 }

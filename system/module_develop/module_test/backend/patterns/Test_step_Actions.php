@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class Step_Actions {
+class Test_step_Actions {
 
     function run(&$test, $dpath, &$c_results) {
         $c_results['reports'][$dpath]['dpath'] = '### dpath: '.$dpath;

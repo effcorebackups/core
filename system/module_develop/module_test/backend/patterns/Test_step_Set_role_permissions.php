@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class Step_Set_role_permissions {
+class Test_step_Set_role_permissions {
 
     public $id_role;
     public $permissions = [];

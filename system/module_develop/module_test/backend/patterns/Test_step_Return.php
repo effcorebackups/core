@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class Step_Return {
+class Test_step_Return {
 
     public $value;
 

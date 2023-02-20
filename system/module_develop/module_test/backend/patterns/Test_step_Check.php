@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class Step_Check {
+class Test_step_Check {
 
     public $check;
     public $where;

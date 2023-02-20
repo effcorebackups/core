@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class Step_Request {
+class Test_step_Request {
 
     public $url;
     public $is_https = false;
