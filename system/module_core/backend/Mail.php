@@ -31,7 +31,7 @@ abstract class Mail {
                 $mail_to,
                 $mail_subject,
                 $mail_message,
-                $mail_from.NL.
+                $mail_from.CR.NL.
                 $mail_encoding
             );
             if (!$result) Message::insert('The letter was not accepted for transmission!', 'error');
