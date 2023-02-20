@@ -100,8 +100,7 @@ abstract class Events_Page_Info {
             'operating_system'        => ['title' => 'Operating System',           'value' => php_uname('s').' | '.php_uname('r').' | '.php_uname('v')     ],
             'architecture'            => ['title' => 'Architecture',               'value' => php_uname('m')                                               ],
             'hostname'                => ['title' => 'Hostname',                   'value' => php_uname('n')                                               ],
-            'timezone'                => ['title' => 'Time zone',                  'value' => date_default_timezone_get()                                  ],
-            'datetime'                => ['title' => 'UTC date/time',              'value' => Core::datetime_get()                                         ] ]];
+            'datetime'                => ['title' => 'Date/Time',                  'value' => Core::datetime_get().' (UTC)'                                ] ]];
         return new Node([], [
             $decorator
         ]);

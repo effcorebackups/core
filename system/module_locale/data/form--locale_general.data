@@ -8,11 +8,6 @@ forms
     - settings|Fieldset
         children
         - language|Field_Select_language
-        - timezone_server|Field_Select_timezone
-            title: Server time zone
-            element_attributes
-            - name: timezone_server
-            - disabled: true
     - button_save|Button
         title: save
         attributes

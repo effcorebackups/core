@@ -724,7 +724,6 @@ translations
     - send: адправіць
     - SEO\: manage: SEO: кіраваць
     - Sequence: Паслядоўнасць
-    - Server time zone: Гадзінны пояс сервера
     - Server: Сервер
     - Service: Абслугоўванне
     - Session duration in days when "long session" is not selected: Працягласць сеансу ў днях, калі не абрана "працяглы сеанс"
@@ -863,7 +862,6 @@ translations
     - User\: select: Карыстальнік: абраць
     - User\: update: Карыстальнік: абнавіць
     - Users: Карыстальнікі
-    - UTC date/time: UTC дата/час
     - val.: знач.
     - Val.: Знач.
     - Value in pixels.: Велічыня ў пікселях.
