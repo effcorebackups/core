@@ -30,7 +30,7 @@ abstract class Events_Page_View {
             $presets = Color_preset::get_all();
             Core::array_sort_by_string($presets);
             foreach ($presets as $c_preset) {
-                Tab_item::insert(                                  $c_preset->title,
+                Tab_item::insert(                                    $c_preset->title,
                     'view_colors_presets_'                          .$c_preset->id,
                     'view_colors_presets', 'view', 'colors/presets/'.$c_preset->id, null, [], [], false, 0, 'page'
                 );
@@ -40,7 +40,7 @@ abstract class Events_Page_View {
             $layouts = Layout::select_all();
             Core::array_sort_by_string($layouts);
             foreach ($layouts as $c_layout) {
-                Tab_item::insert(                    $c_layout->title,
+                Tab_item::insert(                      $c_layout->title,
                     'view_layouts_'                   .$c_layout->id,
                     'view_layouts', 'view', 'layouts/'.$c_layout->id, null, [], [], false, 0, 'page'
                 );

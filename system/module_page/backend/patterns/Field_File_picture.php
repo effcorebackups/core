@@ -23,7 +23,7 @@ class Field_File_picture extends Field_File {
     public $thumbnails_is_allowed = true;
     public $thumbnails = [];
 
-    function items_set($id, $items) {
+    function items_set($scope, $items) {
         if ($this->thumbnails_is_allowed)
             if (debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)[1]['function'] === 'on_button_click_insert')
                 foreach ($items as $c_item)
@@ -31,7 +31,7 @@ class Field_File_picture extends Field_File {
                         if (Media::is_type_for_thumbnail($c_item->type))
                             if ($c_item->get_current_state() === 'pre')
                                 $c_item->container_picture_make($this->thumbnails);
-        parent::items_set($id, $items);
+        parent::items_set($scope, $items);
     }
 
     ###########################

@@ -6,7 +6,6 @@
 
 namespace effcore\modules\locale;
 
-use effcore\Token;
 use effcore\Translation;
 
 abstract class Events_Token {

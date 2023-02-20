@@ -42,7 +42,7 @@ abstract class Events_Page {
             Core::array_sort_by_string($languages, 'title_en', 'd', false);
             foreach ($languages as $c_language) {
                 if ($c_language->code !== 'en') {
-                    Tab_item::insert(                                $c_language->title_en,
+                    Tab_item::insert(                                  $c_language->title_en,
                         'locale_by_language_'                         .$c_language->code,
                         'locale_by_language', 'locale', 'by_language/'.$c_language->code, null, [], [], false, 0, 'locale'
                     );

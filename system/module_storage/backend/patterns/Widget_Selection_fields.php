@@ -30,14 +30,14 @@ class Widget_Selection_fields extends Widget_Items {
         foreach ($value_internal as $c_row_id => $c_item) {
             if ($c_item->type === 'main') {
                 $value_external['main'][$c_row_id] = new stdClass;
-                $value_external['main'][$c_row_id]->title                 =       $c_item->title;
-                $value_external['main'][$c_row_id]->entity_field_name     =       $c_item->entity_field_name;
-                $value_external['main'][$c_row_id]->weight                =       $c_item->weight;
-                $value_external['main'][$c_row_id]->is_apply_translation  = empty($c_item->value_settings['is_apply_translation']) ? false : true;
-                $value_external['main'][$c_row_id]->is_apply_tokens       = empty($c_item->value_settings['is_apply_tokens'])      ? false : true;
-                $value_external['main'][$c_row_id]->is_trimmed            = empty($c_item->value_settings['is_trimmed'])           ? false : true;
-                $value_external['main'][$c_row_id]->is_not_formatted      = empty($c_item->value_settings['is_not_formatted'])     ? false : true;
-                $value_external['main'][$c_row_id]->is_not_visible        = empty($c_item->value_settings['is_not_visible'])       ? false : true;
+                $value_external['main'][$c_row_id]->title                 =        $c_item->title;
+                $value_external['main'][$c_row_id]->entity_field_name     =        $c_item->entity_field_name;
+                $value_external['main'][$c_row_id]->weight                =        $c_item->weight;
+                $value_external['main'][$c_row_id]->is_apply_translation  = !empty($c_item->value_settings['is_apply_translation']);
+                $value_external['main'][$c_row_id]->is_apply_tokens       = !empty($c_item->value_settings['is_apply_tokens']);
+                $value_external['main'][$c_row_id]->is_trimmed            = !empty($c_item->value_settings['is_trimmed']);
+                $value_external['main'][$c_row_id]->is_not_formatted      = !empty($c_item->value_settings['is_not_formatted']);
+                $value_external['main'][$c_row_id]->is_not_visible        = !empty($c_item->value_settings['is_not_visible']);
             }
         }
         if ($this->value_join      ) $value_external['join'      ] = $this->value_join;

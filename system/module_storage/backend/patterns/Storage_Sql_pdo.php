@@ -15,7 +15,7 @@ class Storage_Sql_pdo implements Has_external_cache {
 
     public $name;
     public $driver;
-    public $credentials = [];
+    public $credentials = null;
     public $table_prefix = '';
     public $args = [];
     public $args_previous = [];
@@ -33,13 +33,13 @@ class Storage_Sql_pdo implements Has_external_cache {
                $this->credentials;
     }
 
-    function init($driver = null, $credentials = [], $table_prefix = '') {
+    function init($driver = null, $credentials = null, $table_prefix = '', $root = Data::DIRECTORY) {
         if ($this->connection) return
             $this->connection;
         else {
-            if ($driver)       $this->driver       =         $driver;
-            if ($credentials)  $this->credentials  = (object)$credentials;
-            if ($table_prefix) $this->table_prefix =         $table_prefix;
+            if ($driver      ) $this->driver       = $driver;
+            if ($credentials ) $this->credentials  = $credentials;
+            if ($table_prefix) $this->table_prefix = $table_prefix;
             if ($this->driver &&
                 $this->credentials) {
                 try {
@@ -56,7 +56,7 @@ class Storage_Sql_pdo implements Has_external_cache {
                             break;
                         case 'sqlite':
                             $this->connection = new PDO(
-                                $this->driver.':'.Data::DIRECTORY.
+                                $this->driver.':'.$root.
                                 $this->credentials->file_name);
                             $this->query(['action' => 'PRAGMA', 'command' => 'encoding',     'operator' => '=', 'value' => '"UTF-8"']);
                             $this->query(['action' => 'PRAGMA', 'command' => 'foreign_keys', 'operator' => '=', 'value' =>  'ON'    ]);
@@ -84,32 +84,34 @@ class Storage_Sql_pdo implements Has_external_cache {
         }
     }
 
-    function test($driver, $credentials = []) {
-        $credentials = (object)$credentials;
-        try {
-            switch ($driver) {
-                case 'mysql':
-                    $connection = new PDO(
-                        $driver           .':host='.
-                        $credentials->host.';port='.
-                        $credentials->port.';dbname='.
-                        $credentials->database,
-                        $credentials->login,
-                        $credentials->password);
-                    break;
-                case 'sqlite':
-                    $path = Data::DIRECTORY.$credentials->file_name;
-                    $connection = new PDO($driver.':'.$path);
-                    if (!is_writable($path)) {
-                        throw new Exception('File is not writable!');
-                    }
-                    break;
+    function test($driver = null, $credentials = null, $root = Data::DIRECTORY) {
+        if ($driver      === null) $driver      = $this->driver;
+        if ($credentials === null) $credentials = $this->credentials;
+        if ($driver &&
+            $credentials) {
+            try {
+                switch ($driver) {
+                    case 'mysql':
+                        $connection = new PDO(
+                            $driver           .':host='.
+                            $credentials->host.';port='.
+                            $credentials->port.';dbname='.
+                            $credentials->database,
+                            $credentials->login,
+                            $credentials->password);
+                        break;
+                    case 'sqlite':
+                        $path = $root.$credentials->file_name;
+                        if (file_exists($path) !== true && is_writable($root) !== true) throw new Exception('Directory "'.$root.'" is not writable!');
+                        if (file_exists($path) === true && is_writable($path) !== true) throw new Exception('File "'.     $path.'" is not writable!');
+                        $connection = new PDO($driver.':'.$path);
+                        break;
+                }
+                $connection = null;
+                return true;
+            } catch (Exception $e) {
+                return ['message' => $e->getMessage(), 'code' => $e->getCode()];
             }
-            $connection = null;
-            return true;
-        } catch (PDOException $e) {
-            return ['message' => $e->getMessage(), 'code' => $e->getCode()]; } catch (Exception $e) {
-            return ['message' => $e->getMessage(), 'code' => $e->getCode()];
         }
     }
 
