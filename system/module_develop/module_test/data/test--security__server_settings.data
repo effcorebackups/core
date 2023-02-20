@@ -2057,16 +2057,10 @@ tests
         # /modules/vendors/packages/composer/installers/src/Composer/Installers/ZendInstaller.php
         # /modules/vendors/packages/composer/LICENSE
         # /modules/vendors/packages/composer/platform_check.php
-        # /modules/vendors/packages/oomphinc/composer-installers-extender/.editorconfig
-        # /modules/vendors/packages/oomphinc/composer-installers-extender/.travis.yml
-        # /modules/vendors/packages/oomphinc/composer-installers-extender/CHANGELOG.md
-        # /modules/vendors/packages/oomphinc/composer-installers-extender/composer.json
-        # /modules/vendors/packages/oomphinc/composer-installers-extender/LICENSE
-        # /modules/vendors/packages/oomphinc/composer-installers-extender/phpunit.xml
-        # /modules/vendors/packages/oomphinc/composer-installers-extender/src/Plugin.php
-        # /modules/vendors/packages/oomphinc/composer-installers-extender/src/Installers/Installer.php
-        # /modules/vendors/packages/oomphinc/composer-installers-extender/tests/src/PluginTest.php
-        # /modules/vendors/packages/oomphinc/composer-installers-extender/tests/src/Installers/InstallerTest.php
+        # /modules/vendors/packages/effcore/installer/composer.json
+        # /modules/vendors/packages/effcore/installer/Custom_installer.php
+        # /modules/vendors/packages/effcore/installer/Installer.php
+        # /modules/vendors/packages/effcore/installer/Plugin.php
         # /modules/vendors/packages/tinymce/tinymce/.npmignore
         # /modules/vendors/packages/tinymce/tinymce/CHANGELOG.md
         # /modules/vendors/packages/tinymce/tinymce/composer.json
@@ -3649,210 +3643,84 @@ tests
             on_failure
             - return_result|Test_step_Return
                 value: 0
-        # url "/modules/vendors/packages/oomphinc/composer-installers-extender/.editorconfig"
-        - request_url--76531dc9|Test_step_Request
-            url: /modules/vendors/packages/oomphinc/composer-installers-extender/.editorconfig
+        # url "/modules/vendors/packages/effcore/installer/composer.json"
+        - request_url--745e60d4|Test_step_Request
+            url: /modules/vendors/packages/effcore/installer/composer.json
             is_https|Param_from_form
               name: is_https
             proxy|Param_from_form
               name: proxy
-        - response_check--76531dc9|Test_step_Check
+        - response_check--745e60d4|Test_step_Check
             check: token
             where: %%_test_response_http_code
             match: 403
             on_failure
             - return_result|Test_step_Return
                 value: 0
-        - response_check--76531dc9--return_level|Test_step_Check
+        - response_check--745e60d4--return_level|Test_step_Check
             check: token
             where: %%_test_response_return_level
             match: 
             on_failure
             - return_result|Test_step_Return
                 value: 0
-        # url "/modules/vendors/packages/oomphinc/composer-installers-extender/.travis.yml"
-        - request_url--1387661d|Test_step_Request
-            url: /modules/vendors/packages/oomphinc/composer-installers-extender/.travis.yml
+        # url "/modules/vendors/packages/effcore/installer/Custom_installer.php"
+        - request_url--3c8d8acb|Test_step_Request
+            url: /modules/vendors/packages/effcore/installer/Custom_installer.php
             is_https|Param_from_form
               name: is_https
             proxy|Param_from_form
               name: proxy
-        - response_check--1387661d|Test_step_Check
+        - response_check--3c8d8acb|Test_step_Check
             check: token
             where: %%_test_response_http_code
             match: 403
             on_failure
             - return_result|Test_step_Return
                 value: 0
-        - response_check--1387661d--return_level|Test_step_Check
+        - response_check--3c8d8acb--return_level|Test_step_Check
             check: token
             where: %%_test_response_return_level
             match: 
             on_failure
             - return_result|Test_step_Return
                 value: 0
-        # url "/modules/vendors/packages/oomphinc/composer-installers-extender/CHANGELOG.md"
-        - request_url--9a1285d0|Test_step_Request
-            url: /modules/vendors/packages/oomphinc/composer-installers-extender/CHANGELOG.md
+        # url "/modules/vendors/packages/effcore/installer/Installer.php"
+        - request_url--aca63fc1|Test_step_Request
+            url: /modules/vendors/packages/effcore/installer/Installer.php
             is_https|Param_from_form
               name: is_https
             proxy|Param_from_form
               name: proxy
-        - response_check--9a1285d0|Test_step_Check
+        - response_check--aca63fc1|Test_step_Check
             check: token
             where: %%_test_response_http_code
             match: 403
             on_failure
             - return_result|Test_step_Return
                 value: 0
-        - response_check--9a1285d0--return_level|Test_step_Check
+        - response_check--aca63fc1--return_level|Test_step_Check
             check: token
             where: %%_test_response_return_level
             match: 
             on_failure
             - return_result|Test_step_Return
                 value: 0
-        # url "/modules/vendors/packages/oomphinc/composer-installers-extender/composer.json"
-        - request_url--31c2d37e|Test_step_Request
-            url: /modules/vendors/packages/oomphinc/composer-installers-extender/composer.json
+        # url "/modules/vendors/packages/effcore/installer/Plugin.php"
+        - request_url--80f3a769|Test_step_Request
+            url: /modules/vendors/packages/effcore/installer/Plugin.php
             is_https|Param_from_form
               name: is_https
             proxy|Param_from_form
               name: proxy
-        - response_check--31c2d37e|Test_step_Check
+        - response_check--80f3a769|Test_step_Check
             check: token
             where: %%_test_response_http_code
             match: 403
             on_failure
             - return_result|Test_step_Return
                 value: 0
-        - response_check--31c2d37e--return_level|Test_step_Check
-            check: token
-            where: %%_test_response_return_level
-            match: 
-            on_failure
-            - return_result|Test_step_Return
-                value: 0
-        # url "/modules/vendors/packages/oomphinc/composer-installers-extender/LICENSE"
-        - request_url--3edf300c|Test_step_Request
-            url: /modules/vendors/packages/oomphinc/composer-installers-extender/LICENSE
-            is_https|Param_from_form
-              name: is_https
-            proxy|Param_from_form
-              name: proxy
-        - response_check--3edf300c|Test_step_Check
-            check: token
-            where: %%_test_response_http_code
-            match: 403
-            on_failure
-            - return_result|Test_step_Return
-                value: 0
-        - response_check--3edf300c--return_level|Test_step_Check
-            check: token
-            where: %%_test_response_return_level
-            match: 
-            on_failure
-            - return_result|Test_step_Return
-                value: 0
-        # url "/modules/vendors/packages/oomphinc/composer-installers-extender/phpunit.xml"
-        - request_url--63995b88|Test_step_Request
-            url: /modules/vendors/packages/oomphinc/composer-installers-extender/phpunit.xml
-            is_https|Param_from_form
-              name: is_https
-            proxy|Param_from_form
-              name: proxy
-        - response_check--63995b88|Test_step_Check
-            check: token
-            where: %%_test_response_http_code
-            match: 403
-            on_failure
-            - return_result|Test_step_Return
-                value: 0
-        - response_check--63995b88--return_level|Test_step_Check
-            check: token
-            where: %%_test_response_return_level
-            match: 
-            on_failure
-            - return_result|Test_step_Return
-                value: 0
-        # url "/modules/vendors/packages/oomphinc/composer-installers-extender/src/Plugin.php"
-        - request_url--adcdf909|Test_step_Request
-            url: /modules/vendors/packages/oomphinc/composer-installers-extender/src/Plugin.php
-            is_https|Param_from_form
-              name: is_https
-            proxy|Param_from_form
-              name: proxy
-        - response_check--adcdf909|Test_step_Check
-            check: token
-            where: %%_test_response_http_code
-            match: 403
-            on_failure
-            - return_result|Test_step_Return
-                value: 0
-        - response_check--adcdf909--return_level|Test_step_Check
-            check: token
-            where: %%_test_response_return_level
-            match: 
-            on_failure
-            - return_result|Test_step_Return
-                value: 0
-        # url "/modules/vendors/packages/oomphinc/composer-installers-extender/src/Installers/Installer.php"
-        - request_url--3fed212d|Test_step_Request
-            url: /modules/vendors/packages/oomphinc/composer-installers-extender/src/Installers/Installer.php
-            is_https|Param_from_form
-              name: is_https
-            proxy|Param_from_form
-              name: proxy
-        - response_check--3fed212d|Test_step_Check
-            check: token
-            where: %%_test_response_http_code
-            match: 403
-            on_failure
-            - return_result|Test_step_Return
-                value: 0
-        - response_check--3fed212d--return_level|Test_step_Check
-            check: token
-            where: %%_test_response_return_level
-            match: 
-            on_failure
-            - return_result|Test_step_Return
-                value: 0
-        # url "/modules/vendors/packages/oomphinc/composer-installers-extender/tests/src/PluginTest.php"
-        - request_url--95a01682|Test_step_Request
-            url: /modules/vendors/packages/oomphinc/composer-installers-extender/tests/src/PluginTest.php
-            is_https|Param_from_form
-              name: is_https
-            proxy|Param_from_form
-              name: proxy
-        - response_check--95a01682|Test_step_Check
-            check: token
-            where: %%_test_response_http_code
-            match: 403
-            on_failure
-            - return_result|Test_step_Return
-                value: 0
-        - response_check--95a01682--return_level|Test_step_Check
-            check: token
-            where: %%_test_response_return_level
-            match: 
-            on_failure
-            - return_result|Test_step_Return
-                value: 0
-        # url "/modules/vendors/packages/oomphinc/composer-installers-extender/tests/src/Installers/InstallerTest.php"
-        - request_url--0ad8ad2c|Test_step_Request
-            url: /modules/vendors/packages/oomphinc/composer-installers-extender/tests/src/Installers/InstallerTest.php
-            is_https|Param_from_form
-              name: is_https
-            proxy|Param_from_form
-              name: proxy
-        - response_check--0ad8ad2c|Test_step_Check
-            check: token
-            where: %%_test_response_http_code
-            match: 403
-            on_failure
-            - return_result|Test_step_Return
-                value: 0
-        - response_check--0ad8ad2c--return_level|Test_step_Check
+        - response_check--80f3a769--return_level|Test_step_Check
             check: token
             where: %%_test_response_return_level
             match: 
