@@ -18,7 +18,7 @@ use effcore\Url;
 abstract class Events_Page {
 
     static function on_page_language_apply($event, $page) {
-        if ($page->lang_code !== null) {
+        if ($page->lang_code !== null && Language::get($page->lang_code)) {
             Language::code_set_current($page->lang_code);
         }
     }
