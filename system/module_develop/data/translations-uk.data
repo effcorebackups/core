@@ -145,6 +145,16 @@ translations
     - Option 7 (inserted from code): Опція 7 (вставлена з коду)
     - Option 8 (inserted from code): Опція 8 (вставлена з коду)
     - Option 9 (inserted from code): Опція 9 (вставлена з коду)
+    - Page charset: Кодування сторінки
+    - Page ID: ID сторінки
+    - Page is embedded: Сторінка є вбудованою
+    - Page language: Мова сторінки
+    - Page Layout ID: ID макету сторінки
+    - Page Module ID: ID модуля сторінки
+    - Page origin: Походження сторінки
+    - Page text direction: Напрямок тексту сторінки
+    - Page URL: URL сторінки
+    - Page with HTTPS: Сторінка з HTTPS
     - Parameter 1: Параметр 1
     - Parameter 2: Параметр 2
     - Parameter 3: Параметр 3

@@ -115,17 +115,28 @@ abstract class Console {
     }
 
     static function block_markup__information() {
+        $page = Page::get_current();
         $user = User::get_current();
         $user_roles = $user->roles;
         $user_permissions = Role::related_permissions_by_roles_select($user_roles);
         $decorator = new Decorator('table-dl');
         $decorator->id = 'page_information';
         $decorator->data = [[
-            'gen_time'    => ['title' => 'Total generation time', 'value' => Locale::format_msecond(Timer::period_get('total', 0, 1))  ],
-            'memory'      => ['title' => 'Memory for PHP',        'value' => Locale::format_bytes(memory_get_usage(true))              ],
-            'language'    => ['title' => 'Current language',      'value' => Language::code_get_current()                              ],
-            'roles'       => ['title' => 'User roles',            'value' => $user_roles       ? implode(', ', $user_roles      ) : '—'],
-            'permissions' => ['title' => 'User permissions',      'value' => $user_permissions ? implode(', ', $user_permissions) : '—'] ]];
+            'page_url'            => ['title' => 'Page URL',              'value' => wordwrap(htmlentities($page->url), 80, NL, true)          ],
+            'page_is_embedded'    => ['title' => 'Page is embedded',      'value' => Core::format_logic($page->is_embedded)                    ],
+            'page_with_https'     => ['title' => 'Page with HTTPS',       'value' => Core::format_logic($page->is_https)                       ],
+            'page_id'             => ['title' => 'Page ID',               'value' => new Text_simple($page->id)                                ],
+            'page_layout_id'      => ['title' => 'Page Layout ID',        'value' => new Text_simple($page->id_layout)                         ],
+            'page_module_id'      => ['title' => 'Page Module ID',        'value' => new Text_simple($page->module_id)                         ],
+            'page_origin'         => ['title' => 'Page origin',           'value' => new Text_simple($page->origin)                            ],
+            'page_charset'        => ['title' => 'Page charset',          'value' => new Text_simple($page->charset)                           ],
+            'page_text_direction' => ['title' => 'Page text direction',   'value' => new Text_simple($page->text_direction)                    ],
+            'page_lang_code'      => ['title' => 'Page language',         'value' => new Text_simple($page->lang_code)                         ],
+            'language'            => ['title' => 'Current language',      'value' => new Text_simple(Language::code_get_setting())             ],
+            'generation_time'     => ['title' => 'Total generation time', 'value' => Locale::format_msecond(Timer::period_get('total', 0, 1))  ],
+            'memory_usage'        => ['title' => 'Memory for PHP',        'value' => Locale::format_bytes(memory_get_usage(true))              ],
+            'user_roles'          => ['title' => 'User roles',            'value' => $user_roles       ? implode(', ', $user_roles      ) : '—'],
+            'user_permissions'    => ['title' => 'User permissions',      'value' => $user_permissions ? implode(', ', $user_permissions) : '—'] ]];
         return new Block('Current page information', ['data-id' => 'block__info', 'data-style' => 'title-is-simple'], [$decorator]);
     }
 
