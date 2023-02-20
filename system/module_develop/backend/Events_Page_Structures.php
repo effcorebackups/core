@@ -111,7 +111,7 @@ abstract class Events_Page_Structures {
 
                     # find properties
                     foreach ($c_reflection->getProperties() as $c_refl_property) {
-                        if ($c_refl_property->getDeclaringClass()->name === $c_item_full_name) {
+                        if (strtolower($c_refl_property->getDeclaringClass()->name) === $c_item_full_name) {
                             $c_matches = [];
                             preg_match('%(?<type>class|trait|interface)\\s+'.
                                         '(?<class_name>'.$c_item_info->name.').*?'.
@@ -131,7 +131,7 @@ abstract class Events_Page_Structures {
 
                     # find methods
                     foreach ($c_reflection->getMethods() as $c_refl_method) {
-                        if ($c_refl_method->getDeclaringClass()->name === $c_item_full_name) {
+                        if (strtolower($c_refl_method->getDeclaringClass()->name) === $c_item_full_name) {
                             $c_matches = [];
                             preg_match('%(?<type>class|trait|interface)\\s+'.
                                         '(?<class_name>'.$c_item_info->name.').*?'.
@@ -166,8 +166,9 @@ abstract class Events_Page_Structures {
         # move children to it is parent
         $items_to_delete = [];
         foreach ($diagram->children_select() as $c_item_full_name => $c_item_wrapper) {
-            $c_item_parent_full_name = !empty($map[$c_item_full_name]->extends) ?
-                                              $map[$c_item_full_name]->extends : null;
+            $c_item_parent_full_name =
+                    !empty($map[$c_item_full_name]->extends) ?
+                strtolower($map[$c_item_full_name]->extends) : null;
             if ($c_item_parent_full_name) {
                 $c_parent = $diagram->child_select($c_item_parent_full_name);
                 if ($c_parent) {
@@ -217,8 +218,9 @@ abstract class Events_Page_Structures {
                     $c_return->operations = [];
 
                     # insert relation to parent class
-                    $c_item_parent_full_name = !empty($map[$c_item_full_name]->extends) ?
-                                                      $map[$c_item_full_name]->extends : null;
+                    $c_item_parent_full_name =
+                            !empty($map[$c_item_full_name]->extends) ?
+                        strtolower($map[$c_item_full_name]->extends) : null;
                     if ($c_item_parent_full_name) {
                         $c_relation = new stdClass;
                         $c_relation->_type = 'UMLGeneralization';
@@ -231,7 +233,7 @@ abstract class Events_Page_Structures {
 
                     # find properties
                     foreach ($c_reflection->getProperties() as $c_refl_property) {
-                        if ($c_refl_property->getDeclaringClass()->name === $c_item_full_name) {
+                        if (strtolower($c_refl_property->getDeclaringClass()->name) === $c_item_full_name) {
                             $c_matches = [];
                             preg_match('%(?<type>class|trait|interface)\\s+'.
                                         '(?<class_name>'.$c_item_info->name.').*?'.
@@ -246,7 +248,7 @@ abstract class Events_Page_Structures {
 
                     # find methods
                     foreach ($c_reflection->getMethods() as $c_refl_method) {
-                        if ($c_refl_method->getDeclaringClass()->name === $c_item_full_name) {
+                        if (strtolower($c_refl_method->getDeclaringClass()->name) === $c_item_full_name) {
                             $c_matches = [];
                             preg_match('%(?<type>class|trait|interface)\\s+'.
                                         '(?<class_name>'.$c_item_info->name.').*?'.
