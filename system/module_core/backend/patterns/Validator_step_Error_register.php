@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class Step_Validate_Error_register {
+class Validator_step_Error_register {
 
     public $break; # null | 'nested' | 'global'
     public $message;

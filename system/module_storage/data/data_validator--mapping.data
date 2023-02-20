@@ -3,13 +3,13 @@ data_validators
     id: mapping
     scenario
     # check "mapping|mapping/*"
-    - is-mapping|Step_Validate
+    - is-mapping|Validator_step_Validate
         check: current
         where: dpath
         match: %^mapping(/.+|)$%
         on_failure
         # when NOT "mapping"
-        - error_register|Step_Validate_Error_register
+        - error_register|Validator_step_Error_register
             break: nested
             message|Text_multiline
               text
@@ -21,19 +21,19 @@ data_validators
         # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
         # check "mapping"
         # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
-        - is-mapping:root|Step_Validate
+        - is-mapping:root|Validator_step_Validate
             check: current
             where: dpath
             match: mapping
             on_success
             # check "mapping:__TYPE__"
-            - is-type|Step_Validate
+            - is-type|Validator_step_Validate
                 check: current
                 where: type
                 match: array
                 on_failure
                 # when "mapping:__INVALID__TYPE__"
-                - error_register|Step_Validate_Error_register
+                - error_register|Validator_step_Error_register
                     break: nested
                     message|Text
                       text: Item "%%_dpath_value" must be of type "%%_type"!
@@ -42,19 +42,19 @@ data_validators
         # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
         # check "mapping/item"
         # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
-        - is-mapping-item|Step_Validate
+        - is-mapping-item|Validator_step_Validate
             check: current
             where: dpath
             match: %^mapping(/[^/]+)$%
             on_success
             # check "mapping/item:__TYPE__"
-            - is-type|Step_Validate
+            - is-type|Validator_step_Validate
                 check: current
                 where: type
                 match: %^(string|integer|double)$%
                 on_failure
                 # when "mapping/item:__INVALID__TYPE__"
-                - error_register|Step_Validate_Error_register
+                - error_register|Validator_step_Error_register
                     break: nested
                     message|Text
                       text: Item "%%_dpath_value" must be one of the following types: %%_types!

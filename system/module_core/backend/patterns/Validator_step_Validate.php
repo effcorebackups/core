@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class Step_Validate {
+class Validator_step_Validate {
 
     public $check;
     public $where;
