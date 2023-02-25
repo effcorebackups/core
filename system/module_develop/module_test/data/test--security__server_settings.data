@@ -1995,7 +1995,7 @@ tests
         # /index.php
         # /license.md
         # /readme
-        # /readme/about-en.md
+        # /readme/about.md
         # /shell
         # /shell/dynamic_reset.sh
         # /dynamic
@@ -2495,21 +2495,21 @@ tests
             on_failure
             - return_result|Test_step_Return
                 value: 0
-        # url "/readme/about-en.md"
-        - request_url--50886e7b|Test_step_Request
-            url: /readme/about-en.md
+        # url "/readme/about.md"
+        - request_url--139ebd60|Test_step_Request
+            url: /readme/about.md
             is_https|Param_from_form
               name: is_https
             proxy|Param_from_form
               name: proxy
-        - response_check--50886e7b|Test_step_Check
+        - response_check--139ebd60|Test_step_Check
             check: token
             where: %%_test_response_http_code
             match: 403
             on_failure
             - return_result|Test_step_Return
                 value: 0
-        - response_check--50886e7b--return_level|Test_step_Check
+        - response_check--139ebd60--return_level|Test_step_Check
             check: token
             where: %%_test_response_return_level
             match: system-exit
