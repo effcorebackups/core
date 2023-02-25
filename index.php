@@ -1,7 +1,7 @@
 <?php
 
 ##################################################################
-### Copyright © 2017—2022 Maxim Rysevets. All rights reserved. ###
+### Copyright © 2017—2023 Maxim Rysevets. All rights reserved. ###
 ##################################################################
 
 if (version_compare(PHP_VERSION, '7.1.0', '>=') !== true) {print 'Requires PHP version 7.1.0 or higher! The current version is '.PHP_VERSION; exit();}

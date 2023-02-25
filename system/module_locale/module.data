@@ -3,7 +3,7 @@ module|Module_embedded
   id_bundle: system
   title: Locale
   description: Module for localization.
-  copyright: Copyright © 2017—2022 Maxim Rysevets. All rights reserved.
+  copyright: Copyright © 2017—2023 Maxim Rysevets. All rights reserved.
   version: 0.905
   dependencies
     system
