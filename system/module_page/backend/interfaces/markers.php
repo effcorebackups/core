@@ -7,6 +7,6 @@
 namespace effcore;
 
 # indicates that the control is the complex element
-interface control_complex {
+interface Control_complex {
     function name_get_complex();
 }

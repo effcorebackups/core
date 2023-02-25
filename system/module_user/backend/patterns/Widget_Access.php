@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class widget_access extends control implements control_complex {
+class Widget_Access extends Control implements Control_complex {
 
     public $tag_name = 'x-group';
     public $title = 'Access';
@@ -30,19 +30,19 @@ class widget_access extends control implements control_complex {
         $roles = $this->controls['*roles']->value_get();
         if ($roles) {
             if (!empty($options['return_serialized']))
-                 return serialize((object)['roles' => core::array_keys_map($roles)]);
-            else return           (object)['roles' => core::array_keys_map($roles)];
+                 return serialize((object)['roles' => Core::array_keys_map($roles)]);
+            else return           (object)['roles' => Core::array_keys_map($roles)];
         }
     }
 
     function value_set($value) {
         $this->value_set_initial($value);
-        if (core::data_is_serialized($value)) $value = unserialize($value);
+        if (Core::data_is_serialized($value)) $value = unserialize($value);
         if ($value === null) $value = (object)['roles' => []];
         if ($value ===  '' ) $value = (object)['roles' => []];
         if (is_object($value)) {
             $this->controls['*roles']->value_set(
-                core::array_keys_map($value->roles ?? [])
+                Core::array_keys_map($value->roles ?? [])
             );
         }
     }
@@ -61,26 +61,26 @@ class widget_access extends control implements control_complex {
 
     static function value_to_markup($value) {
         if ($value) {
-            return new text_multiline(
+            return new Text_multiline(
                 ['Role IDs', ': ', implode(', ', $value->roles)], [], ''
             );
         } else {
-            return new text('No restrictions.');
+            return new Text('No restrictions.');
         }
     }
 
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function widget_manage_get($widget) {
-        $result = new node;
+        $result = new Node;
         # control for roles
-        $group_roles = new group_switchers;
+        $group_roles = new Group_Switchers;
         $group_roles->element_attributes['name'] = $widget->name_get_complex().'__roles[]';
         $group_roles_items = [];
-        foreach (role::get_all() as $c_role)
+        foreach (Role::get_all() as $c_role)
             $group_roles_items[$c_role->id] = $c_role->title;
         $group_roles->items_set($group_roles_items);
-        $group_roles->value_set(core::array_keys_map($widget->checked_roles));
+        $group_roles->value_set(Core::array_keys_map($widget->checked_roles));
         # relate new controls with the widget
         $widget->controls['*roles'] = $group_roles;
         $result->child_insert($group_roles, 'group_roles');

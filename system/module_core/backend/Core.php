@@ -11,7 +11,7 @@ use DateTimeZone;
 use ReflectionClass;
 use stdClass;
 
-abstract class core {
+abstract class Core {
 
     const EMPTY_IP = '::';
     const DATE_PERIOD_H = 60 * 60;
@@ -25,29 +25,29 @@ abstract class core {
     ####################
 
     static function boot_select($type = 'enabled') {
-        $boot = data::select('boot');
+        $boot = Data::select('boot');
         return $boot->{'modules_'.$type} ?? [];
     }
 
     static function boot_insert($module_id, $module_path, $type) {
-        $boot = data::select('boot') ?: new stdClass;
+        $boot = Data::select('boot') ?: new stdClass;
         $boot_buffer = [];
         if ($boot && isset($boot->{'modules_'.$type}))
             $boot_buffer = $boot->{'modules_'.$type};
         $boot_buffer[$module_id] = $module_path;
         asort($boot_buffer);
         $boot->{'modules_'.$type} = $boot_buffer;
-        return data::update('boot', $boot, '', ['build_date' => static::datetime_get()]);
+        return Data::update('boot', $boot, '', ['build_date' => static::datetime_get()]);
     }
 
     static function boot_delete($module_id, $type) {
-        $boot = data::select('boot') ?: new stdClass;
+        $boot = Data::select('boot') ?: new stdClass;
         $boot_buffer = [];
         if ($boot && isset($boot->{'modules_'.$type}))
             $boot_buffer = $boot->{'modules_'.$type};
         unset($boot_buffer[$module_id]);
         $boot->{'modules_'.$type} = $boot_buffer;
-        return data::update('boot', $boot, '', ['build_date' => static::datetime_get()]);
+        return Data::update('boot', $boot, '', ['build_date' => static::datetime_get()]);
     }
 
     ###############################################
@@ -56,48 +56,48 @@ abstract class core {
 
     static function structure_autoload($name) {
         $name = strtolower($name);
-        if ($name === 'effcore\\cache'             ) {require_once(DIR_SYSTEM.'module_core/backend/cache.php'                         ); console::log_insert('file', 'insertion', 'system/module_core/backend/cache.php',                          'ok'); return;}
-        if ($name === 'effcore\\console'           ) {require_once(DIR_SYSTEM.'module_core/backend/console.php'                       ); console::log_insert('file', 'insertion', 'system/module_core/backend/console.php',                        'ok'); return;}
-        if ($name === 'effcore\\data'              ) {require_once(DIR_SYSTEM.'module_core/backend/data.php'                          ); console::log_insert('file', 'insertion', 'system/module_core/backend/data.php',                           'ok'); return;}
-        if ($name === 'effcore\\dynamic'           ) {require_once(DIR_SYSTEM.'module_core/backend/dynamic.php'                       ); console::log_insert('file', 'insertion', 'system/module_core/backend/dynamic.php',                        'ok'); return;}
-        if ($name === 'effcore\\file'              ) {require_once(DIR_SYSTEM.'module_core/backend/file.php'                          ); console::log_insert('file', 'insertion', 'system/module_core/backend/file.php',                           'ok'); return;}
-        if ($name === 'effcore\\markup'            ) {require_once(DIR_SYSTEM.'module_page/backend/pattern--markup.php'               ); console::log_insert('file', 'insertion', 'system/module_page/backend/pattern--markup.php',                'ok'); return;}
-        if ($name === 'effcore\\message'           ) {require_once(DIR_SYSTEM.'module_core/backend/pattern--message.php'              ); console::log_insert('file', 'insertion', 'system/module_core/backend/pattern--message.php',               'ok'); return;}
-        if ($name === 'effcore\\module_as_profile' ) {require_once(DIR_SYSTEM.'module_core/backend/pattern--module_as_profile.php'    ); console::log_insert('file', 'insertion', 'system/module_core/backend/pattern--module_as_profile.php',     'ok'); return;}
-        if ($name === 'effcore\\module_embedded'   ) {require_once(DIR_SYSTEM.'module_core/backend/pattern--module_embedded.php'      ); console::log_insert('file', 'insertion', 'system/module_core/backend/pattern--module_embedded.php',       'ok'); return;}
-        if ($name === 'effcore\\module'            ) {require_once(DIR_SYSTEM.'module_core/backend/pattern--module.php'               ); console::log_insert('file', 'insertion', 'system/module_core/backend/pattern--module.php',                'ok'); return;}
-        if ($name === 'effcore\\node_simple'       ) {require_once(DIR_SYSTEM.'module_page/backend/pattern--node_simple.php'          ); console::log_insert('file', 'insertion', 'system/module_page/backend/pattern--node_simple.php',           'ok'); return;}
-        if ($name === 'effcore\\node'              ) {require_once(DIR_SYSTEM.'module_page/backend/pattern--node.php'                 ); console::log_insert('file', 'insertion', 'system/module_page/backend/pattern--node.php',                  'ok'); return;}
-        if ($name === 'effcore\\storage_nosql_data') {require_once(DIR_SYSTEM.'module_storage/backend/pattern--storage_nosql_data.php'); console::log_insert('file', 'insertion', 'system/module_storage/backend/pattern--storage_nosql_data.php', 'ok'); return;}
-        if ($name === 'effcore\\text_multiline'    ) {require_once(DIR_SYSTEM.'module_page/backend/pattern--text_multiline.php'       ); console::log_insert('file', 'insertion', 'system/module_page/backend/pattern--text_multiline.php',        'ok'); return;}
-        if ($name === 'effcore\\text_simple'       ) {require_once(DIR_SYSTEM.'module_page/backend/pattern--text_simple.php'          ); console::log_insert('file', 'insertion', 'system/module_page/backend/pattern--text_simple.php',           'ok'); return;}
-        if ($name === 'effcore\\text'              ) {require_once(DIR_SYSTEM.'module_page/backend/pattern--text.php'                 ); console::log_insert('file', 'insertion', 'system/module_page/backend/pattern--text.php',                  'ok'); return;}
-        if ($name === 'effcore\\timer'             ) {require_once(DIR_SYSTEM.'module_core/backend/timer.php'                         ); console::log_insert('file', 'insertion', 'system/module_core/backend/timer.php',                          'ok'); return;}
-        console::log_insert('autoload', 'search', $name, 'ok');
+        if ($name === 'effcore\\cache'             ) {require_once(DIR_SYSTEM.'module_core/backend/Cache.php'                         ); Console::log_insert('file', 'insertion', 'system/module_core/backend/Cache.php',                          'ok'); return;}
+        if ($name === 'effcore\\console'           ) {require_once(DIR_SYSTEM.'module_core/backend/Console.php'                       ); Console::log_insert('file', 'insertion', 'system/module_core/backend/Console.php',                        'ok'); return;}
+        if ($name === 'effcore\\data'              ) {require_once(DIR_SYSTEM.'module_core/backend/Data.php'                          ); Console::log_insert('file', 'insertion', 'system/module_core/backend/Data.php',                           'ok'); return;}
+        if ($name === 'effcore\\dynamic'           ) {require_once(DIR_SYSTEM.'module_core/backend/Dynamic.php'                       ); Console::log_insert('file', 'insertion', 'system/module_core/backend/Dynamic.php',                        'ok'); return;}
+        if ($name === 'effcore\\file'              ) {require_once(DIR_SYSTEM.'module_core/backend/File.php'                          ); Console::log_insert('file', 'insertion', 'system/module_core/backend/File.php',                           'ok'); return;}
+        if ($name === 'effcore\\markup'            ) {require_once(DIR_SYSTEM.'module_page/backend/patterns/Markup.php'               ); Console::log_insert('file', 'insertion', 'system/module_page/backend/patterns/Markup.php',                'ok'); return;}
+        if ($name === 'effcore\\message'           ) {require_once(DIR_SYSTEM.'module_core/backend/patterns/Message.php'              ); Console::log_insert('file', 'insertion', 'system/module_core/backend/patterns/Message.php',               'ok'); return;}
+        if ($name === 'effcore\\module_as_profile' ) {require_once(DIR_SYSTEM.'module_core/backend/patterns/Module_as_profile.php'    ); Console::log_insert('file', 'insertion', 'system/module_core/backend/patterns/Module_as_profile.php',     'ok'); return;}
+        if ($name === 'effcore\\module_embedded'   ) {require_once(DIR_SYSTEM.'module_core/backend/patterns/Module_embedded.php'      ); Console::log_insert('file', 'insertion', 'system/module_core/backend/patterns/Module_embedded.php',       'ok'); return;}
+        if ($name === 'effcore\\module'            ) {require_once(DIR_SYSTEM.'module_core/backend/patterns/Module.php'               ); Console::log_insert('file', 'insertion', 'system/module_core/backend/patterns/Module.php',                'ok'); return;}
+        if ($name === 'effcore\\node_simple'       ) {require_once(DIR_SYSTEM.'module_page/backend/patterns/Node_simple.php'          ); Console::log_insert('file', 'insertion', 'system/module_page/backend/patterns/Node_simple.php',           'ok'); return;}
+        if ($name === 'effcore\\node'              ) {require_once(DIR_SYSTEM.'module_page/backend/patterns/Node.php'                 ); Console::log_insert('file', 'insertion', 'system/module_page/backend/patterns/Node.php',                  'ok'); return;}
+        if ($name === 'effcore\\storage_nosql_data') {require_once(DIR_SYSTEM.'module_storage/backend/patterns/Storage_Nosql_data.php'); Console::log_insert('file', 'insertion', 'system/module_storage/backend/patterns/Storage_Nosql_data.php', 'ok'); return;}
+        if ($name === 'effcore\\text_multiline'    ) {require_once(DIR_SYSTEM.'module_page/backend/patterns/Text_multiline.php'       ); Console::log_insert('file', 'insertion', 'system/module_page/backend/patterns/Text_multiline.php',        'ok'); return;}
+        if ($name === 'effcore\\text_simple'       ) {require_once(DIR_SYSTEM.'module_page/backend/patterns/Text_simple.php'          ); Console::log_insert('file', 'insertion', 'system/module_page/backend/patterns/Text_simple.php',           'ok'); return;}
+        if ($name === 'effcore\\text'              ) {require_once(DIR_SYSTEM.'module_page/backend/patterns/Text.php'                 ); Console::log_insert('file', 'insertion', 'system/module_page/backend/patterns/Text.php',                  'ok'); return;}
+        if ($name === 'effcore\\timer'             ) {require_once(DIR_SYSTEM.'module_core/backend/Timer.php'                         ); Console::log_insert('file', 'insertion', 'system/module_core/backend/Timer.php',                          'ok'); return;}
+        Console::log_insert('autoload', 'search', $name, 'ok');
         if (isset(static::structures_select()[$name])) {
             $c_item_info = static::structures_select()[$name];
-            $c_file = new file($c_item_info->file);
+            $c_file = new File($c_item_info->file);
             $c_file->require();
         }
     }
 
     static function structures_cache_cleaning_after_on_install() {
         foreach (static::structures_select() as $c_full_name => $c_structure) {
-            if (isset($c_structure->implements['effcore\\should_clear_cache_after_on_install'])) {
+            if (isset($c_structure->implements['effcore\\Should_clear_cache_after_on_install'])) {
                 $c_full_name::cache_cleaning();
             }
         }
     }
 
     static function structures_select($modules_to_include = []) {
-        $result = cache::select('structures');
+        $result = Cache::select('structures');
         if ($result) return $result;
         else {
             $result       = [];
             $files        = [];
-            $preparse     = storage_nosql_data::data_find_and_parse_modules_and_bundles();
+            $preparse     = Storage_Nosql_data::data_find_and_parse_modules_and_bundles();
             $modules_path = $preparse->modules_path;
-            $enabled      = static::boot_select('enabled') + $modules_to_include; # === module::get_enabled_by_boot() + $modules_to_include
+            $enabled      = static::boot_select('enabled') + $modules_to_include; # === Module::get_enabled_by_boot() + $modules_to_include
             # if no modules in the boot (when installing)
             if ($enabled === []) {
                 foreach ($preparse->parsed as $c_info) {
@@ -110,7 +110,7 @@ abstract class core {
             arsort($enabled);
             # collect *.php files
             foreach ($enabled as $c_enabled_path) {
-                $c_files = file::select_recursive($c_enabled_path, '%^.*\\.php$%');
+                $c_files = File::select_recursive($c_enabled_path, '%^.*\\.php$%');
                 foreach ($c_files as $c_path_relative => $c_file) {
                     $c_module_id = key(static::array_search__any_array_item_in_value($c_path_relative, $modules_path));
                     if (isset($enabled[$c_module_id])) {
@@ -164,7 +164,7 @@ abstract class core {
                 }
             }
             ksort($result);
-            cache::update('structures', $result, '', ['build_date' => static::datetime_get()]);
+            Cache::update('structures', $result, '', ['build_date' => static::datetime_get()]);
             return $result;
         }
     }
@@ -280,10 +280,10 @@ abstract class core {
                 $class_name = get_class($data);
                 $reflection = new ReflectionClass($class_name);
                 $defaults           = $reflection->getDefaultProperties();
-                $is_postconstructor = $reflection->implementsInterface('\\effcore\\has_postconstructor');
-                $is_postinit        = $reflection->implementsInterface('\\effcore\\has_postinit'       );
+                $is_postconstructor = $reflection->implementsInterface('\\effcore\\Has_postconstructor');
+                $is_postinit        = $reflection->implementsInterface('\\effcore\\Has_postinit'       );
                 if ($is_postconstructor)
-                     $result = $prefix.' = core::class_get_new_instance(\''.addcslashes('\\'.$class_name, "'\\").'\');'.NL;
+                     $result = $prefix.' = Core::class_get_new_instance(\''.addcslashes('\\'.$class_name, "'\\").'\');'.NL;
                 else $result = $prefix.' = new \\'.$class_name.';'.NL;
                 foreach ($data as $c_key => $c_value) {
                     if (array_key_exists($c_key, $defaults) && $defaults[$c_key] === $c_value) continue;
@@ -511,8 +511,8 @@ abstract class core {
         uasort($array, function ($a, $b) use ($order, $translated) {
             if ($order === 'a' && $translated === false) return                    $b  <=>                    $a;
             if ($order === 'd' && $translated === false) return                    $a  <=>                    $b;
-            if ($order === 'a' && $translated !== false) return translation::apply($b) <=> translation::apply($a);
-            if ($order === 'd' && $translated !== false) return translation::apply($a) <=> translation::apply($b);
+            if ($order === 'a' && $translated !== false) return Translation::apply($b) <=> Translation::apply($a);
+            if ($order === 'd' && $translated !== false) return Translation::apply($a) <=> Translation::apply($b);
         });
         return $array;
     }
@@ -521,8 +521,8 @@ abstract class core {
         uasort($array, function ($a, $b) use ($key, $order, $translated) {
             if ($order === 'a' && $translated === false) return                     (is_object($b) ? $b->{$key} : $b[$key])   <=>                     (is_object($a) ? $a->{$key} : $a[$key])  ;
             if ($order === 'd' && $translated === false) return                     (is_object($a) ? $a->{$key} : $a[$key])   <=>                     (is_object($b) ? $b->{$key} : $b[$key])  ;
-            if ($order === 'a' && $translated !== false) return translation::apply( (is_object($b) ? $b->{$key} : $b[$key]) ) <=> translation::apply( (is_object($a) ? $a->{$key} : $a[$key]) );
-            if ($order === 'd' && $translated !== false) return translation::apply( (is_object($a) ? $a->{$key} : $a[$key]) ) <=> translation::apply( (is_object($b) ? $b->{$key} : $b[$key]) );
+            if ($order === 'a' && $translated !== false) return Translation::apply( (is_object($b) ? $b->{$key} : $b[$key]) ) <=> Translation::apply( (is_object($a) ? $a->{$key} : $a[$key]) );
+            if ($order === 'd' && $translated !== false) return Translation::apply( (is_object($a) ? $a->{$key} : $a[$key]) ) <=> Translation::apply( (is_object($b) ? $b->{$key} : $b[$key]) );
         });
         return $array;
     }
@@ -642,48 +642,48 @@ abstract class core {
     # ┌───────────────────────────────────────────────────────┬─────────────┬─────────────────────┐
     # │ +14:00 — Pacific/Kiritimati                           │ to format   │ result              │
     # ╞═══════════════════════════════════════════════════════╪═════════════╪═════════════════════╡
-    # │           locale::format_date ('2030-02-01')          │ d.m.Y       │ 01.02.2030          │
-    # │           locale::format_time ('01:02:03')            │ H:i:s       │ 15:02:03            │
-    # │       locale::format_datetime ('2030-02-01 01:02:03') │ d.m.Y H:i:s │ 01.02.2030 15:02:03 │
-    # │       locale::format_timestmp (0)                     │ d.m.Y H:i:s │ 01.01.1970 14:00:00 │
+    # │           Locale::format_date ('2030-02-01')          │ d.m.Y       │ 01.02.2030          │
+    # │           Locale::format_time ('01:02:03')            │ H:i:s       │ 15:02:03            │
+    # │       Locale::format_datetime ('2030-02-01 01:02:03') │ d.m.Y H:i:s │ 01.02.2030 15:02:03 │
+    # │       Locale::format_timestmp (0)                     │ d.m.Y H:i:s │ 01.01.1970 14:00:00 │
     # ├───────────────────────────────────────────────────────┼─────────────┼─────────────────────┤
-    # │       locale::date_utc_to_loc ('2030-02-01')          │ Y-m-d       │ 2030-02-01          │
-    # │       locale::time_utc_to_loc ('01:02:03')            │ H:i:s       │ 15:02:03            │
-    # │   locale::datetime_utc_to_loc ('2030-02-01 01:02:03') │ Y-m-d H:i:s │ 2030-02-01 15:02:03 │
+    # │       Locale::date_utc_to_loc ('2030-02-01')          │ Y-m-d       │ 2030-02-01          │
+    # │       Locale::time_utc_to_loc ('01:02:03')            │ H:i:s       │ 15:02:03            │
+    # │   Locale::datetime_utc_to_loc ('2030-02-01 01:02:03') │ Y-m-d H:i:s │ 2030-02-01 15:02:03 │
     # ├───────────────────────────────────────────────────────┼─────────────┼─────────────────────┤
-    # │       locale::date_loc_to_utc ('2030-02-01')          │ Y-m-d       │ 2030-02-01          │
-    # │       locale::time_loc_to_utc ('15:02:03')            │ H:i:s       │ 01:02:03            │
-    # │   locale::datetime_loc_to_utc ('2030-02-01 15:02:03') │ Y-m-d H:i:s │ 2030-02-01 01:02:03 │
+    # │       Locale::date_loc_to_utc ('2030-02-01')          │ Y-m-d       │ 2030-02-01          │
+    # │       Locale::time_loc_to_utc ('15:02:03')            │ H:i:s       │ 01:02:03            │
+    # │   Locale::datetime_loc_to_utc ('2030-02-01 15:02:03') │ Y-m-d H:i:s │ 2030-02-01 01:02:03 │
     # └───────────────────────────────────────────────────────┴─────────────┴─────────────────────┘
     #
     # ┌───────────────────────────────────────────────────────┬─────────────┬─────────────────────┐
     # │ -11:00 — Pacific/Pago_Pago                            │ to format   │ result              │
     # ╞═══════════════════════════════════════════════════════╪═════════════╪═════════════════════╡
-    # │           locale::format_date ('2030-02-01')          │ d.m.Y       │ 01.02.2030          │
-    # │           locale::format_time ('01:02:03')            │ H:i:s       │ 14:02:03            │
-    # │       locale::format_datetime ('2030-02-01 01:02:03') │ d.m.Y H:i:s │ 31.01.2030 14:02:03 │
-    # │       locale::format_timestmp (0)                     │ d.m.Y H:i:s │ 31.12.1969 13:00:00 │
+    # │           Locale::format_date ('2030-02-01')          │ d.m.Y       │ 01.02.2030          │
+    # │           Locale::format_time ('01:02:03')            │ H:i:s       │ 14:02:03            │
+    # │       Locale::format_datetime ('2030-02-01 01:02:03') │ d.m.Y H:i:s │ 31.01.2030 14:02:03 │
+    # │       Locale::format_timestmp (0)                     │ d.m.Y H:i:s │ 31.12.1969 13:00:00 │
     # ├───────────────────────────────────────────────────────┼─────────────┼─────────────────────┤
-    # │       locale::date_utc_to_loc ('2030-02-01')          │ Y-m-d       │ 2030-02-01          │
-    # │       locale::time_utc_to_loc ('01:02:03')            │ H:i:s       │ 14:02:03            │
-    # │   locale::datetime_utc_to_loc ('2030-02-01 01:02:03') │ Y-m-d H:i:s │ 2030-01-31 14:02:03 │
+    # │       Locale::date_utc_to_loc ('2030-02-01')          │ Y-m-d       │ 2030-02-01          │
+    # │       Locale::time_utc_to_loc ('01:02:03')            │ H:i:s       │ 14:02:03            │
+    # │   Locale::datetime_utc_to_loc ('2030-02-01 01:02:03') │ Y-m-d H:i:s │ 2030-01-31 14:02:03 │
     # ├───────────────────────────────────────────────────────┼─────────────┼─────────────────────┤
-    # │       locale::date_loc_to_utc ('2030-02-01')          │ Y-m-d       │ 2030-02-01          │
-    # │       locale::time_loc_to_utc ('14:02:03')            │ H:i:s       │ 01:02:03            │
-    # │   locale::datetime_loc_to_utc ('2030-01-31 14:02:03') │ Y-m-d H:i:s │ 2030-02-01 01:02:03 │
+    # │       Locale::date_loc_to_utc ('2030-02-01')          │ Y-m-d       │ 2030-02-01          │
+    # │       Locale::time_loc_to_utc ('14:02:03')            │ H:i:s       │ 01:02:03            │
+    # │   Locale::datetime_loc_to_utc ('2030-01-31 14:02:03') │ Y-m-d H:i:s │ 2030-02-01 01:02:03 │
     # └───────────────────────────────────────────────────────┴─────────────┴─────────────────────┘
     #
     # ┌───────────────────────────────────────────────────────┬─────────────┬─────────────────────┐
     # │                                                       │ to format   │ result              │
     # ╞═══════════════════════════════════════════════════════╪═════════════╪═════════════════════╡
-    # │   core::T_datetime_to_datetime('2030-02-01T01:02:03') │ Y-m-d H:i:s │ 2030-02-01 01:02:03 │
-    # │   core::datetime_to_T_datetime('2030-02-01 01:02:03') │ Y-m-dTH:i:s │ 2030-02-01T01:02:03 │
+    # │   Core::T_datetime_to_datetime('2030-02-01T01:02:03') │ Y-m-d H:i:s │ 2030-02-01 01:02:03 │
+    # │   Core::datetime_to_T_datetime('2030-02-01 01:02:03') │ Y-m-dTH:i:s │ 2030-02-01T01:02:03 │
     # └───────────────────────────────────────────────────────┴─────────────┴─────────────────────┘
     #
-    # note: each function 'locale::*_format' uses local date/time format settings
+    # note: each function 'Locale::*_format' uses local date/time format settings
     # that have been set on the page '/manage/locale'
 
-    static function timezone_get_client() {return user::get_current()->timezone ?? 'UTC';}
+    static function timezone_get_client() {return User::get_current()->timezone ?? 'UTC';}
     static function timezone_get_offset_sec($name = 'UTC') {return (new DateTimeZone($name))->getOffset(new DateTime);}
     static function timezone_get_offset_tme($name = 'UTC') {return (new DateTime('now', new DateTimeZone($name)))->format('P');}
 
@@ -695,10 +695,10 @@ abstract class core {
     static function datetime_get       ($offset = '', $format = 'Y-m-d H:i:s'  ) {return (new DateTime('now', new DateTimeZone('UTC')))->modify( $offset ?: '+0' )->format( $format );}
     static function T_datetime_get     ($offset = '', $format = 'Y-m-d\\TH:i:s') {return (new DateTime('now', new DateTimeZone('UTC')))->modify( $offset ?: '+0' )->format( $format );}
 
-    static function validate_date      ($value) {$result = DateTime::createFromFormat('Y-m-d',         $value, new DateTimeZone('UTC')); return $result instanceof DateTime && strlen($result->format('Y-m-d'        )) === strlen(field_date    ::INPUT_MAX_DATE    );}
-    static function validate_time      ($value) {$result = DateTime::createFromFormat(      'H:i:s',   $value, new DateTimeZone('UTC')); return $result instanceof DateTime && strlen($result->format(      'H:i:s'  )) === strlen(field_time    ::INPUT_MAX_TIME    );}
-    static function validate_datetime  ($value) {$result = DateTime::createFromFormat('Y-m-d H:i:s',   $value, new DateTimeZone('UTC')); return $result instanceof DateTime && strlen($result->format('Y-m-d H:i:s'  )) === strlen(field_datetime::INPUT_MAX_DATETIME);}
-    static function validate_T_datetime($value) {$result = DateTime::createFromFormat('Y-m-d\\TH:i:s', $value, new DateTimeZone('UTC')); return $result instanceof DateTime && strlen($result->format('Y-m-d\\TH:i:s')) === strlen(field_datetime::INPUT_MAX_DATETIME);}
+    static function validate_date      ($value) {$result = DateTime::createFromFormat('Y-m-d',         $value, new DateTimeZone('UTC')); return $result instanceof DateTime && strlen($result->format('Y-m-d'        )) === strlen(Field_Date    ::INPUT_MAX_DATE    );}
+    static function validate_time      ($value) {$result = DateTime::createFromFormat(      'H:i:s',   $value, new DateTimeZone('UTC')); return $result instanceof DateTime && strlen($result->format(      'H:i:s'  )) === strlen(Field_Time    ::INPUT_MAX_TIME    );}
+    static function validate_datetime  ($value) {$result = DateTime::createFromFormat('Y-m-d H:i:s',   $value, new DateTimeZone('UTC')); return $result instanceof DateTime && strlen($result->format('Y-m-d H:i:s'  )) === strlen(Field_Datetime::INPUT_MAX_DATETIME);}
+    static function validate_T_datetime($value) {$result = DateTime::createFromFormat('Y-m-d\\TH:i:s', $value, new DateTimeZone('UTC')); return $result instanceof DateTime && strlen($result->format('Y-m-d\\TH:i:s')) === strlen(Field_Datetime::INPUT_MAX_DATETIME);}
 
     static function sanitize_date      ($value) {$result = DateTime::createFromFormat('Y-m-d',         $value, new DateTimeZone('UTC')); return $result instanceof DateTime ? $result->format('Y-m-d'        ) : null;}
     static function sanitize_time      ($value) {$result = DateTime::createFromFormat(      'H:i:s',   $value, new DateTimeZone('UTC')); return $result instanceof DateTime ? $result->format(      'H:i:s'  ) : null;}
@@ -774,7 +774,7 @@ abstract class core {
     }
 
     static function validate_id($value) {
-        return filter_var($value, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '%^['.field_id_text::CHARACTERS_ALLOWED.']+$%']]);
+        return filter_var($value, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '%^['.Field_Id_text::CHARACTERS_ALLOWED.']+$%']]);
     }
 
     static function validate_property_name($value) {
@@ -794,7 +794,7 @@ abstract class core {
     }
 
     static function validate_nickname($value) {
-        return filter_var($value, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '%^['.field_nickname::CHARACTERS_ALLOWED.']{4,32}$%']]);
+        return filter_var($value, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '%^['.Field_Nickname::CHARACTERS_ALLOWED.']{4,32}$%']]);
     }
 
     static function validate_tel($value) {
@@ -965,13 +965,13 @@ abstract class core {
     ############
 
     static function is_cron_run($period) {
-        $settings = module::settings_get('core');
+        $settings = Module::settings_get('core');
         return !empty($settings->cron_last_run_date) &&
                       $settings->cron_last_run_date > static::datetime_get('-'.$period.' second');
     }
 
     static function cron_run_register() {
-        return storage::get('data')->changes_insert('core', 'update', 'settings/core/cron_last_run_date', static::datetime_get());
+        return Storage::get('data')->changes_insert('core', 'update', 'settings/core/cron_last_run_date', static::datetime_get());
     }
 
     ########################

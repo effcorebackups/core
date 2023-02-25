@@ -10,14 +10,14 @@ use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 use stdClass;
 
-abstract class request {
+abstract class Request {
 
     static protected $cache;
     static protected $allowed_args_in_get = [];
 
     static function init() {
         if (static::$cache === null) {
-            foreach (storage::get('data')->select_array('request_settings') as $c_module_id => $c_settings) {
+            foreach (Storage::get('data')->select_array('request_settings') as $c_module_id => $c_settings) {
                 static::$allowed_args_in_get+= $c_settings->allowed_args_in_get;
                 static::$cache[$c_module_id] = $c_settings;
             }
@@ -78,7 +78,7 @@ abstract class request {
         }
         # filtering by whitelist
         if ($source === '_GET') {
-            $allowed_args = request::allowed_args_in_get_get();
+            $allowed_args = Request::allowed_args_in_get_get();
             foreach ($result as $c_name => $c_value) {
                 if (!isset($allowed_args[$c_name])) {
                     unset($result[$c_name]);
@@ -161,7 +161,7 @@ abstract class request {
     # │ $_FILES[field] === [name = [0 => 'file1', 1 => 'file2']] ║ return [0 => (object)[name = 'file1'], 1 => (object)[name = 'file2']] │
     # └──────────────────────────────────────────────────────────╨───────────────────────────────────────────────────────────────────────┘
 
-    static function files_get($name, $return_class_name = 'file_history') {
+    static function files_get($name, $return_class_name = 'File_history') {
         $result = [];
         if (isset($_FILES[$name]['name'    ]) &&
             isset($_FILES[$name]['type'    ]) &&
@@ -183,8 +183,8 @@ abstract class request {
                 $c_path_tmp = $info['tmp_name'][$c_number];
                 $c_error    = $info['error'   ][$c_number];
                 if ($c_error !== UPLOAD_ERR_NO_FILE) {
-                    if ($return_class_name === 'file_history') {
-                        $result[$c_number] = new file_history;
+                    if ($return_class_name === 'File_history') {
+                        $result[$c_number] = new File_history;
                         $result[$c_number]->init_from_tmp($c_file, $c_mime, $c_size, $c_path_tmp, $c_error);
                     } else {
                         $result[$c_number] = new $return_class_name;

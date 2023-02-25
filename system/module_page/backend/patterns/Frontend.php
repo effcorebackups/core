@@ -8,7 +8,7 @@ namespace effcore;
 
 use stdClass;
 
-class frontend {
+class Frontend {
 
     public $display;
     public $favicons = [];
@@ -27,9 +27,9 @@ class frontend {
 
     static function init() {
         if (static::$cache === null) {
-            foreach (storage::get('data')->select_array('frontend') as $c_module_id => $c_frontends) {
+            foreach (Storage::get('data')->select_array('frontend') as $c_module_id => $c_frontends) {
                 foreach ($c_frontends as $c_row_id => $c_frontend) {
-                    if (isset(static::$cache[$c_row_id])) console::report_about_duplicate('frontend', $c_row_id, $c_module_id, static::$cache[$c_row_id]);
+                    if (isset(static::$cache[$c_row_id])) Console::report_about_duplicate('frontend', $c_row_id, $c_module_id, static::$cache[$c_row_id]);
                               static::$cache[$c_row_id] = $c_frontend;
                               static::$cache[$c_row_id]->module_id = $c_module_id;
                 }
@@ -59,9 +59,9 @@ class frontend {
 
     static function markup_get($used_blocks_dpath, $used_blocks_cssid) {
         $result          = new stdClass;
-        $result->icons   = new node;
-        $result->styles  = new node;
-        $result->scripts = new node;
+        $result->icons   = new Node;
+        $result->styles  = new Node;
+        $result->scripts = new Node;
         foreach (static::select_all() as $c_row_id => $c_items) {
             if ($c_items->display === null                                               ||
                 static::is_visible_by_url        ($c_items->display)                     ||
@@ -70,31 +70,31 @@ class frontend {
 
                 # collect favicons
                 foreach ($c_items->favicons as $c_item) {
-                    $c_url        = new url($c_item->path[0] === '/' ? $c_item->path : '/'.module::get($c_items->module_id)->path.$c_item->path);
+                    $c_url        = new Url($c_item->path[0] === '/' ? $c_item->path : '/'.Module::get($c_items->module_id)->path.$c_item->path);
                     $c_attributes = $c_item->attributes ?? [];
                     $c_weight     = $c_item->weight     ?? 0;
-                    $result->icons->child_insert(new markup_simple('link', [
-                        'href' => token::apply($c_url->tiny_get())
+                    $result->icons->child_insert(new Markup_simple('link', [
+                        'href' => Token::apply($c_url->tiny_get())
                     ] + $c_attributes, $c_weight));
                 }
 
                 # collect styles
                 foreach ($c_items->styles as $c_item) {
-                    $c_url        = new url($c_item->path[0] === '/' ? $c_item->path : '/'.module::get($c_items->module_id)->path.$c_item->path);
+                    $c_url        = new Url($c_item->path[0] === '/' ? $c_item->path : '/'.Module::get($c_items->module_id)->path.$c_item->path);
                     $c_attributes = $c_item->attributes ?? [];
                     $c_weight     = $c_item->weight     ?? 0;
-                    $result->styles->child_insert(new markup_simple('link', [
-                        'href' => token::apply($c_url->tiny_get())
+                    $result->styles->child_insert(new Markup_simple('link', [
+                        'href' => Token::apply($c_url->tiny_get())
                     ] + $c_attributes, $c_weight));
                 }
 
                 # collect scripts
                 foreach ($c_items->scripts as $c_item) {
-                    $c_url        = new url($c_item->path[0] === '/' ? $c_item->path : '/'.module::get($c_items->module_id)->path.$c_item->path);
+                    $c_url        = new Url($c_item->path[0] === '/' ? $c_item->path : '/'.Module::get($c_items->module_id)->path.$c_item->path);
                     $c_attributes = $c_item->attributes ?? [];
                     $c_weight     = $c_item->weight     ?? 0;
-                    $result->scripts->child_insert(new markup('script', [
-                        'src' => token::apply($c_url->tiny_get())
+                    $result->scripts->child_insert(new Markup('script', [
+                        'src' => Token::apply($c_url->tiny_get())
                     ] + $c_attributes, [], $c_weight));
                 }
 
@@ -116,13 +116,13 @@ class frontend {
     }
 
     static function is_visible_by_url($display) {
-        return ($display->check === 'url' && $display->where === 'protocol'  && preg_match($display->match, url::get_current()->protocol       )) ||
-               ($display->check === 'url' && $display->where === 'domain'    && preg_match($display->match, url::get_current()->domain         )) ||
-               ($display->check === 'url' && $display->where === 'path'      && preg_match($display->match, url::get_current()->path           )) ||
-               ($display->check === 'url' && $display->where === 'query'     && preg_match($display->match, url::get_current()->query          )) ||
-               ($display->check === 'url' && $display->where === 'anchor'    && preg_match($display->match, url::get_current()->anchor         )) ||
-               ($display->check === 'url' && $display->where === 'file_type' && preg_match($display->match, url::get_current()->file_type_get())) ||
-               ($display->check === 'url' && $display->where === 'full'      && preg_match($display->match, url::get_current()->full_get     ()));
+        return ($display->check === 'url' && $display->where === 'protocol'  && preg_match($display->match, Url::get_current()->protocol       )) ||
+               ($display->check === 'url' && $display->where === 'domain'    && preg_match($display->match, Url::get_current()->domain         )) ||
+               ($display->check === 'url' && $display->where === 'path'      && preg_match($display->match, Url::get_current()->path           )) ||
+               ($display->check === 'url' && $display->where === 'query'     && preg_match($display->match, Url::get_current()->query          )) ||
+               ($display->check === 'url' && $display->where === 'anchor'    && preg_match($display->match, Url::get_current()->anchor         )) ||
+               ($display->check === 'url' && $display->where === 'file_type' && preg_match($display->match, Url::get_current()->file_type_get())) ||
+               ($display->check === 'url' && $display->where === 'full'      && preg_match($display->match, Url::get_current()->full_get     ()));
     }
 
 }

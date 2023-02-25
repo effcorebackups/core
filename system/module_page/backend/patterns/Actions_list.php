@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class actions_list extends markup {
+class Actions_list extends Markup {
 
     public $title = 'actions';
     public $tag_name = 'x-actions';
@@ -27,12 +27,12 @@ class actions_list extends markup {
 
     function build() {
         if (!$this->is_builded) {
-            $list = new markup('x-actions-list');
+            $list = new Markup('x-actions-list');
             $this->child_insert($list, 'actions_list');
             foreach ($this->actions as $c_name => $c_title) {
-                $c_href = $c_name[0] === '/' ? $c_name : page::get_current()->args_get('base').'/'.($c_name);
-                $list->child_insert(new markup('a', ['data-id' => core::sanitize_id($c_title), 'title' => new text($c_title), 'href' => $c_href],
-                    new markup('x-action-title', $this->action_title_attributes, $c_title)
+                $c_href = $c_name[0] === '/' ? $c_name : Page::get_current()->args_get('base').'/'.($c_name);
+                $list->child_insert(new Markup('a', ['data-id' => Core::sanitize_id($c_title), 'title' => new Text($c_title), 'href' => $c_href],
+                    new Markup('x-action-title', $this->action_title_attributes, $c_title)
                 )); }
             $this->is_builded = true;
         }
@@ -40,7 +40,7 @@ class actions_list extends markup {
 
     function render() {
         $this->build();
-        return (template::make_new($this->template, [
+        return (Template::make_new($this->template, [
             'tag_name'   => $this->tag_name,
             'attributes' => $this->render_attributes(),
             'self'       => $this->render_self(),
@@ -49,8 +49,8 @@ class actions_list extends markup {
     }
 
     function render_self() {
-        return $this->title ? (new markup($this->title_tag_name, $this->title_attributes, [
-            new text($this->title)
+        return $this->title ? (new Markup($this->title_tag_name, $this->title_attributes, [
+            new Text($this->title)
         ]))->render() : '';
     }
 

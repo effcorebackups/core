@@ -6,44 +6,44 @@
 
 namespace effcore\modules\translation_ru;
 
-use effcore\language;
-use effcore\message;
-use effcore\module;
-use effcore\page;
-use effcore\storage;
+use effcore\Language;
+use effcore\Message;
+use effcore\Module;
+use effcore\Page;
+use effcore\Storage;
 
-abstract class events_module {
+abstract class Events_Module {
 
     static function on_install($event) {
-        if ( (page::get_current()->id === 'install' && language::code_get_current() === 'ru') ||
-             (page::get_current()->id !== 'install') ) {
-            $module = module::get('translation_ru');
+        if ( (Page::get_current()->id === 'install' && Language::code_get_current() === 'ru') ||
+             (Page::get_current()->id !== 'install') ) {
+            $module = Module::get('translation_ru');
             $module->install();
         }
     }
 
     static function on_uninstall($event) {
-        $module = module::get('translation_ru');
+        $module = Module::get('translation_ru');
         $module->uninstall();
-        storage::get('data')->changes_delete('locale', 'update', 'settings/locale/formats/ru');
+        Storage::get('data')->changes_delete('locale', 'update', 'settings/locale/formats/ru');
     }
 
     static function on_enable($event) {
-        if ( (page::get_current()->id === 'install' && language::code_get_current() === 'ru') ||
-             (page::get_current()->id !== 'install') ) {
-            $module = module::get('translation_ru');
+        if ( (Page::get_current()->id === 'install' && Language::code_get_current() === 'ru') ||
+             (Page::get_current()->id !== 'install') ) {
+            $module = Module::get('translation_ru');
             $module->enable();
         }
     }
 
     static function on_disable($event) {
-        $module = module::get('translation_ru');
+        $module = Module::get('translation_ru');
         $module->disable();
-        if (language::code_get_current() === 'ru') {
-            $result = storage::get('data')->changes_insert('locale', 'update', 'settings/locale/lang_code', 'en');
-            if ($result) language::code_set_current('en');
-            if ($result) message::insert('Language settings have been changed.'             );
-            else         message::insert('Language settings have not been changed!', 'error');
+        if (Language::code_get_current() === 'ru') {
+            $result = Storage::get('data')->changes_insert('locale', 'update', 'settings/locale/lang_code', 'en');
+            if ($result) Language::code_set_current('en');
+            if ($result) Message::insert('Language settings have been changed.'             );
+            else         Message::insert('Language settings have not been changed!', 'error');
         }
     }
 

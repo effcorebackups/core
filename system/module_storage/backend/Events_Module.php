@@ -6,18 +6,18 @@
 
 namespace effcore\modules\storage;
 
-use effcore\module;
+use effcore\Module;
 
-abstract class events_module {
+abstract class Events_Module {
 
     static function on_install($event) {
-        $module = module::get('storage');
+        $module = Module::get('storage');
         $module->install();
     }
 
     static function on_enable($event) {
-        if (module::is_installed('storage')) {
-            $module = module::get('storage');
+        if (Module::is_installed('storage')) {
+            $module = Module::get('storage');
             $module->enable();
         }
     }

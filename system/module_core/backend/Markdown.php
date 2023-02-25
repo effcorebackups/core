@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-abstract class markdown {
+abstract class Markdown {
 
     const BLOCKQUOTE_MAX_DEPTH = 15;
     static protected $blockquote_cur_depth = 0;
@@ -14,11 +14,11 @@ abstract class markdown {
 
     static function node_type_get($element) {
         $type = null;
-        if ($element instanceof text                                  ) $type = '_text';
-        if ($element instanceof text && isset($element->markdown_type)) $type = $element->markdown_type;
-        if ($element instanceof node && isset($element->markdown_type)) $type = $element->markdown_type;
-        if ($element instanceof markup_simple                         ) $type = $element->tag_name;
-        if ($element instanceof markup                                ) $type = $element->tag_name;
+        if ($element instanceof Text                                  ) $type = '_text';
+        if ($element instanceof Text && isset($element->markdown_type)) $type = $element->markdown_type;
+        if ($element instanceof Node && isset($element->markdown_type)) $type = $element->markdown_type;
+        if ($element instanceof Markup_simple                         ) $type = $element->tag_name;
+        if ($element instanceof Markup                                ) $type = $element->tag_name;
         if ($type === 'pre') $type = '_code';
         if ($type === 'ul' ) $type = '_list';
         if ($type === 'ol' ) $type = '_list';
@@ -63,7 +63,7 @@ abstract class markdown {
             if ($type === '_code'      && static::node_type_get($last_element) !== '_code'     ) return $last_list->child_insert(static::markup_code_get($data));
             if ($type === 'blockquote' && static::node_type_get($last_element) !== 'blockquote') return $last_list->child_insert(static::markup_blockquote_get($data));
             if ($type === 'p'          && static::node_type_get($last_element) !== 'p'         ) return $last_list->child_insert(static::markup_paragraph_get($data));
-            if ($type === '_text'      && static::node_type_get($last_element) !== '_text'     ) return $last_list->child_insert(new text($data));
+            if ($type === '_text'      && static::node_type_get($last_element) !== '_text'     ) return $last_list->child_insert(new Text($data));
             if (                          static::node_type_get($last_element) === '_code'     ) return static::text_process__insert_line($last_element, $data, false, true);
             if (                          static::node_type_get($last_element) === 'blockquote') return static::text_process__insert_line($last_element, $data);
             if (                          static::node_type_get($last_element) === 'p'         ) return static::text_process__insert_line($last_element, $data);
@@ -87,56 +87,56 @@ abstract class markdown {
     }
 
     static function delimiter_get() {
-        $node = new node;
+        $node = new Node;
         $node->markdown_type = '_delimiter';
         return $node;
     }
 
     static function markup_hr_get() {
-        return new markup_simple('hr');
+        return new Markup_simple('hr');
     }
 
     static function markup_br_get() {
-        return new markup_simple('br');
+        return new Markup_simple('br');
     }
 
     static function markup_list_container_get($is_numbered = false) {
-        if ($is_numbered) return new markup('ol');
-        else              return new markup('ul');
+        if ($is_numbered) return new Markup('ol');
+        else              return new Markup('ul');
     }
 
     static function markup_list_get() {
-        return new markup('li');
+        return new Markup('li');
     }
 
     static function markup_header_get($data, $size = 1) {
-        return new markup('h'.$size, [], [
-            'text' => new text(trim($data, ' #'))
+        return new Markup('h'.$size, [], [
+            'text' => new Text(trim($data, ' #'))
         ]);
     }
 
     static function markup_code_get($data) {
-        return new markup('pre', [], [
-            'code' => new markup('code', [], [
-                'text' => new text(htmlspecialchars($data))
+        return new Markup('pre', [], [
+            'code' => new Markup('code', [], [
+                'text' => new Text(htmlspecialchars($data))
             ])]
         );
     }
 
     static function markup_blockquote_get($data) {
-        return new markup('blockquote', [], [
-            'text' => new text($data)
+        return new Markup('blockquote', [], [
+            'text' => new Text($data)
         ]);
     }
 
     static function markup_paragraph_get($data) {
-        return new markup('p', [], [
-            'text' => new text($data)
+        return new Markup('p', [], [
+            'text' => new Text($data)
         ]);
     }
 
     static function markup_markup_get($data) {
-        $text = new text($data);
+        $text = new Text($data);
         $text->markdown_type = '_markup';
         return $text;
     }
@@ -180,9 +180,9 @@ abstract class markdown {
     # └────────────╨────────┴────┴─────────┴────────────┴───────────┴─────────┴────────┘
 
     static function markdown_to_markup($data) {
-        $pool = new node;
+        $pool = new Node;
         $strings = explode(NL, $data);
-        $inline_tags = core::array_keys_map(static::markup_inline_tags_get());
+        $inline_tags = Core::array_keys_map(static::markup_inline_tags_get());
         foreach ($strings as $c_number => $c_string) {
             $c_string    = static::string_prepare($c_string);
             $c_indent    = strspn($c_string, ' ');
@@ -573,7 +573,7 @@ abstract class markdown {
                         $text = preg_replace_callback('%\\['.'(?<id>[^\\]\\n]{1,127})'.'\\]'.'\\:'.
                                         '(?:[ ]{0,64}'.      '(?<url>[^ "\\n]{1,1024})'.   '|)'.
                                         '(?:[ ]{0,64}'.'["]'.'(?<title>[^"\\n]{1,512})'.'["]|)%S', function ($c_match) {
-                            static::$references[core::hash_get(strtolower($c_match['id']))] = (object)[
+                            static::$references[Core::hash_get(strtolower($c_match['id']))] = (object)[
                                 'url'   => array_key_exists('url',   $c_match) ? trim($c_match['url'  ]) : '',
                                 'title' => array_key_exists('title', $c_match) ? trim($c_match['title']) : '',
                             ];
@@ -608,24 +608,24 @@ abstract class markdown {
                         $c_prev_item_type === 'blockquote') {
                         $text = $c_item->text_select();
                         # image|link|email
-                        $text = preg_replace('%\\!\\['.'(?<text>[^\\]\\n]{1,1024}|)'.'\\]'.'\\('.'(?:[ ]{0,64}'.'(?<url>[^ \\)"\\n]{1,1024})'.'|)'.'(?:[ ]{0,64}["]'.'(?<title>[^"\\n]{1,512})'.'["]|)'.'[ ]{0,64}\\)%S', (new markup_simple('img', ['title' => '$3', 'src'  => '$2',  'alt' => '$1']))->render(), $text);
-                        $text = preg_replace('%'.'\\['.'(?<text>[^\\]\\n]{1,1024}|)'.'\\]'.'\\('.'(?:[ ]{0,64}'.'(?<url>[^ \\)"\\n]{1,1024})'.'|)'.'(?:[ ]{0,64}["]'.'(?<title>[^"\\n]{1,512})'.'["]|)'.'[ ]{0,64}\\)%S', (new markup       ('a',   ['title' => '$3', 'href' => '$2'], new text('$1')))->render(), $text);
-                        $text = preg_replace_callback('%\\!\\['.'(?<text>[^\\]\\n]{1,1024}|)'.'\\]'.'\\['.'(?<id>[^\\]\\n]{1,127})'.'\\]%S', function ($c_match) {$c_id = core::hash_get(strtolower($c_match['id'  ])); if (isset(static::$references[$c_id])) return (new markup_simple('img', ['title' => static::$references[$c_id]->title, 'src'  => static::$references[$c_id]->url,  'alt' => $c_match['text']]))->render(); else return $c_match[0];}, $text);
-                        $text = preg_replace_callback('%'.'\\['.'(?<text>[^\\]\\n]{1,1024})'. '\\]'.'\\['.                          '\\]%S', function ($c_match) {$c_id = core::hash_get(strtolower($c_match['text'])); if (isset(static::$references[$c_id])) return (new markup       ('a',   ['title' => static::$references[$c_id]->title, 'href' => static::$references[$c_id]->url], new text($c_match['text'])))->render(); else return $c_match[0];}, $text);
-                        $text = preg_replace_callback('%'.'\\['.'(?<text>[^\\]\\n]{1,1024}|)'.'\\]'.'\\['.'(?<id>[^\\]\\n]{1,127})'.'\\]%S', function ($c_match) {$c_id = core::hash_get(strtolower($c_match['id'  ])); if (isset(static::$references[$c_id])) return (new markup       ('a',   ['title' => static::$references[$c_id]->title, 'href' => static::$references[$c_id]->url], new text($c_match['text'])))->render(); else return $c_match[0];}, $text);
+                        $text = preg_replace('%\\!\\['.'(?<text>[^\\]\\n]{1,1024}|)'.'\\]'.'\\('.'(?:[ ]{0,64}'.'(?<url>[^ \\)"\\n]{1,1024})'.'|)'.'(?:[ ]{0,64}["]'.'(?<title>[^"\\n]{1,512})'.'["]|)'.'[ ]{0,64}\\)%S', (new Markup_simple('img', ['title' => '$3', 'src'  => '$2',  'alt' => '$1']))->render(), $text);
+                        $text = preg_replace('%'.'\\['.'(?<text>[^\\]\\n]{1,1024}|)'.'\\]'.'\\('.'(?:[ ]{0,64}'.'(?<url>[^ \\)"\\n]{1,1024})'.'|)'.'(?:[ ]{0,64}["]'.'(?<title>[^"\\n]{1,512})'.'["]|)'.'[ ]{0,64}\\)%S', (new Markup       ('a',   ['title' => '$3', 'href' => '$2'], new Text('$1')))->render(), $text);
+                        $text = preg_replace_callback('%\\!\\['.'(?<text>[^\\]\\n]{1,1024}|)'.'\\]'.'\\['.'(?<id>[^\\]\\n]{1,127})'.'\\]%S', function ($c_match) {$c_id = Core::hash_get(strtolower($c_match['id'  ])); if (isset(static::$references[$c_id])) return (new Markup_simple('img', ['title' => static::$references[$c_id]->title, 'src'  => static::$references[$c_id]->url,  'alt' => $c_match['text']]))->render(); else return $c_match[0];}, $text);
+                        $text = preg_replace_callback('%'.'\\['.'(?<text>[^\\]\\n]{1,1024})'. '\\]'.'\\['.                          '\\]%S', function ($c_match) {$c_id = Core::hash_get(strtolower($c_match['text'])); if (isset(static::$references[$c_id])) return (new Markup       ('a',   ['title' => static::$references[$c_id]->title, 'href' => static::$references[$c_id]->url], new Text($c_match['text'])))->render(); else return $c_match[0];}, $text);
+                        $text = preg_replace_callback('%'.'\\['.'(?<text>[^\\]\\n]{1,1024}|)'.'\\]'.'\\['.'(?<id>[^\\]\\n]{1,127})'.'\\]%S', function ($c_match) {$c_id = Core::hash_get(strtolower($c_match['id'  ])); if (isset(static::$references[$c_id])) return (new Markup       ('a',   ['title' => static::$references[$c_id]->title, 'href' => static::$references[$c_id]->url], new Text($c_match['text'])))->render(); else return $c_match[0];}, $text);
                         $text = preg_replace_callback('%'.'\\<'.'(?<text>[^\\>\\n]{5,512})'.'\\>'.'%S', function ($c_match) {
-                            if (core::validate_email($c_match['text'])) return (new markup('a', ['href' => 'mailto:'.$c_match['text']], new text($c_match['text'])))->render();
-                            if (core::validate_url  ($c_match['text'])) return (new markup('a', ['href' =>           $c_match['text']], new text($c_match['text'])))->render();
+                            if (Core::validate_email($c_match['text'])) return (new Markup('a', ['href' => 'mailto:'.$c_match['text']], new Text($c_match['text'])))->render();
+                            if (Core::validate_url  ($c_match['text'])) return (new Markup('a', ['href' =>           $c_match['text']], new Text($c_match['text'])))->render();
                             return $c_match[0];
                         }, $text);
                         # code|strong|em
                         $text = preg_replace_callback('%'.'(`)'.'(?<phrase>[^`]'.'{1,2048})'.'`'.'%sS', function ($c_match) {
-                            return (new markup('code', [],
+                            return (new Markup('code', [],
                                 static::meta_encode($c_match['phrase'])
                             ))->render();
                         }, $text);
-                        $text = preg_replace('%'.'([*_])\\1'.'(?<phrase>(?:(?!\\1).){1,2048})'.'\\1\\1'.'%sS', (new markup('strong', [], '$2'))->render(), $text);
-                        $text = preg_replace('%'.'([*_])'   .'(?<phrase>(?:(?!\\1).){1,2048})'.'\\1'   .'%sS', (new markup('em',     [], '$2'))->render(), $text);
+                        $text = preg_replace('%'.'([*_])\\1'.'(?<phrase>(?:(?!\\1).){1,2048})'.'\\1\\1'.'%sS', (new Markup('strong', [], '$2'))->render(), $text);
+                        $text = preg_replace('%'.'([*_])'   .'(?<phrase>(?:(?!\\1).){1,2048})'.'\\1'   .'%sS', (new Markup('em',     [], '$2'))->render(), $text);
                         $c_item->text_update($text);
                     }
                     break;

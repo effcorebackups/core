@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class form_plugin {
+class Form_plugin {
 
     public $name;
     public $args = [];
@@ -26,11 +26,11 @@ class form_plugin {
     }
 
     function is_available() {
-        return core::structure_is_exists($this->name_get());
+        return Core::structure_is_exists($this->name_get());
     }
 
     function object_get() {
-        $object = core::class_get_new_instance($this->name_get(), $this->args, true);
+        $object = Core::class_get_new_instance($this->name_get(), $this->args, true);
         if ($this->weight) $object->weight = $this->weight;
         foreach ($this->properties as $c_key => $c_value)
                $object->{$c_key} = $c_value;

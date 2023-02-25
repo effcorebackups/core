@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class node_simple {
+class Node_simple {
 
     public $template;
     public $is_xml_style = false;
@@ -97,7 +97,7 @@ class node_simple {
 
     function render() {
         if ($this->template) {
-            return (template::make_new($this->template, [
+            return (Template::make_new($this->template, [
                 'attributes' => $this->render_attributes(),
                 'self'       => $this->render_self(),
             ]))->render();
@@ -108,8 +108,8 @@ class node_simple {
 
     function render_attributes() {
         if ($this->is_xml_style)
-             return core::data_to_attributes($this->attributes_select(), true);
-        else return core::data_to_attributes($this->attributes_select()      );
+             return Core::data_to_attributes($this->attributes_select(), true);
+        else return Core::data_to_attributes($this->attributes_select()      );
     }
 
     function render_self() {

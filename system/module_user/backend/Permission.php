@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class permission {
+class Permission {
 
     public $id;
     public $title;
@@ -26,7 +26,7 @@ class permission {
     static function init_sql() {
         if (!static::$is_init___sql) {
              static::$is_init___sql = true;
-            foreach (entity::get('permission')->instances_select() as $c_instance) {
+            foreach (Entity::get('permission')->instances_select() as $c_instance) {
                 $c_permission = new static;
                 foreach ($c_instance->values_get() as $c_key => $c_value)
                     $c_permission->                  {$c_key} = $c_value;
@@ -47,7 +47,7 @@ class permission {
 
     static function related_roles_select($id_permission) {
         $result = [];
-        $items = entity::get('relation_role_ws_permission')->instances_select(['conditions' => [
+        $items = Entity::get('relation_role_ws_permission')->instances_select(['conditions' => [
             'id_permission_!f'       => 'id_permission',
             'id_permission_operator' => '=',
             'id_permission_!v'       => $id_permission]]);
@@ -59,7 +59,7 @@ class permission {
 
     static function related_roles_insert($id_permission, $roles, $module_id = null) {
         foreach ($roles as $c_id_role) {
-            (new instance('relation_role_ws_permission', [
+            (new Instance('relation_role_ws_permission', [
                 'id_role'       => $c_id_role,
                 'id_permission' => $id_permission,
                 'module_id'     => $module_id
@@ -68,7 +68,7 @@ class permission {
     }
 
     static function related_roles_delete($id_permission) {
-        entity::get('relation_role_ws_permission')->instances_delete(['conditions' => [
+        Entity::get('relation_role_ws_permission')->instances_delete(['conditions' => [
             'id_permission_!f'       => 'id_permission',
             'id_permission_operator' => '=',
             'id_permission_!v'       => $id_permission
@@ -76,7 +76,7 @@ class permission {
     }
 
     static function related_role_delete($id_permission, $id_role) {
-        (new instance('relation_role_ws_permission', [
+        (new Instance('relation_role_ws_permission', [
             'id_permission' => $id_permission,
             'id_role'       => $id_role
         ]))->delete();

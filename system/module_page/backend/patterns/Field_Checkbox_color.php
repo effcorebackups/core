@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class field_checkbox_color extends field_checkbox {
+class Field_Checkbox_color extends Field_Checkbox {
 
     public $title = 'Color';
     public $attributes = [
@@ -14,7 +14,7 @@ class field_checkbox_color extends field_checkbox {
     ];
 
     function color_set($color_id) {
-        $colors = color::get_all();
+        $colors = Color::get_all();
         $element = $this->child_select('element');
         if (isset($colors[$color_id])) {
             $element->attribute_insert('style', 'background-color: '.($colors[$color_id]->value_hex ?: '#ffffff'));

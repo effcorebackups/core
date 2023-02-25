@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class field_switcher extends field_checkbox {
+class Field_Switcher extends Field_Checkbox {
 
     public $title;
     public $title_position = 'bottom';

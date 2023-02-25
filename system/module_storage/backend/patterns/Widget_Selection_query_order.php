@@ -8,7 +8,7 @@ namespace effcore;
 
 use stdClass;
 
-class widget_selection_query_order extends widget_items {
+class Widget_Selection_query_order extends Widget_Items {
 
     public $title = 'Sequence';
     public $item_title = 'order';
@@ -21,9 +21,9 @@ class widget_selection_query_order extends widget_items {
         $result = [];
         $items = $this->value_get($options);
         if (count($items)) {
-            core::array_sort_by_number($items);
+            Core::array_sort_by_number($items);
             foreach ($items as $c_row_id => $c_item) {
-                $c_field_name_info = field_select_entity_field_name::parse_value($c_item->field_name);
+                $c_field_name_info = Field_Select_entity_field_name::parse_value($c_item->field_name);
                 $c_type            = $c_item->type;
                 if ($c_field_name_info !== null) {
                     $c_result_prefix = $this->_instance->main_entity_name === $c_field_name_info['entity_name'] ? $c_field_name_info['entity_field_name'] :     $c_field_name_info['entity_name'].'.'.$c_field_name_info['entity_field_name'];
@@ -64,18 +64,18 @@ class widget_selection_query_order extends widget_items {
     static function widget_manage_get($widget, $item, $c_row_id) {
         $result = parent::widget_manage_get($widget, $item, $c_row_id);
         # control for order field name
-        $field_select_entity_field_name = new field_select_entity_field_name;
+        $field_select_entity_field_name = new Field_Select_entity_field_name;
         $field_select_entity_field_name->cform = $widget->cform;
         $field_select_entity_field_name->attributes['data-role'] = 'field-name';
         $field_select_entity_field_name->attributes['data-style'] = 'inline';
         $field_select_entity_field_name->description_state = 'hidden';
-        $field_select_entity_field_name->disabled = field_select_entity_field_name::generate_disabled_items([$widget->_instance->main_entity_name]);
+        $field_select_entity_field_name->disabled = Field_Select_entity_field_name::generate_disabled_items([$widget->_instance->main_entity_name]);
         $field_select_entity_field_name->title = 'Field';
         $field_select_entity_field_name->build();
         $field_select_entity_field_name->name_set($widget->name_get_complex().'__field_name__'.$c_row_id);
         $field_select_entity_field_name->value_set($item->field_name ?? null);
         # control for order type
-        $field_select_type = new field_select;
+        $field_select_type = new Field_Select;
         $field_select_type->cform = $widget->cform;
         $field_select_type->attributes['data-role'] = 'type';
         $field_select_type->attributes['data-style'] = 'inline';
@@ -109,10 +109,10 @@ class widget_selection_query_order extends widget_items {
         $new_item->type       = '';
         $items[] = $new_item;
         $widget->items_set($items);
-        message::insert(new text_multiline([
+        Message::insert(new Text_multiline([
             'Item of type "%%_type" was inserted.',
             'Do not forget to save the changes!'], [
-            'type' => (new text($widget->item_title))->render() ]));
+            'type' => (new Text($widget->item_title))->render() ]));
         return true;
     }
 

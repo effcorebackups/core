@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class table_body_row_cell extends markup {
+class Table_body_row_cell extends Markup {
 
     public $tag_name = 'td';
 
@@ -15,7 +15,7 @@ class table_body_row_cell extends markup {
     }
 
     function child_insert($child, $id = null) {
-        if (is_string($child) || is_numeric($child)) return parent::child_insert(new text($child), $id);
+        if (is_string($child) || is_numeric($child)) return parent::child_insert(new Text($child), $id);
         else                                         return parent::child_insert(         $child,  $id);
     }
 

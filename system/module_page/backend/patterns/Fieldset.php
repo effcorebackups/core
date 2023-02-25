@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class fieldset extends container {
+class Fieldset extends Container {
 
     public $tag_name = 'fieldset';
     public $title_tag_name = 'label';
@@ -39,10 +39,10 @@ class fieldset extends container {
         if ($this->title) {
             $html_name = 'f_opener_'.$this->number;
             $opener = $this->render_opener();
-            if ((bool)$this->title_is_visible === true && $opener !== '') return $opener.(new markup($this->title_tag_name, $this->title_attributes + ['for' => $html_name                         ], $this->title))->render();
-            if ((bool)$this->title_is_visible !== true && $opener !== '') return $opener.(new markup($this->title_tag_name, $this->title_attributes + ['for' => $html_name, 'aria-hidden' => 'true'], $this->title))->render();
-            if ((bool)$this->title_is_visible !== true && $opener === '') return         (new markup($this->title_tag_name, $this->title_attributes + [                     'aria-hidden' => 'true'], $this->title))->render();
-            if ((bool)$this->title_is_visible === true && $opener === '') return         (new markup($this->title_tag_name, $this->title_attributes + [                                            ], $this->title))->render();
+            if ((bool)$this->title_is_visible === true && $opener !== '') return $opener.(new Markup($this->title_tag_name, $this->title_attributes + ['for' => $html_name                         ], $this->title))->render();
+            if ((bool)$this->title_is_visible !== true && $opener !== '') return $opener.(new Markup($this->title_tag_name, $this->title_attributes + ['for' => $html_name, 'aria-hidden' => 'true'], $this->title))->render();
+            if ((bool)$this->title_is_visible !== true && $opener === '') return         (new Markup($this->title_tag_name, $this->title_attributes + [                     'aria-hidden' => 'true'], $this->title))->render();
+            if ((bool)$this->title_is_visible === true && $opener === '') return         (new Markup($this->title_tag_name, $this->title_attributes + [                                            ], $this->title))->render();
         }
     }
 
@@ -50,15 +50,15 @@ class fieldset extends container {
         if ($this->state === 'opened' ||
             $this->state === 'closed') {
             $html_name    = 'f_opener_'.$this->number;
-            $form_id      = request::value_get('form_id');
-            $submit_value = request::value_get($html_name);
+            $form_id      = Request::value_get('form_id');
+            $submit_value = Request::value_get($html_name);
             $has_error    = $this->has_error_in();
-            if ($form_id === '' && $this->state === 'opened'                    ) /*               default = opened */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null                          ]))->render();
-            if ($form_id === '' && $this->state === 'closed'                    ) /*               default = closed */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
-            if ($form_id !== '' && $has_error !== true && $submit_value !== 'on') /* no error + no checked = opened */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null                          ]))->render();
-            if ($form_id !== '' && $has_error !== true && $submit_value === 'on') /* no error +    checked = closed */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
-            if ($form_id !== '' && $has_error === true && $submit_value !== 'on') /*    error + no checked = opened */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
-            if ($form_id !== '' && $has_error === true && $submit_value === 'on') /*    error +    checked = opened */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
+            if ($form_id === '' && $this->state === 'opened'                    ) /*               default = opened */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new Text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null                          ]))->render();
+            if ($form_id === '' && $this->state === 'closed'                    ) /*               default = closed */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new Text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
+            if ($form_id !== '' && $has_error !== true && $submit_value !== 'on') /* no error + no checked = opened */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new Text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null                          ]))->render();
+            if ($form_id !== '' && $has_error !== true && $submit_value === 'on') /* no error +    checked = closed */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new Text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
+            if ($form_id !== '' && $has_error === true && $submit_value !== 'on') /*    error + no checked = opened */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new Text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
+            if ($form_id !== '' && $has_error === true && $submit_value === 'on') /*    error +    checked = opened */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new Text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
         }
         return '';
     }

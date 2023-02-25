@@ -6,44 +6,44 @@
 
 namespace effcore\modules\translation_uk;
 
-use effcore\language;
-use effcore\message;
-use effcore\module;
-use effcore\page;
-use effcore\storage;
+use effcore\Language;
+use effcore\Message;
+use effcore\Module;
+use effcore\Page;
+use effcore\Storage;
 
-abstract class events_module {
+abstract class Events_Module {
 
     static function on_install($event) {
-        if ( (page::get_current()->id === 'install' && language::code_get_current() === 'uk') ||
-             (page::get_current()->id !== 'install') ) {
-            $module = module::get('translation_uk');
+        if ( (Page::get_current()->id === 'install' && Language::code_get_current() === 'uk') ||
+             (Page::get_current()->id !== 'install') ) {
+            $module = Module::get('translation_uk');
             $module->install();
         }
     }
 
     static function on_uninstall($event) {
-        $module = module::get('translation_uk');
+        $module = Module::get('translation_uk');
         $module->uninstall();
-        storage::get('data')->changes_delete('locale', 'update', 'settings/locale/formats/uk');
+        Storage::get('data')->changes_delete('locale', 'update', 'settings/locale/formats/uk');
     }
 
     static function on_enable($event) {
-        if ( (page::get_current()->id === 'install' && language::code_get_current() === 'uk') ||
-             (page::get_current()->id !== 'install') ) {
-            $module = module::get('translation_uk');
+        if ( (Page::get_current()->id === 'install' && Language::code_get_current() === 'uk') ||
+             (Page::get_current()->id !== 'install') ) {
+            $module = Module::get('translation_uk');
             $module->enable();
         }
     }
 
     static function on_disable($event) {
-        $module = module::get('translation_uk');
+        $module = Module::get('translation_uk');
         $module->disable();
-        if (language::code_get_current() === 'uk') {
-            $result = storage::get('data')->changes_insert('locale', 'update', 'settings/locale/lang_code', 'en');
-            if ($result) language::code_set_current('en');
-            if ($result) message::insert('Language settings have been changed.'             );
-            else         message::insert('Language settings have not been changed!', 'error');
+        if (Language::code_get_current() === 'uk') {
+            $result = Storage::get('data')->changes_insert('locale', 'update', 'settings/locale/lang_code', 'en');
+            if ($result) Language::code_set_current('en');
+            if ($result) Message::insert('Language settings have been changed.'             );
+            else         Message::insert('Language settings have not been changed!', 'error');
         }
     }
 

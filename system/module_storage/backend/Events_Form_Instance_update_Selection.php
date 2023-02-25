@@ -6,21 +6,21 @@
 
 namespace effcore\modules\storage;
 
-use effcore\entity;
-use effcore\form_part;
-use effcore\text;
+use effcore\Entity;
+use effcore\Form_part;
+use effcore\Text;
 
-abstract class events_form_instance_update__selection {
+abstract class Events_Form_Instance_update_Selection {
 
     static function on_build($event, $form) {
         if ($form->has_error_on_build === false &&
             $form->has_no_fields      === false) {
-            $entity = entity::get($form->entity_name);
+            $entity = Entity::get($form->entity_name);
             if ($entity->name === 'selection') {
                 $form->child_select('fields')->child_select('fields'            )->_instance = $form->_instance;
                 $form->child_select('fields')->child_select('query_settings'    )->_instance = $form->_instance;
                 $form->child_select('fields')->child_select('decorator_settings')->_instance = $form->_instance;
-                $form->child_select('fields')->child_insert(form_part::get('form_instance_update__selection_pager_settings'), 'pager_settings');
+                $form->child_select('fields')->child_insert(Form_part::get('form_instance_update__selection_pager_settings'), 'pager_settings');
             }
         }
     }
@@ -28,7 +28,7 @@ abstract class events_form_instance_update__selection {
     static function on_init($event, $form, $items) {
         if ($form->has_error_on_build === false &&
             $form->has_no_fields      === false) {
-            $entity = entity::get($form->entity_name);
+            $entity = Entity::get($form->entity_name);
             if ($entity->name === 'selection') {
                 $data = $form->_instance->data;
                 if (isset($data['pager_is_enabled'])) $items['#pager_is_enabled']->checked_set($data['pager_is_enabled']);
@@ -39,12 +39,12 @@ abstract class events_form_instance_update__selection {
     }
 
     static function on_validate($event, $form, $items) {
-        $entity = entity::get($form->entity_name);
+        $entity = Entity::get($form->entity_name);
         switch ($form->clicked_button->value_get()) {
             case 'update':
                 if ($entity->name === 'selection') {
                     if (count($items['*fields']->value_get()) < 1) {
-                        $form->error_set('Group "%%_title" should contain a minimum %%_number item%%_plural(number|s)!', ['title' => (new text($items['*fields']->title))->render(), 'number' => 1]);
+                        $form->error_set('Group "%%_title" should contain a minimum %%_number item%%_plural(number|s)!', ['title' => (new Text($items['*fields']->title))->render(), 'number' => 1]);
                     }
                 }
                 break;
@@ -52,7 +52,7 @@ abstract class events_form_instance_update__selection {
     }
 
     static function on_submit($event, $form, $items) {
-        $entity = entity::get($form->entity_name);
+        $entity = Entity::get($form->entity_name);
         switch ($form->clicked_button->value_get()) {
             case 'update':
                 if ($entity->name === 'selection') {

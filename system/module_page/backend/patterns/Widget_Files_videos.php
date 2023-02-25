@@ -6,9 +6,9 @@
 
 namespace effcore;
 
-class widget_files_videos extends widget_files {
+class Widget_Files_videos extends Widget_Files {
 
-    use widget_files_videos__shared;
+    use Trait__Widget_Files_videos;
 
     public $title = 'Videos';
     public $item_title = 'Video';
@@ -28,16 +28,16 @@ class widget_files_videos extends widget_files {
     ###########################
 
     static function value_to_markup($value) {
-        $decorator = new decorator;
+        $decorator = new Decorator;
         $decorator->id = 'widget_files-videos-items';
         $decorator->view_type = 'template';
         $decorator->template = 'content';
         $decorator->template_item = 'gallery_item';
-        $decorator->mapping = core::array_keys_map(['num', 'type', 'children']);
+        $decorator->mapping = Core::array_keys_map(['num', 'type', 'children']);
         if ($value) {
-            core::array_sort_by_number($value);
+            Core::array_sort_by_number($value);
             foreach ($value as $c_row_id => $c_item) {
-                if (media::media_class_get($c_item->object->type) === 'video') {
+                if (Media::media_class_get($c_item->object->type) === 'video') {
                     $decorator->data[$c_row_id] = [
                         'type'     => ['value' => 'video'  ],
                         'num'      => ['value' => $c_row_id],
@@ -50,13 +50,13 @@ class widget_files_videos extends widget_files {
     }
 
     static function item_markup_get($item, $row_id) {
-        $settings = module::settings_get('page');
+        $settings = Module::settings_get('page');
         $src = '/'.$item->object->get_current_path(true);
         $src_poster = $src.'?poster=big';
         $src_poster_default = '/'.$settings->thumbnail_path_poster_default;
         if ($item->settings['data-poster-is-embedded'])
-             return new markup('video', ['src' => $src, 'poster' => $src_poster        ] + $item->settings);
-        else return new markup('video', ['src' => $src, 'poster' => $src_poster_default] + $item->settings);
+             return new Markup('video', ['src' => $src, 'poster' => $src_poster        ] + $item->settings);
+        else return new Markup('video', ['src' => $src, 'poster' => $src_poster_default] + $item->settings);
     }
 
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
@@ -64,18 +64,18 @@ class widget_files_videos extends widget_files {
     static function widget_manage_get($widget, $item, $c_row_id) {
         $result = parent::widget_manage_get($widget, $item, $c_row_id);
         $result->attribute_insert('data-is-new', $item->object->get_current_state() === 'pre' ? 'true' : 'false');
-        if (media::media_class_get($item->object->type) === 'video') {
+        if (Media::media_class_get($item->object->type) === 'video') {
             if (!empty($item->settings['data-poster-is-embedded'])) {
-                $result->child_insert(new markup_simple('img', ['src' => '/'.$item->object->get_current_path(true).'?poster=small', 'alt' => new text('thumbnail'), 'width' => '44', 'height' => '44', 'data-type' => 'thumbnail'], +450), 'thumbnail');
+                $result->child_insert(new Markup_simple('img', ['src' => '/'.$item->object->get_current_path(true).'?poster=small', 'alt' => new Text('thumbnail'), 'width' => '44', 'height' => '44', 'data-type' => 'thumbnail'], +450), 'thumbnail');
             }
         }
         return $result;
     }
 
     static function widget_insert_get($widget, $group = '') {
-        $result = new markup('x-widget', ['data-type' => 'insert']);
+        $result = new Markup('x-widget', ['data-type' => 'insert']);
         # control for upload new video
-        $field_file_video = new field_file_video;
+        $field_file_video = new Field_File_video;
         $field_file_video->title             = 'Video';
         $field_file_video->max_file_size     = $widget->{($group ? $group.'_' : '').'max_file_size'};
         $field_file_video->types_allowed     = $widget->{($group ? $group.'_' : '').'types_allowed'};
@@ -87,7 +87,7 @@ class widget_files_videos extends widget_files {
         $field_file_video->build();
         $field_file_video->name_set($widget->name_get_complex().'__file'.($group ? '_'.$group : ''));
         # control for upload new video poster
-        $field_file_picture_poster = new field_file_picture;
+        $field_file_picture_poster = new Field_File_picture;
         $field_file_picture_poster->title             = 'Poster';
         $field_file_picture_poster->max_file_size     = $widget->poster_max_file_size;
         $field_file_picture_poster->types_allowed     = $widget->poster_types_allowed;
@@ -99,7 +99,7 @@ class widget_files_videos extends widget_files {
         $field_file_picture_poster->build();
         $field_file_picture_poster->name_set($widget->name_get_complex().'__poster');
         # button for insertion of the new item
-        $button_insert = new button(null, ['data-style' => 'insert', 'title' => new text('insert')]);
+        $button_insert = new Button(null, ['data-style' => 'insert', 'title' => new Text('insert')]);
         $button_insert->break_on_validate = true;
         $button_insert->build();
         $button_insert->value_set($widget->name_get_complex().'__insert'.($group ? '_'.$group : ''));
@@ -118,17 +118,17 @@ class widget_files_videos extends widget_files {
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function on_file_prepare($widget, $form, $npath, $button, &$items, &$new_item) {
-        $pre_path = temporary::DIRECTORY.'validation/'.$form->validation_cache_date_get().'/'.$form->validation_id.'-'.$widget->name_get_complex().'-'.core::array_key_last($items).'.'.$new_item->object->type;
+        $pre_path = Temporary::DIRECTORY.'validation/'.$form->validation_cache_date_get().'/'.$form->validation_id.'-'.$widget->name_get_complex().'-'.Core::array_key_last($items).'.'.$new_item->object->type;
         if ($new_item->object->move_tmp_to_pre($pre_path)) {
             $new_item->settings = $widget->video_player_default_settings;
             $new_item->settings['data-poster-is-embedded'] = false;
             if ($widget->poster_is_allowed) {
-                if (media::media_class_get($new_item->object->type) === 'video') {
-                    $values = event::start_local('on_values_validate', $widget, ['form' => $form, 'npath' => $npath, 'button' => $button, 'name' => '#poster']);
+                if (Media::media_class_get($new_item->object->type) === 'video') {
+                    $values = Event::start_local('on_values_validate', $widget, ['form' => $form, 'npath' => $npath, 'button' => $button, 'name' => '#poster']);
                     $poster = reset($values);
-                    if ($poster instanceof file_history) {
-                        if (media::media_class_get($poster->type) === 'picture') {
-                            if (media::is_type_for_thumbnail($poster->type)) {
+                    if ($poster instanceof File_history) {
+                        if (Media::media_class_get($poster->type) === 'picture') {
+                            if (Media::is_type_for_thumbnail($poster->type)) {
                                 if ($poster->move_tmp_to_pre($pre_path.'.'.$poster->type)) {
                                     if ($new_item->object->container_video_make($widget->poster_thumbnails, $poster->get_current_path())) {
                                         $new_item->settings['data-poster-is-embedded'] = true;
@@ -146,12 +146,12 @@ class widget_files_videos extends widget_files {
 
     static function on_button_click_insert($widget, $form, $npath, $button) {
         if ($widget->poster_is_allowed) {
-            $values        = event::start_local('on_values_validate', $widget, ['form' => $form, 'npath' => $npath, 'button' => $button, 'name' => '#file'  ]);
-            $values_poster = event::start_local('on_values_validate', $widget, ['form' => $form, 'npath' => $npath, 'button' => $button, 'name' => '#poster']);
-            if (!$widget->controls['#file']->has_error() &&                                               count($values) === 0) {$widget->controls['#file']->error_set('Field "%%_title" cannot be blank!', ['title' => (new text($widget->controls['#file']->title))->render() ]); return;}
+            $values        = Event::start_local('on_values_validate', $widget, ['form' => $form, 'npath' => $npath, 'button' => $button, 'name' => '#file'  ]);
+            $values_poster = Event::start_local('on_values_validate', $widget, ['form' => $form, 'npath' => $npath, 'button' => $button, 'name' => '#poster']);
+            if (!$widget->controls['#file']->has_error() &&                                               count($values) === 0) {$widget->controls['#file']->error_set('Field "%%_title" cannot be blank!', ['title' => (new Text($widget->controls['#file']->title))->render() ]); return;}
             if (!$widget->controls['#file']->has_error() && !$widget->controls['#poster']->has_error() && count($values) !== 0)
-               return widget_files::on_button_click_insert($widget, $form, $npath, $button);
-        } else return widget_files::on_button_click_insert($widget, $form, $npath, $button);
+               return Widget_Files::on_button_click_insert($widget, $form, $npath, $button);
+        } else return Widget_Files::on_button_click_insert($widget, $form, $npath, $button);
     }
 
 }

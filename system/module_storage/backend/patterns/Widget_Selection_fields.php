@@ -8,7 +8,7 @@ namespace effcore;
 
 use stdClass;
 
-class widget_selection_fields extends widget_items {
+class Widget_Selection_fields extends Widget_Items {
 
     public $title = 'Fields';
     public $title__not_selected__widget_insert = '- select -';
@@ -53,7 +53,7 @@ class widget_selection_fields extends widget_items {
 
     function value_set($value, $options = []) {
         $this->value_set_initial($value);
-        if (core::data_is_serialized($value)) $value = unserialize($value);
+        if (Core::data_is_serialized($value)) $value = unserialize($value);
         if ($value === null) $value = [];
         if ($value ===  '' ) $value = [];
         if (is_array($value)) {
@@ -90,16 +90,16 @@ class widget_selection_fields extends widget_items {
     static function widget_manage_get($widget, $item, $c_row_id) {
         $result = parent::widget_manage_get($widget, $item, $c_row_id);
         # info markup
-        $entity = entity::get($item->entity_name);
+        $entity = Entity::get($item->entity_name);
         $entity_field = $entity ? $entity->field_get($item->entity_field_name) : null;
         $title_markup = isset($entity_field->title) ?
                              [$entity      ->title, ': ',
                               $entity_field->title] : 'LOST FIELD';
-        $info_markup = new markup('x-info',  [], [
-            'title' => new markup('x-title', [], $title_markup),
-            'id'    => new markup('x-id',    [], 'row_id: '.$c_row_id) ]);
+        $info_markup = new Markup('x-info',  [], [
+            'title' => new Markup('x-title', [], $title_markup),
+            'id'    => new Markup('x-id',    [], 'row_id: '.$c_row_id) ]);
         # insert widget for settings
-        $widget_settings = new widget_selection_field_settings($widget, $item, $c_row_id);
+        $widget_settings = new Widget_Selection_field_settings($widget, $item, $c_row_id);
         $widget_settings->build();
         # grouping of previous elements in widget 'manage'
         $result->child_insert($info_markup, 'info');
@@ -108,17 +108,17 @@ class widget_selection_fields extends widget_items {
     }
 
     static function widget_insert_get($widget) {
-        $result = new markup('x-widget', ['data-type' => 'insert']);
+        $result = new Markup('x-widget', ['data-type' => 'insert']);
         # control with type of new item
-        $field_select_entity_field_name = new field_select_entity_field_name('New field');
+        $field_select_entity_field_name = new Field_Select_entity_field_name('New field');
         $field_select_entity_field_name->cform = $widget->cform;
         $field_select_entity_field_name->title__not_selected = $widget->title__not_selected__widget_insert;
-        $field_select_entity_field_name->disabled = field_select_entity_field_name::generate_disabled_items([$widget->_instance->main_entity_name]);
+        $field_select_entity_field_name->disabled = Field_Select_entity_field_name::generate_disabled_items([$widget->_instance->main_entity_name]);
         $field_select_entity_field_name->build();
         $field_select_entity_field_name->name_set($widget->name_get_complex().'__insert');
         $field_select_entity_field_name->required_set(false);
         # button for insertion of the new item
-        $button_insert = new button(null, ['data-style' => 'insert', 'title' => new text('insert')]);
+        $button_insert = new Button(null, ['data-style' => 'insert', 'title' => new Text('insert')]);
         $button_insert->break_on_validate = true;
         $button_insert->build();
         $button_insert->value_set($widget->name_get_complex().'__insert');
@@ -135,7 +135,7 @@ class widget_selection_fields extends widget_items {
 
     static function on_button_click_insert($widget, $form, $npath, $button) {
         $widget->controls['#insert']->required_set(true);
-        $result_validation = field_select::on_validate($widget->controls['#insert'], $form, $npath);
+        $result_validation = Field_Select::on_validate($widget->controls['#insert'], $form, $npath);
         $widget->controls['#insert']->required_set(false);
         if ($result_validation) {
             $field_name_info = $widget->controls['#insert']->value_get_parsed();
@@ -150,20 +150,20 @@ class widget_selection_fields extends widget_items {
                     $new_item->type              = 'main';
                     $new_item->entity_name       = $field_name_info['entity_name'];
                     $new_item->entity_field_name = $field_name_info['entity_field_name'];
-                    $entity = entity::get($new_item->entity_name);
+                    $entity = Entity::get($new_item->entity_name);
                     if ($entity && isset($entity->fields[$new_item->entity_field_name])) {
                         $new_item->title = $entity->fields[$new_item->entity_field_name]->title;
                     }
                     if (array_key_exists($field_name_info['entity_field_name'], $items))
-                         $new_row_id = $field_name_info['entity_field_name'].core::number_part_get($field_name_info['entity_field_name'], array_keys($items));
+                         $new_row_id = $field_name_info['entity_field_name'].Core::number_part_get($field_name_info['entity_field_name'], array_keys($items));
                     else $new_row_id = $field_name_info['entity_field_name'];
                     $items[$new_row_id] = $new_item;
                     $widget->items_set($items);
                     $widget->controls['#insert']->value_set('');
-                    message::insert(new text_multiline([
+                    Message::insert(new Text_multiline([
                         'Item of type "%%_type" was inserted.',
                         'Do not forget to save the changes!'], [
-                        'type' => (new text($widget->item_title))->render() ]));
+                        'type' => (new Text($widget->item_title))->render() ]));
                     return true;
                 }
             }

@@ -8,7 +8,7 @@ namespace effcore;
 
 use Exception;
 
-class file_container {
+class File_container {
 
     const WRAPPER = 'container';
     const META_TITLE = self::WRAPPER.'-meta=';

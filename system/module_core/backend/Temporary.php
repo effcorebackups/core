@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-abstract class temporary extends dynamic {
+abstract class Temporary extends Dynamic {
 
     const TYPE = 'tmp';
     const DIRECTORY = DIR_DYNAMIC.'tmp/';

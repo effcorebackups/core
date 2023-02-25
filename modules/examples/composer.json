@@ -44,14 +44,14 @@
         "tinymce/tinymce": "An example of installing a universal third-party library."
     },
     "autoload": {
-        "classmap": ["composer_helper.php"]
+        "classmap": ["Composer_helper.php"]
     },
     "scripts": {
         "pre-install-cmd": [
-            "composer_helper::preInstall"
+            "Composer_helper::preInstall"
         ],
         "pre-update-cmd": [
-            "composer_helper::preInstall"
+            "Composer_helper::preInstall"
         ]
     }
 }

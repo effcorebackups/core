@@ -8,7 +8,7 @@ namespace effcore;
 
 use stdClass;
 
-class widget_items extends control implements control_complex {
+class Widget_Items extends Control implements Control_complex {
 
     public $tag_name = 'x-widget';
     public $attributes = ['data-type' => 'items'];
@@ -56,7 +56,7 @@ class widget_items extends control implements control_complex {
         }
         # message 'no items'
         if ($group->children_select_count() !== 0) $group->child_delete(                                           'no_items');
-        if ($group->children_select_count() === 0) $group->child_insert(new markup('x-no-items', [], 'No items.'), 'no_items');
+        if ($group->children_select_count() === 0) $group->child_insert(new Markup('x-no-items', [], 'No items.'), 'no_items');
     }
 
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
@@ -69,7 +69,7 @@ class widget_items extends control implements control_complex {
 
     function value_set($value, $options = []) {
         $this->value_set_initial($value);
-        if (core::data_is_serialized($value)) $value = unserialize($value);
+        if (Core::data_is_serialized($value)) $value = unserialize($value);
         if ($value === null) $value = [];
         if ($value ===  '' ) $value = [];
         if (is_array($value)) {
@@ -109,10 +109,10 @@ class widget_items extends control implements control_complex {
         if ($this->title) {
             $html_name = 'f_widget_opener_'.$this->number;
             $opener = $this->render_opener();
-            if ((bool)$this->title_is_visible === true && $opener !== '') return $opener.(new markup($this->title_tag_name, $this->title_attributes + ['for' => $html_name                         ], $this->title))->render();
-            if ((bool)$this->title_is_visible !== true && $opener !== '') return $opener.(new markup($this->title_tag_name, $this->title_attributes + ['for' => $html_name, 'aria-hidden' => 'true'], $this->title))->render();
-            if ((bool)$this->title_is_visible !== true && $opener === '') return         (new markup($this->title_tag_name, $this->title_attributes + [                     'aria-hidden' => 'true'], $this->title))->render();
-            if ((bool)$this->title_is_visible === true && $opener === '') return         (new markup($this->title_tag_name, $this->title_attributes + [                                            ], $this->title))->render();
+            if ((bool)$this->title_is_visible === true && $opener !== '') return $opener.(new Markup($this->title_tag_name, $this->title_attributes + ['for' => $html_name                         ], $this->title))->render();
+            if ((bool)$this->title_is_visible !== true && $opener !== '') return $opener.(new Markup($this->title_tag_name, $this->title_attributes + ['for' => $html_name, 'aria-hidden' => 'true'], $this->title))->render();
+            if ((bool)$this->title_is_visible !== true && $opener === '') return         (new Markup($this->title_tag_name, $this->title_attributes + [                     'aria-hidden' => 'true'], $this->title))->render();
+            if ((bool)$this->title_is_visible === true && $opener === '') return         (new Markup($this->title_tag_name, $this->title_attributes + [                                            ], $this->title))->render();
         }
     }
 
@@ -120,15 +120,15 @@ class widget_items extends control implements control_complex {
         if ($this->state === 'opened' ||
             $this->state === 'closed') {
             $html_name    = 'f_widget_opener_'.$this->number;
-            $form_id      = request::value_get('form_id');
-            $submit_value = request::value_get($html_name);
+            $form_id      = Request::value_get('form_id');
+            $submit_value = Request::value_get($html_name);
             $has_error    = $this->has_error_in();
-            if ($form_id === '' && $this->state === 'opened'                    ) /*               default = opened */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null                          ]))->render();
-            if ($form_id === '' && $this->state === 'closed'                    ) /*               default = closed */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
-            if ($form_id !== '' && $has_error !== true && $submit_value !== 'on') /* no error + no checked = opened */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null                          ]))->render();
-            if ($form_id !== '' && $has_error !== true && $submit_value === 'on') /* no error +    checked = closed */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
-            if ($form_id !== '' && $has_error === true && $submit_value !== 'on') /*    error + no checked = opened */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
-            if ($form_id !== '' && $has_error === true && $submit_value === 'on') /*    error +    checked = opened */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
+            if ($form_id === '' && $this->state === 'opened'                    ) /*               default = opened */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new Text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null                          ]))->render();
+            if ($form_id === '' && $this->state === 'closed'                    ) /*               default = closed */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new Text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
+            if ($form_id !== '' && $has_error !== true && $submit_value !== 'on') /* no error + no checked = opened */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new Text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null                          ]))->render();
+            if ($form_id !== '' && $has_error !== true && $submit_value === 'on') /* no error +    checked = closed */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new Text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
+            if ($form_id !== '' && $has_error === true && $submit_value !== 'on') /*    error + no checked = opened */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new Text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
+            if ($form_id !== '' && $has_error === true && $submit_value === 'on') /*    error +    checked = opened */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'title', 'title' => new Text('press to show or hide nested content'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
         }
         return '';
     }
@@ -146,18 +146,18 @@ class widget_items extends control implements control_complex {
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function widget_manage_group_get($widget) {
-        return new markup('x-widgets-group', [
+        return new Markup('x-widgets-group', [
             'data-type' => 'manage',
             'data-has-rearrangeable' => true
         ]);
     }
 
     static function widget_manage_get($widget, $item, $c_row_id) {
-        $result = new markup('x-widget', [
+        $result = new Markup('x-widget', [
             'data-rowid'         => $c_row_id,
             'data-rearrangeable' => true], [], $item->weight);
         # control for weight
-        $field_weight = new field_weight(null, null, [], +400);
+        $field_weight = new Field_Weight(null, null, [], +400);
         $field_weight->cform = $widget->cform;
         $field_weight->attributes['data-role'] = 'weight';
         $field_weight->attributes['data-style'] = 'inline';
@@ -167,7 +167,7 @@ class widget_items extends control implements control_complex {
         $field_weight->required_set(false);
         $field_weight->value_set($item->weight);
         # button for deletion of the old item
-        $button_delete = new button(null, ['data-style' => 'delete little', 'title' => new text('delete')], +500);
+        $button_delete = new Button(null, ['data-style' => 'delete little', 'title' => new Text('delete')], +500);
         $button_delete->break_on_validate = true;
         $button_delete->build();
         $button_delete->value_set($widget->name_get_complex().'__delete__'.$c_row_id);
@@ -182,9 +182,9 @@ class widget_items extends control implements control_complex {
     }
 
     static function widget_insert_get($widget) {
-        $result = new markup('x-widget', ['data-type' => 'insert']);
+        $result = new Markup('x-widget', ['data-type' => 'insert']);
         # button for insertion of the new item
-        $button_insert = new button('insert', ['title' => new text('insert')]);
+        $button_insert = new Button('insert', ['title' => new Text('insert')]);
         $button_insert->break_on_validate = true;
         $button_insert->build();
         $button_insert->value_set($widget->name_get_complex().'__insert');
@@ -207,10 +207,10 @@ class widget_items extends control implements control_complex {
         $items[] = $new_item;
         $new_item->id = 0;
         $widget->items_set($items);
-        message::insert(new text_multiline([
+        Message::insert(new Text_multiline([
             'Item of type "%%_type" was inserted.',
             'Do not forget to save the changes!'], [
-            'type' => (new text($widget->item_title))->render() ]));
+            'type' => (new Text($widget->item_title))->render() ]));
         return true;
     }
 
@@ -219,8 +219,8 @@ class widget_items extends control implements control_complex {
         $item_id = $items[$button->_id]->id ?? null;
         unset($items[$button->_id]);
         $widget->items_set($items);
-        if ($item_id) message::insert(new text_multiline(['Item of type "%%_type" with ID = "%%_id" was deleted.', 'Do not forget to save the changes!'], ['type' => (new text($widget->item_title))->render(), 'id' => $item_id ]));
-        else          message::insert(new text_multiline(['Item of type "%%_type" was deleted.',                   'Do not forget to save the changes!'], ['type' => (new text($widget->item_title))->render()                   ]));
+        if ($item_id) Message::insert(new Text_multiline(['Item of type "%%_type" with ID = "%%_id" was deleted.', 'Do not forget to save the changes!'], ['type' => (new Text($widget->item_title))->render(), 'id' => $item_id ]));
+        else          Message::insert(new Text_multiline(['Item of type "%%_type" was deleted.',                   'Do not forget to save the changes!'], ['type' => (new Text($widget->item_title))->render()                   ]));
         return true;
     }
 
@@ -234,9 +234,9 @@ class widget_items extends control implements control_complex {
 
     static function on_submit($widget, $form, $npath) {
         foreach ($widget->controls as $c_button) {
-            if ($c_button instanceof button && $c_button->is_clicked()) {
-                if (isset($c_button->_type) && $c_button->_type === 'insert') return event::start_local('on_button_click_insert', $widget, ['form' => $form, 'npath' => $npath, 'button' => $c_button]);
-                if (isset($c_button->_type) && $c_button->_type === 'delete') return event::start_local('on_button_click_delete', $widget, ['form' => $form, 'npath' => $npath, 'button' => $c_button]);
+            if ($c_button instanceof Button && $c_button->is_clicked()) {
+                if (isset($c_button->_type) && $c_button->_type === 'insert') return Event::start_local('on_button_click_insert', $widget, ['form' => $form, 'npath' => $npath, 'button' => $c_button]);
+                if (isset($c_button->_type) && $c_button->_type === 'delete') return Event::start_local('on_button_click_delete', $widget, ['form' => $form, 'npath' => $npath, 'button' => $c_button]);
             }
         }
     }

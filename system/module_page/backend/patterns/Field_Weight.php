@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class field_weight extends field_number {
+class Field_Weight extends Field_Number {
 
     const INPUT_MIN_WEIGHT = -1000;
     const INPUT_MAX_WEIGHT = +1000;

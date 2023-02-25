@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class widget_text_object extends control implements control_complex {
+class Widget_Text_object extends Control implements Control_complex {
 
     public $tag_name = 'x-group';
     public $name_complex = 'text_object';
@@ -30,8 +30,8 @@ class widget_text_object extends control implements control_complex {
 
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
-    function value_get($options = []) { # @return: object:text | serialize(object:text)
-        $result = new text(
+    function value_get($options = []) { # @return: object:Text | serialize(object:Text)
+        $result = new Text(
             $this->controls['#text']->value_get(), [],
             $this->controls['#is_apply_translation']->checked_get(),
             $this->controls['#is_apply_tokens'     ]->checked_get()
@@ -43,10 +43,10 @@ class widget_text_object extends control implements control_complex {
 
     function value_set($value) {
         $this->value_set_initial($value);
-        if (core::data_is_serialized($value)) $value = unserialize($value);
-        if ($value === null) $value = new text('', [], false, false);
-        if ($value ===  '' ) $value = new text('', [], false, false);
-        if ($value instanceof text) {
+        if (Core::data_is_serialized($value)) $value = unserialize($value);
+        if ($value === null) $value = new Text('', [], false, false);
+        if ($value ===  '' ) $value = new Text('', [], false, false);
+        if ($value instanceof Text) {
             $this->controls['#text'                ]->  value_set($value->text);
             $this->controls['#is_apply_translation']->checked_set($value->is_apply_translation);
             $this->controls['#is_apply_tokens'     ]->checked_set($value->is_apply_tokens);
@@ -66,9 +66,9 @@ class widget_text_object extends control implements control_complex {
     ###########################
 
     static function widget_manage_get($widget) {
-        $result = new node;
+        $result = new Node;
         # control for text value
-        $field_text = new field_text;
+        $field_text = new Field_Text;
         $field_text->attributes['data-role'] = 'title';
         $field_text->title = $widget->field_text_title;
         $field_text->build();
@@ -77,16 +77,16 @@ class widget_text_object extends control implements control_complex {
         $field_text->maxlength_set($widget->field_text_maxlength);
         $field_text->required_set($widget->field_text_required);
         # control for translation status
-        $field_is_apply_translation = new field_checkbox('Tr.');
+        $field_is_apply_translation = new Field_Checkbox('Tr.');
         $field_is_apply_translation->attributes['data-role'] = 'is-apply-translation';
-        $field_is_apply_translation->attribute_insert('title', new text('Is apply translation'), 'element_attributes');
+        $field_is_apply_translation->attribute_insert('title', new Text('Is apply translation'), 'element_attributes');
         $field_is_apply_translation->build();
         $field_is_apply_translation->name_set($widget->name_get_complex().'__is_apply_translation');
         $field_is_apply_translation->checked_set($widget->field_is_apply_translation_checked);
         # control for tokens status
-        $field_is_apply_tokens = new field_checkbox('To.');
+        $field_is_apply_tokens = new Field_Checkbox('To.');
         $field_is_apply_tokens->attributes['data-role'] = 'is-apply-tokens';
-        $field_is_apply_tokens->attribute_insert('title', new text('Is apply tokens'), 'element_attributes');
+        $field_is_apply_tokens->attribute_insert('title', new Text('Is apply tokens'), 'element_attributes');
         $field_is_apply_tokens->build();
         $field_is_apply_tokens->name_set($widget->name_get_complex().'__is_apply_tokens');
         $field_is_apply_tokens->checked_set($widget->field_is_apply_tokens_checked);

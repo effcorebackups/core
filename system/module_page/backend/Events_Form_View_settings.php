@@ -6,14 +6,14 @@
 
 namespace effcore\modules\page;
 
-use effcore\message;
-use effcore\module;
-use effcore\storage;
+use effcore\Message;
+use effcore\Module;
+use effcore\Storage;
 
-abstract class events_form_view_settings {
+abstract class Events_Form_View_settings {
 
     static function on_init($event, $form, $items) {
-        $settings = module::settings_get('page');
+        $settings = Module::settings_get('page');
         $items['#width_min'    ]->value_set($settings->page_width_min    );
         $items['#width_max'    ]->value_set($settings->page_width_max    );
         $items['#meta_viewport']->value_set($settings->page_meta_viewport);
@@ -37,18 +37,18 @@ abstract class events_form_view_settings {
     static function on_submit($event, $form, $items) {
         switch ($form->clicked_button->value_get()) {
             case 'save':
-                $result = storage::get('data')->changes_insert('page', 'update', 'settings/page/page_width_min',     (int)$items['#width_min'    ]->value_get(), false);
-                $result&= storage::get('data')->changes_insert('page', 'update', 'settings/page/page_width_max',     (int)$items['#width_max'    ]->value_get(), false);
-                $result&= storage::get('data')->changes_insert('page', 'update', 'settings/page/page_meta_viewport',      $items['#meta_viewport']->value_get()       );
-                if ($result) message::insert('Changes was saved.'             );
-                else         message::insert('Changes was not saved!', 'error');
+                $result = Storage::get('data')->changes_insert('page', 'update', 'settings/page/page_width_min',     (int)$items['#width_min'    ]->value_get(), false);
+                $result&= Storage::get('data')->changes_insert('page', 'update', 'settings/page/page_width_max',     (int)$items['#width_max'    ]->value_get(), false);
+                $result&= Storage::get('data')->changes_insert('page', 'update', 'settings/page/page_meta_viewport',      $items['#meta_viewport']->value_get()       );
+                if ($result) Message::insert('Changes was saved.'             );
+                else         Message::insert('Changes was not saved!', 'error');
                 break;
             case 'reset':
-                $result = storage::get('data')->changes_delete('page', 'update', 'settings/page/page_width_min', false);
-                $result&= storage::get('data')->changes_delete('page', 'update', 'settings/page/page_width_max', false);
-                $result&= storage::get('data')->changes_delete('page', 'update', 'settings/page/page_meta_viewport'   );
-                if ($result) message::insert('Changes was deleted.'             );
-                else         message::insert('Changes was not deleted!', 'error');
+                $result = Storage::get('data')->changes_delete('page', 'update', 'settings/page/page_width_min', false);
+                $result&= Storage::get('data')->changes_delete('page', 'update', 'settings/page/page_width_max', false);
+                $result&= Storage::get('data')->changes_delete('page', 'update', 'settings/page/page_meta_viewport'   );
+                if ($result) Message::insert('Changes was deleted.'             );
+                else         Message::insert('Changes was not deleted!', 'error');
                 static::on_init(null, $form, $items);
                 break;
         }

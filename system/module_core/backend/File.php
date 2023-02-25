@@ -6,13 +6,13 @@
 
 namespace effcore;
 
-use FilesystemIterator as fs_iterator;
-use RecursiveDirectoryIterator as rd_iterator;
-use RecursiveIteratorIterator as ri_iterator;
+use FilesystemIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use stdClass;
 use UnexpectedValueException;
 
-class file {
+class File {
 
     # valid paths (path = protocol + dirs + name + type):
     # ┌──────────────────────────────╥────────────┬──────────┬────────┬────────┬─────────────┐
@@ -79,9 +79,9 @@ class file {
     # 6. path components like '../' should be ignored or use function 'realpath' to resolve the path
     # ───────────────────────────────────────────────────────────────────────────────────────────────
 
-    const SCAN_MODE              = fs_iterator::UNIX_PATHS|fs_iterator::SKIP_DOTS;
-    const SCAN_WITH_DIR_AT_FIRST = ri_iterator::SELF_FIRST;
-    const SCAN_WITH_DIR_AT_LAST  = ri_iterator::CHILD_FIRST;
+    const SCAN_MODE              = FilesystemIterator::UNIX_PATHS|FilesystemIterator::SKIP_DOTS;
+    const SCAN_WITH_DIR_AT_FIRST = RecursiveIteratorIterator::SELF_FIRST;
+    const SCAN_WITH_DIR_AT_LAST  = RecursiveIteratorIterator::CHILD_FIRST;
 
     public $protocol;
     public $dirs;
@@ -192,13 +192,13 @@ class file {
 
     function load($reset = false) {
         $relative = $this->path_get_relative();
-        timer::tap('file load: '.$relative);
+        Timer::tap('file load: '.$relative);
         if (!$reset && isset(static::$cache_data[$relative]))
              $this->data  =  static::$cache_data[$relative];
         else $this->data  =  static::$cache_data[$relative] = @file_get_contents($this->path_get());
-        timer::tap('file load: '.$relative);
-        console::log_insert('file', 'load', $relative, 'ok',
-            timer::period_get('file load: '.$relative, -1, -2)
+        Timer::tap('file load: '.$relative);
+        Console::log_insert('file', 'load', $relative, 'ok',
+            Timer::period_get('file load: '.$relative, -1, -2)
         );
         return $this->data;
     }
@@ -255,14 +255,14 @@ class file {
 
     function require($once = true) {
         $relative = $this->path_get_relative();
-        timer::tap('file insert: '.$relative);
+        Timer::tap('file insert: '.$relative);
         $result = $once ? require_once($this->path_get()) :
                           require     ($this->path_get());
-        timer::tap('file insert: '.$relative);
-        if (console::visible_mode_get()) {
+        Timer::tap('file insert: '.$relative);
+        if (Console::visible_mode_get()) {
             $memory_consumption = static::cache_op_info_get($this->path_get_absolute())['memory_consumption'] ?? null;
-               console::log_insert('file', 'insertion', $relative, 'ok', timer::period_get('file insert: '.$relative, -1, -2), [], ['memory consumption' => $memory_consumption ?: '—']);
-        } else console::log_insert('file', 'insertion', $relative, 'ok', timer::period_get('file insert: '.$relative, -1, -2), []);
+               Console::log_insert('file', 'insertion', $relative, 'ok', Timer::period_get('file insert: '.$relative, -1, -2), [], ['memory consumption' => $memory_consumption ?: '—']);
+        } else Console::log_insert('file', 'insertion', $relative, 'ok', Timer::period_get('file insert: '.$relative, -1, -2), []);
         return $result;
     }
 
@@ -288,9 +288,9 @@ class file {
 
     static function init() {
         if (static::$cache_file_types === null) {
-            foreach (storage::get('data')->select_array('file_types') as $c_module_id => $c_file_types) {
+            foreach (Storage::get('data')->select_array('file_types') as $c_module_id => $c_file_types) {
                 foreach ($c_file_types as $c_row_id => $c_file_type) {
-                    if (isset(static::$cache_file_types[$c_file_type->type])) console::report_about_duplicate('file_types', $c_file_type->type, $c_module_id, static::$cache_file_types[$c_file_type->type]);
+                    if (isset(static::$cache_file_types[$c_file_type->type])) Console::report_about_duplicate('file_types', $c_file_type->type, $c_module_id, static::$cache_file_types[$c_file_type->type]);
                               static::$cache_file_types[$c_file_type->type] = $c_file_type;
                               static::$cache_file_types[$c_file_type->type]->module_id = $c_module_id;
                 }
@@ -328,8 +328,8 @@ class file {
     static function select_recursive($path, $filter = '', $with_dirs = false) {
         try {
             $result = [];
-            if ($with_dirs === true) $scan = new ri_iterator(new rd_iterator($path, static::SCAN_MODE), static::SCAN_WITH_DIR_AT_FIRST);
-            if ($with_dirs !== true) $scan = new ri_iterator(new rd_iterator($path, static::SCAN_MODE));
+            if ($with_dirs === true) $scan = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, static::SCAN_MODE), static::SCAN_WITH_DIR_AT_FIRST);
+            if ($with_dirs !== true) $scan = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, static::SCAN_MODE));
             foreach ($scan as $c_path => $c_spl_file_info) {
                 if (!$filter || ($filter && preg_match($filter, $c_path))) {
                     if     ($c_spl_file_info->isFile()) $result[$c_path] = new static($c_path);

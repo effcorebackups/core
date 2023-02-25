@@ -6,11 +6,11 @@
 
 namespace effcore;
 
-class field_textarea extends field_text {
+class Field_Textarea extends Field_Text {
 
     public $title = 'Text area';
     public $attributes = ['data-type' => 'textarea'];
-    public $element_class = '\\effcore\\markup';
+    public $element_class = '\\effcore\\Markup';
     public $element_tag_name = 'textarea';
     public $element_attributes = [
         'name'      => 'textarea',
@@ -27,7 +27,7 @@ class field_textarea extends field_text {
                              $this->attribute_delete('value', 'element_attributes');
             $element = $this->child_select('element');
             $element->attribute_delete('value');
-            $element->child_insert(new text_simple($element_value ?: ''), 'content');
+            $element->child_insert(new Text_simple($element_value ?: ''), 'content');
             $this->is_builded = true;
         }
     }
@@ -41,8 +41,8 @@ class field_textarea extends field_text {
     function value_set($value) {
         $this->value_set_initial($value);
         if (is_null   ($value)) return $this->child_select('element')->child_select('content')->text_delete();
-        if (is_int    ($value)) return $this->child_select('element')->child_select('content')->text_update(core::format_number($value));
-        if (is_float  ($value)) return $this->child_select('element')->child_select('content')->text_update(core::format_number($value, core::FPART_MAX_LEN));
+        if (is_int    ($value)) return $this->child_select('element')->child_select('content')->text_update(Core::format_number($value));
+        if (is_float  ($value)) return $this->child_select('element')->child_select('content')->text_update(Core::format_number($value, Core::FPART_MAX_LEN));
         if (is_string ($value)) return $this->child_select('element')->child_select('content')->text_update($value);
     }
 

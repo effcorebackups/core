@@ -8,18 +8,18 @@ namespace effcore\modules\page;
 
 use const effcore\DIR_DYNAMIC;
 use const effcore\DIR_ROOT;
-use effcore\dynamic;
-use effcore\event;
-use effcore\file;
-use effcore\media;
-use effcore\module;
-use effcore\request;
-use effcore\response;
+use effcore\Dynamic;
+use effcore\Event;
+use effcore\File;
+use effcore\Media;
+use effcore\Module;
+use effcore\Request;
+use effcore\Response;
 
-abstract class events_file {
+abstract class Events_File {
 
     static function prepath_get($type) {
-        $settings = module::settings_get('page');
+        $settings = Module::settings_get('page');
         switch ($type) {
             case 'cover_not_found'                  : return DIR_ROOT.$settings->prepath__cover_not_found;
             case 'file_outside_of_dynamic_directory': return DIR_ROOT.$settings->prepath__file_outside_of_dynamic_directory;
@@ -37,27 +37,27 @@ abstract class events_file {
     static function on_load_not_found($event, &$type_info, &$file, $real_path, $phase) {
         switch ($file->path_get()) {
             case DIR_ROOT.'sitemap.xml':
-                $settings = module::settings_get('page');
-                $file = new file(dynamic::DIR_FILES.'sitemap.xml');
+                $settings = Module::settings_get('page');
+                $file = new File(Dynamic::DIR_FILES.'sitemap.xml');
                 if ($file->is_exists()) {
-                    $type = file::types_get()[$settings->apply_tokens_for_sitemap ? 'xmld' : 'xml'];
+                    $type = File::types_get()[$settings->apply_tokens_for_sitemap ? 'xmld' : 'xml'];
                     if ($settings->apply_tokens_for_sitemap)
-                         event::start('on_file_load', 'dynamic', ['type_info' => &$type, 'file' => &$file]);
-                    else event::start('on_file_load', 'static',  ['type_info' => &$type, 'file' => &$file]);
+                         Event::start('on_file_load', 'dynamic', ['type_info' => &$type, 'file' => &$file]);
+                    else Event::start('on_file_load', 'static',  ['type_info' => &$type, 'file' => &$file]);
                     exit();
                 } break;
             case DIR_ROOT.'robots.txt':
-                $settings = module::settings_get('page');
-                $file = new file(dynamic::DIR_FILES.'robots.txt');
+                $settings = Module::settings_get('page');
+                $file = new File(Dynamic::DIR_FILES.'robots.txt');
                 if ($file->is_exists()) {
-                    $type = file::types_get()[$settings->apply_tokens_for_robots ? 'txtd' : 'txt'];
+                    $type = File::types_get()[$settings->apply_tokens_for_robots ? 'txtd' : 'txt'];
                     if ($settings->apply_tokens_for_robots)
-                         event::start('on_file_load', 'dynamic', ['type_info' => &$type, 'file' => &$file]);
-                    else event::start('on_file_load', 'static',  ['type_info' => &$type, 'file' => &$file]);
+                         Event::start('on_file_load', 'dynamic', ['type_info' => &$type, 'file' => &$file]);
+                    else Event::start('on_file_load', 'static',  ['type_info' => &$type, 'file' => &$file]);
                     exit();
                 } break;
             case DIR_ROOT.'favicon.ico':
-                response::send_header_and_exit('moved_permanently');
+                Response::send_header_and_exit('moved_permanently');
         }
     }
 
@@ -85,8 +85,8 @@ abstract class events_file {
             if (file_exists($path_info) &&
                 file_exists($path_original)) {
                 $info = @unserialize(file_get_contents($path_info));
-                $file_types = file::types_get();
-                $arg = request::value_get('cover', 0, '_GET', null);
+                $file_types = File::types_get();
+                $arg = Request::value_get('cover', 0, '_GET', null);
                 if ($arg === null                     ) $target = 'original';
                 if ($arg !== null                     ) $target = 'cover';
                 if ($arg !== null && $arg === 'small' ) $target = 'cover-small';
@@ -96,30 +96,30 @@ abstract class events_file {
                 if ($target === 'original') {
                     if (isset(             $info['original']['type'] ) &&
                         isset($file_types[ $info['original']['type'] ])) {
-                        if (media::media_class_get($info['original']['type']) === 'audio') {
+                        if (Media::media_class_get($info['original']['type']) === 'audio') {
                             $type_info = $file_types[$info['original']['type']];
-                            $file = new file($path_original);
+                            $file = new File($path_original);
                             return true;
-                        } else response::send_header_and_exit('unsupported_media_type');
-                    }     else response::send_header_and_exit('unsupported_media_type');
+                        } else Response::send_header_and_exit('unsupported_media_type');
+                    }     else Response::send_header_and_exit('unsupported_media_type');
                 }
                 # case for cover or its thumbnails
                 if ($target !== 'original') {
                     if (isset(             $info['cover']['type'] ) &&
                         isset($file_types[ $info['cover']['type'] ])) {
-                        if (media::media_class_get($info['cover']['type']) === 'picture') {
+                        if (Media::media_class_get($info['cover']['type']) === 'picture') {
                             $type_info = $file_types[$info['cover']['type']];
                             if ($target === 'cover'       ) $path_target = $path_cover;
                             if ($target === 'cover-small' ) $path_target = $path_cover_small;
                             if ($target === 'cover-middle') $path_target = $path_cover_middle;
                             if ($target === 'cover-big'   ) $path_target = $path_cover_big;
                             if (file_exists($path_target)) {
-                                $file = new file($path_target);
+                                $file = new File($path_target);
                                 return true;
                             }
                             # if cover does not exist
                             if (!file_exists($path_cover)) {
-                                $file = new file(static::prepath_get('cover_not_found').'.'.$info['cover']['type']);
+                                $file = new File(static::prepath_get('cover_not_found').'.'.$info['cover']['type']);
                                 return;
                             }
                             # generate thumbnail and insert it into container
@@ -127,32 +127,32 @@ abstract class events_file {
                                 if ($target === 'cover-small' ) $size = 'small';
                                 if ($target === 'cover-middle') $size = 'middle';
                                 if ($target === 'cover-big'   ) $size = 'big';
-                                if (media::is_type_for_thumbnail($type_info->type)) {
+                                if (Media::is_type_for_thumbnail($type_info->type)) {
                                     if (isset($info['cover_thumbnails']) && is_array($info['cover_thumbnails'])) {
                                         if (strpos($path, DIR_DYNAMIC) === 0) {
                                             if (isset($size) && isset($info['cover_thumbnails'][$size])) {
-                                                $settings = module::settings_get('page');
+                                                $settings = Module::settings_get('page');
                                                 if ($size === 'small' ) $width = $settings->thumbnail_width_small;
                                                 if ($size === 'middle') $width = $settings->thumbnail_width_middle;
                                                 if ($size === 'big'   ) $width = $settings->thumbnail_width_big;
                                                 $path_thumbnail_tmp = $path.'.'.$target.'.'.$info['cover']['type'];
-                                                $result = media::thumbnail_create($path_cover, $path_thumbnail_tmp, $width, null, $settings->thumbnail_quality_jpeg);
+                                                $result = Media::thumbnail_create($path_cover, $path_thumbnail_tmp, $width, null, $settings->thumbnail_quality_jpeg);
                                                 if ($result && file_exists($path_thumbnail_tmp)) {
-                                                    if (media::container_file_insert($path_container, $path_thumbnail_tmp, $target)) {
+                                                    if (Media::container_file_insert($path_container, $path_thumbnail_tmp, $target)) {
                                                         @unlink($path_thumbnail_tmp);
-                                                        $file = new file($path_target);
+                                                        $file = new File($path_target);
                                                         return true;
-                                                    } else $file = new file(static::prepath_get('thumbnail_embedding_error'        ).'.'.$info['cover']['type']);
-                                                }     else $file = new file(static::prepath_get('thumbnail_creation_error'         ).'.'.$info['cover']['type']);
-                                            }         else $file = new file(static::prepath_get('thumbnail_not_allowed'            ).'.'.$info['cover']['type']);
-                                        }             else $file = new file(static::prepath_get('file_outside_of_dynamic_directory').'.'.$info['cover']['type']);
-                                    } else response::send_header_and_exit('unsupported_media_type');
-                                }     else response::send_header_and_exit('unsupported_media_type');
-                            }         else response::send_header_and_exit('unsupported_media_type');
-                        }             else response::send_header_and_exit('unsupported_media_type');
-                    }                 else response::send_header_and_exit('unsupported_media_type');
+                                                    } else $file = new File(static::prepath_get('thumbnail_embedding_error'        ).'.'.$info['cover']['type']);
+                                                }     else $file = new File(static::prepath_get('thumbnail_creation_error'         ).'.'.$info['cover']['type']);
+                                            }         else $file = new File(static::prepath_get('thumbnail_not_allowed'            ).'.'.$info['cover']['type']);
+                                        }             else $file = new File(static::prepath_get('file_outside_of_dynamic_directory').'.'.$info['cover']['type']);
+                                    } else Response::send_header_and_exit('unsupported_media_type');
+                                }     else Response::send_header_and_exit('unsupported_media_type');
+                            }         else Response::send_header_and_exit('unsupported_media_type');
+                        }             else Response::send_header_and_exit('unsupported_media_type');
+                    }                 else Response::send_header_and_exit('unsupported_media_type');
                 }
-            } else response::send_header_and_exit('unsupported_media_type');
+            } else Response::send_header_and_exit('unsupported_media_type');
         }
     }
 
@@ -180,8 +180,8 @@ abstract class events_file {
             if (file_exists($path_info) &&
                 file_exists($path_original)) {
                 $info = @unserialize(file_get_contents($path_info));
-                $file_types = file::types_get();
-                $arg = request::value_get('poster', 0, '_GET', null);
+                $file_types = File::types_get();
+                $arg = Request::value_get('poster', 0, '_GET', null);
                 if ($arg === null                     ) $target = 'original';
                 if ($arg !== null                     ) $target = 'poster';
                 if ($arg !== null && $arg === 'small' ) $target = 'poster-small';
@@ -191,30 +191,30 @@ abstract class events_file {
                 if ($target === 'original') {
                     if (isset(             $info['original']['type'] ) &&
                         isset($file_types[ $info['original']['type'] ])) {
-                        if (media::media_class_get($info['original']['type']) === 'video') {
+                        if (Media::media_class_get($info['original']['type']) === 'video') {
                             $type_info = $file_types[$info['original']['type']];
-                            $file = new file($path_original);
+                            $file = new File($path_original);
                             return true;
-                        } else response::send_header_and_exit('unsupported_media_type');
-                    }     else response::send_header_and_exit('unsupported_media_type');
+                        } else Response::send_header_and_exit('unsupported_media_type');
+                    }     else Response::send_header_and_exit('unsupported_media_type');
                 }
                 # case for poster or its thumbnails
                 if ($target !== 'original') {
                     if (isset(             $info['poster']['type'] ) &&
                         isset($file_types[ $info['poster']['type'] ])) {
-                        if (media::media_class_get($info['poster']['type']) === 'picture') {
+                        if (Media::media_class_get($info['poster']['type']) === 'picture') {
                             $type_info = $file_types[$info['poster']['type']];
                             if ($target === 'poster'       ) $path_target = $path_poster;
                             if ($target === 'poster-small' ) $path_target = $path_poster_small;
                             if ($target === 'poster-middle') $path_target = $path_poster_middle;
                             if ($target === 'poster-big'   ) $path_target = $path_poster_big;
                             if (file_exists($path_target)) {
-                                $file = new file($path_target);
+                                $file = new File($path_target);
                                 return true;
                             }
                             # if poster does not exist
                             if (!file_exists($path_poster)) {
-                                $file = new file(static::prepath_get('poster_not_found').'.'.$info['poster']['type']);
+                                $file = new File(static::prepath_get('poster_not_found').'.'.$info['poster']['type']);
                                 return;
                             }
                             # generate thumbnail and insert it into container
@@ -222,32 +222,32 @@ abstract class events_file {
                                 if ($target === 'poster-small' ) $size = 'small';
                                 if ($target === 'poster-middle') $size = 'middle';
                                 if ($target === 'poster-big'   ) $size = 'big';
-                                if (media::is_type_for_thumbnail($type_info->type)) {
+                                if (Media::is_type_for_thumbnail($type_info->type)) {
                                     if (isset($info['poster_thumbnails']) && is_array($info['poster_thumbnails'])) {
                                         if (strpos($path, DIR_DYNAMIC) === 0) {
                                             if (isset($size) && isset($info['poster_thumbnails'][$size])) {
-                                                $settings = module::settings_get('page');
+                                                $settings = Module::settings_get('page');
                                                 if ($size === 'small' ) $width = $settings->thumbnail_width_small;
                                                 if ($size === 'middle') $width = $settings->thumbnail_width_middle;
                                                 if ($size === 'big'   ) $width = $settings->thumbnail_width_big;
                                                 $path_thumbnail_tmp = $path.'.'.$target.'.'.$info['poster']['type'];
-                                                $result = media::thumbnail_create($path_poster, $path_thumbnail_tmp, $width, null, $settings->thumbnail_quality_jpeg);
+                                                $result = Media::thumbnail_create($path_poster, $path_thumbnail_tmp, $width, null, $settings->thumbnail_quality_jpeg);
                                                 if ($result && file_exists($path_thumbnail_tmp)) {
-                                                    if (media::container_file_insert($path_container, $path_thumbnail_tmp, $target)) {
+                                                    if (Media::container_file_insert($path_container, $path_thumbnail_tmp, $target)) {
                                                         @unlink($path_thumbnail_tmp);
-                                                        $file = new file($path_target);
+                                                        $file = new File($path_target);
                                                         return true;
-                                                    } else $file = new file(static::prepath_get('thumbnail_embedding_error'        ).'.'.$info['poster']['type']);
-                                                }     else $file = new file(static::prepath_get('thumbnail_creation_error'         ).'.'.$info['poster']['type']);
-                                            }         else $file = new file(static::prepath_get('thumbnail_not_allowed'            ).'.'.$info['poster']['type']);
-                                        }             else $file = new file(static::prepath_get('file_outside_of_dynamic_directory').'.'.$info['poster']['type']);
-                                    } else response::send_header_and_exit('unsupported_media_type');
-                                }     else response::send_header_and_exit('unsupported_media_type');
-                            }         else response::send_header_and_exit('unsupported_media_type');
-                        }             else response::send_header_and_exit('unsupported_media_type');
-                    }                 else response::send_header_and_exit('unsupported_media_type');
+                                                    } else $file = new File(static::prepath_get('thumbnail_embedding_error'        ).'.'.$info['poster']['type']);
+                                                }     else $file = new File(static::prepath_get('thumbnail_creation_error'         ).'.'.$info['poster']['type']);
+                                            }         else $file = new File(static::prepath_get('thumbnail_not_allowed'            ).'.'.$info['poster']['type']);
+                                        }             else $file = new File(static::prepath_get('file_outside_of_dynamic_directory').'.'.$info['poster']['type']);
+                                    } else Response::send_header_and_exit('unsupported_media_type');
+                                }     else Response::send_header_and_exit('unsupported_media_type');
+                            }         else Response::send_header_and_exit('unsupported_media_type');
+                        }             else Response::send_header_and_exit('unsupported_media_type');
+                    }                 else Response::send_header_and_exit('unsupported_media_type');
                 }
-            } else response::send_header_and_exit('unsupported_media_type');
+            } else Response::send_header_and_exit('unsupported_media_type');
         }
     }
 
@@ -274,12 +274,12 @@ abstract class events_file {
             if (file_exists($path_info) &&
                 file_exists($path_original)) {
                 $info = @unserialize(file_get_contents($path_info));
-                $file_types = file::types_get();
+                $file_types = File::types_get();
                 if (isset(             $info['original']['type'] ) &&
                     isset($file_types[ $info['original']['type'] ])) {
                     $type_info = $file_types[$info['original']['type']];
-                    if (media::media_class_get($type_info->type) === 'picture') {
-                        switch (request::value_get('thumb', 0, '_GET', null)) {
+                    if (Media::media_class_get($type_info->type) === 'picture') {
+                        switch (Request::value_get('thumb', 0, '_GET', null)) {
                             case 'small' : $size = 'small';  break;
                             case 'middle': $size = 'middle'; break;
                             case 'big'   : $size = 'big';    break;
@@ -287,7 +287,7 @@ abstract class events_file {
                         }
                         # case for picture (file "original")
                         if ($size === 'original') {
-                            $file = new file($path_original);
+                            $file = new File($path_original);
                             return true;
                         }
                         # case for thumbnails
@@ -295,34 +295,34 @@ abstract class events_file {
                         if ($size === 'middle') $path_thumbnail = $path_thumbnail_middle;
                         if ($size === 'big'   ) $path_thumbnail = $path_thumbnail_big;
                         if (file_exists($path_thumbnail)) {
-                            $file = new file($path_thumbnail);
+                            $file = new File($path_thumbnail);
                             return true;
                         }
                         # generate thumbnail and insert it into container
-                        if (media::is_type_for_thumbnail($type_info->type)) {
+                        if (Media::is_type_for_thumbnail($type_info->type)) {
                             if (isset($info['thumbnails']) && is_array($info['thumbnails'])) {
                                 if (strpos($path, DIR_DYNAMIC) === 0) {
                                     if (isset($info['thumbnails'][$size])) {
-                                        $settings = module::settings_get('page');
+                                        $settings = Module::settings_get('page');
                                         if ($size === 'small' ) $width = $settings->thumbnail_width_small;
                                         if ($size === 'middle') $width = $settings->thumbnail_width_middle;
                                         if ($size === 'big'   ) $width = $settings->thumbnail_width_big;
                                         $path_thumbnail_tmp = $path.'.thumbnail-'.$size.'.'.$type_info->type;
-                                        $result = media::thumbnail_create($path_original, $path_thumbnail_tmp, $width, null, $settings->thumbnail_quality_jpeg);
+                                        $result = Media::thumbnail_create($path_original, $path_thumbnail_tmp, $width, null, $settings->thumbnail_quality_jpeg);
                                         if ($result && file_exists($path_thumbnail_tmp)) {
-                                            if (media::container_file_insert($path_container, $path_thumbnail_tmp, 'thumbnail-'.$size)) {
+                                            if (Media::container_file_insert($path_container, $path_thumbnail_tmp, 'thumbnail-'.$size)) {
                                                 @unlink($path_thumbnail_tmp);
-                                                $file = new file($path_thumbnail);
+                                                $file = new File($path_thumbnail);
                                                 return true;
-                                            } else $file = new file(static::prepath_get('thumbnail_embedding_error'        ).'.'.$type_info->type);
-                                        }     else $file = new file(static::prepath_get('thumbnail_creation_error'         ).'.'.$type_info->type);
-                                    }         else $file = new file(static::prepath_get('thumbnail_not_allowed'            ).'.'.$type_info->type);
-                                }             else $file = new file(static::prepath_get('file_outside_of_dynamic_directory').'.'.$type_info->type);
-                            } else response::send_header_and_exit('unsupported_media_type');
-                        }     else response::send_header_and_exit('unsupported_media_type');
-                    }         else response::send_header_and_exit('unsupported_media_type');
-                }             else response::send_header_and_exit('unsupported_media_type');
-            }                 else response::send_header_and_exit('unsupported_media_type');
+                                            } else $file = new File(static::prepath_get('thumbnail_embedding_error'        ).'.'.$type_info->type);
+                                        }     else $file = new File(static::prepath_get('thumbnail_creation_error'         ).'.'.$type_info->type);
+                                    }         else $file = new File(static::prepath_get('thumbnail_not_allowed'            ).'.'.$type_info->type);
+                                }             else $file = new File(static::prepath_get('file_outside_of_dynamic_directory').'.'.$type_info->type);
+                            } else Response::send_header_and_exit('unsupported_media_type');
+                        }     else Response::send_header_and_exit('unsupported_media_type');
+                    }         else Response::send_header_and_exit('unsupported_media_type');
+                }             else Response::send_header_and_exit('unsupported_media_type');
+            }                 else Response::send_header_and_exit('unsupported_media_type');
         }
     }
 

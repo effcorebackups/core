@@ -6,16 +6,16 @@
 
 namespace effcore\modules\core;
 
-use effcore\cache;
-use effcore\message;
+use effcore\Cache;
+use effcore\Message;
 
-abstract class events_form_cache_update {
+abstract class Events_Form_Cache_update {
 
     static function on_submit($event, $form, $items) {
         switch ($form->clicked_button->value_get()) {
             case 'update':
-                cache::update_global();
-                message::insert('All caches was reset.');
+                Cache::update_global();
+                Message::insert('All caches was reset.');
                 break;
         }
     }

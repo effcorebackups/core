@@ -6,19 +6,19 @@
 
 namespace effcore\modules\user;
 
-use effcore\instance;
-use effcore\mail;
-use effcore\message;
-use effcore\url;
-use effcore\user;
+use effcore\Instance;
+use effcore\Mail;
+use effcore\Message;
+use effcore\Url;
+use effcore\User;
 
-abstract class events_form_recovery {
+abstract class Events_Form_Recovery {
 
     static function on_validate($event, $form, $items) {
         switch ($form->clicked_button->value_get()) {
             case 'recovery':
                 if (!$form->has_error()) {
-                    if (!(new instance('user', ['email' => $items['#email']->value_get()]))->select()) {
+                    if (!(new Instance('user', ['email' => $items['#email']->value_get()]))->select()) {
                         $items['#email']->error_set(
                             'User with this Email was not registered!'
                         );
@@ -32,17 +32,17 @@ abstract class events_form_recovery {
     static function on_submit($event, $form, $items) {
         switch ($form->clicked_button->value_get()) {
             case 'recovery':
-                $user = (new instance('user', [
+                $user = (new Instance('user', [
                     'email' => $items['#email']->value_get()
                 ]))->select();
                 if ($user) {
-                    $new_password = user::password_generate();
-                    $user->password_hash = user::password_hash($new_password);
+                    $new_password = User::password_generate();
+                    $user->password_hash = User::password_hash($new_password);
                     if ($user->update()) {
-                        $domain = url::get_current()->domain;
-                        if (mail::send('recovery', 'no-reply@'.$domain, $user, ['domain' => $domain], ['domain' => $domain, 'new_password' => $new_password], $form, $items)) {
-                            message::insert('A new password was sent to the selected Email.');
-                            url::go(url::back_url_get() ?: '/login');
+                        $domain = Url::get_current()->domain;
+                        if (Mail::send('recovery', 'no-reply@'.$domain, $user, ['domain' => $domain], ['domain' => $domain, 'new_password' => $new_password], $form, $items)) {
+                            Message::insert('A new password was sent to the selected Email.');
+                            Url::go(Url::back_url_get() ?: '/login');
                         }
                     }
                 }

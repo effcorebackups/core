@@ -6,27 +6,27 @@
 
 namespace effcore\modules\user;
 
-use effcore\entity;
-use effcore\message;
-use effcore\page;
-use effcore\form_plugin;
-use effcore\text_multiline;
-use effcore\text;
+use effcore\Entity;
+use effcore\Message;
+use effcore\Page;
+use effcore\Form_plugin;
+use effcore\Text_multiline;
+use effcore\Text;
 
-abstract class events_form_instance_insert {
+abstract class Events_Form_Instance_insert {
 
     static function on_build($event, $form) {
         if ($form->has_error_on_build === false &&
             $form->has_no_fields      === false) {
-            $entity = entity::get($form->entity_name);
+            $entity = Entity::get($form->entity_name);
             if ($entity->name === 'relation_role_ws_user') {
                 # field 'role'
                 $form->child_select('fields')->child_select('id_role')->disabled['anonymous' ] = 'anonymous';
                 $form->child_select('fields')->child_select('id_role')->disabled['registered'] = 'registered';
             }
-            if ($entity->name === 'feedback' && page::get_current()->id !== 'instance_insert') {
+            if ($entity->name === 'feedback' && Page::get_current()->id !== 'instance_insert') {
                 # field 'captcha', button 'cancel', button 'insert'
-                $captcha = new form_plugin('field_captcha', [], [], -500);
+                $captcha = new Form_plugin('Field_Captcha', [], [], -500);
                 $form->child_select('fields')->child_insert($captcha, 'captcha');
                 $form->child_delete('button_cancel');
                 $form->child_select('button_insert')->title = 'send';
@@ -37,8 +37,8 @@ abstract class events_form_instance_insert {
     static function on_init($event, $form, $items) {
         if ($form->has_error_on_build === false &&
             $form->has_no_fields      === false) {
-            $entity = entity::get($form->entity_name);
-            if ($entity->name === 'feedback' && page::get_current()->id !== 'instance_insert') {
+            $entity = Entity::get($form->entity_name);
+            if ($entity->name === 'feedback' && Page::get_current()->id !== 'instance_insert') {
                 $form->is_show_result_message = false;
                 $form->is_redirect_enabled    = false;
                 $items['#name'   ]->value_set('');
@@ -50,7 +50,7 @@ abstract class events_form_instance_insert {
     }
 
     static function on_validate($event, $form, $items) {
-        $entity = entity::get($form->entity_name);
+        $entity = Entity::get($form->entity_name);
         switch ($form->clicked_button->value_get()) {
             case 'insert':
             case 'insert_and_update':
@@ -63,9 +63,9 @@ abstract class events_form_instance_insert {
                         'id_role' => ['id_role_!f' => 'id_role', 'id_role_operator' => '=', 'id_role_!v' => $id_role] ]], 'limit' => 1]);
                     if ($result) {
                         $items['#id_user']->error_set();
-                        $items['#id_role']->error_set(new text_multiline([
+                        $items['#id_role']->error_set(new Text_multiline([
                             'Field "%%_title" contains an error!',
-                            'This combination of values is already in use!'], ['title' => (new text($items['#id_role']->title))->render() ]
+                            'This combination of values is already in use!'], ['title' => (new Text($items['#id_role']->title))->render() ]
                         ));
                     }
                 }
@@ -78,9 +78,9 @@ abstract class events_form_instance_insert {
                         'id_permission' => ['id_permission_!f' => 'id_permission', 'id_permission_operator' => '=', 'id_permission_!v' => $id_permission] ]], 'limit' => 1]);
                     if ($result) {
                         $items['#id_role'      ]->error_set();
-                        $items['#id_permission']->error_set(new text_multiline([
+                        $items['#id_permission']->error_set(new Text_multiline([
                             'Field "%%_title" contains an error!',
-                            'This combination of values is already in use!'], ['title' => (new text($items['#id_permission']->title))->render() ]
+                            'This combination of values is already in use!'], ['title' => (new Text($items['#id_permission']->title))->render() ]
                         ));
                     }
                 }
@@ -89,13 +89,13 @@ abstract class events_form_instance_insert {
     }
 
     static function on_submit($event, $form, $items) {
-        $entity = entity::get($form->entity_name);
+        $entity = Entity::get($form->entity_name);
         switch ($form->clicked_button->value_get()) {
             case 'insert':
             case 'insert_and_update':
                 # feedback
-                if ($entity->name === 'feedback' && page::get_current()->id !== 'instance_insert') {
-                    message::insert(new text('Feedback with ID = "%%_id" has been sent.', ['id' => implode('+', $form->_instance->values_id_get()) ]));
+                if ($entity->name === 'feedback' && Page::get_current()->id !== 'instance_insert') {
+                    Message::insert(new Text('Feedback with ID = "%%_id" has been sent.', ['id' => implode('+', $form->_instance->values_id_get()) ]));
                     static::on_init(null, $form, $items);
                 }
                 break;

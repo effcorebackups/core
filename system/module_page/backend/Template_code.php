@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class template_code extends template {
+class Template_code extends Template {
 
     public $handler = '';
 

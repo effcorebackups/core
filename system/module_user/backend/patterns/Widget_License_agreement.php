@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class widget_license_agreement extends control {
+class Widget_License_agreement extends Control {
 
     public $tag_name = 'x-widget';
     public $attributes = ['data-type' => 'license_agreement'];
@@ -25,15 +25,15 @@ class widget_license_agreement extends control {
     ###########################
 
     static function widget_manage_get($widget) {
-        $result = new fieldset($widget->title);
+        $result = new Fieldset($widget->title);
         $result->title = $widget->main_title;
         $result->state = 'closed';
         # text of license agreement
-        $language = language::get(language::code_get_current());
-        $license_file = new file($language->license_path ?: DIR_ROOT.'license.md');
-        $license_markup = new markup('x-document', ['data-style' => 'license'], markdown::markdown_to_markup($license_file->load()));
+        $language = Language::get(Language::code_get_current());
+        $license_file = new File($language->license_path ?: DIR_ROOT.'license.md');
+        $license_markup = new Markup('x-document', ['data-style' => 'license'], Markdown::markdown_to_markup($license_file->load()));
         # switcher 'agree to license agreement'
-        $field_switcher_is_agree = new field_switcher($widget->text_agree);
+        $field_switcher_is_agree = new Field_Switcher($widget->text_agree);
         $field_switcher_is_agree->build();
         $field_switcher_is_agree->name_set('is_agree');
         $field_switcher_is_agree->required_set(true);

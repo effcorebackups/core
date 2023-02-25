@@ -6,26 +6,26 @@
 
 namespace effcore\modules\develop;
 
-use effcore\console;
-use effcore\frontend;
-use effcore\module;
+use effcore\Console;
+use effcore\Frontend;
+use effcore\Module;
 
-abstract class events_module {
+abstract class Events_Module {
 
     static function on_enable($event) {
-        $module = module::get('develop');
+        $module = Module::get('develop');
         $module->enable();
     }
 
     static function on_disable($event) {
-        $module = module::get('develop');
+        $module = Module::get('develop');
         $module->disable();
     }
 
     static function on_start($event) {
-        if (console::visible_mode_get()) {
-            if (!frontend::select('page_all__console__develop')) {
-                 frontend::insert('page_all__console__develop', (object)['check' => 'url', 'where' => 'path', 'match' => '%^(?!/develop/).*$%'], 'styles', [
+        if (Console::visible_mode_get()) {
+            if (!Frontend::select('page_all__console__develop')) {
+                 Frontend::insert('page_all__console__develop', (object)['check' => 'url', 'where' => 'path', 'match' => '%^(?!/develop/).*$%'], 'styles', [
                     'path'       => '/system/module_develop/frontend/develop.cssd?page_id=%%_page_id_context',
                     'attributes' => ['rel' => 'stylesheet', 'media' => 'all'],
                     'weight'     => -500], 'console_style', 'develop'

@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class widget_block_settings extends container {
+class Widget_Block_settings extends Container {
 
     public $tag_name = null;
     public $content_tag_name = 'x-settings';
@@ -38,14 +38,14 @@ class widget_block_settings extends container {
 
     function render_opener() {
         $html_name    = $this->parent_widget->name_get_complex().'__settings_opener__'.$this->c_row_id;
-        $form_id      = request::value_get('form_id');
-        $submit_value = request::value_get($html_name);
+        $form_id      = Request::value_get('form_id');
+        $submit_value = Request::value_get($html_name);
         $has_error    = $this->has_error_in();
-        if ($form_id === ''                                                 ) /*               default = closed */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
-        if ($form_id !== '' && $has_error !== true && $submit_value !== 'on') /* no error + no checked = opened */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => null                          ]))->render();
-        if ($form_id !== '' && $has_error !== true && $submit_value === 'on') /* no error +    checked = closed */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
-        if ($form_id !== '' && $has_error === true && $submit_value !== 'on') /*    error + no checked = opened */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
-        if ($form_id !== '' && $has_error === true && $submit_value === 'on') /*    error +    checked = opened */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
+        if ($form_id === ''                                                 ) /*               default = closed */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new Text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
+        if ($form_id !== '' && $has_error !== true && $submit_value !== 'on') /* no error + no checked = opened */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new Text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => null                          ]))->render();
+        if ($form_id !== '' && $has_error !== true && $submit_value === 'on') /* no error +    checked = closed */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new Text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
+        if ($form_id !== '' && $has_error === true && $submit_value !== 'on') /*    error + no checked = opened */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new Text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
+        if ($form_id !== '' && $has_error === true && $submit_value === 'on') /*    error +    checked = opened */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new Text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
     }
 
     ###########################
@@ -53,20 +53,20 @@ class widget_block_settings extends container {
     ###########################
 
     static function widget_manage_get($widget, $item, $c_row_id) {
-        $result = new node;
+        $result = new Node;
         # control for title
-        $field_title = new widget_text_object;
+        $field_title = new Widget_Text_object;
         $field_title->cform = $widget->parent_widget->cform;
         $field_title->name_complex = $widget->parent_widget->name_get_complex().'__title__'.$c_row_id;
         $field_title->attributes['data-role'] = 'title';
         $field_title->field_text_title = 'Title';
         $field_title->field_text_required = false;
         $field_title->build();
-        $field_title->value_set($item->title instanceof text ?
+        $field_title->value_set($item->title instanceof Text ?
                                 $item->title :
-                       new text($item->title));
+                       new Text($item->title));
         # control for title visibility
-        $field_title_is_visible = new field_select_logic;
+        $field_title_is_visible = new Field_Select_logic;
         $field_title_is_visible->cform = $widget->parent_widget->cform;
         $field_title_is_visible->attributes['data-role'] = 'title-is_visible';
         $field_title_is_visible->title = 'Title is visible';
@@ -74,12 +74,12 @@ class widget_block_settings extends container {
         $field_title_is_visible->name_set($widget->parent_widget->name_get_complex().'__title_is_visible__'.$c_row_id);
         $field_title_is_visible->value_set($item->title_is_visible ?? false);
         # control for attributes
-        $field_textarea_data_attributes = new field_textarea_data;
+        $field_textarea_data_attributes = new Field_Textarea_data;
         $field_textarea_data_attributes->cform = $widget->parent_widget->cform;
         $field_textarea_data_attributes->attributes['data-role'] = 'data-attributes';
         $field_textarea_data_attributes->title = 'Attributes';
-        $field_textarea_data_attributes->classes_allowed['text'] = 'text';
-        $field_textarea_data_attributes->classes_allowed['text_simple'] = 'text_simple';
+        $field_textarea_data_attributes->classes_allowed['Text'] = 'Text';
+        $field_textarea_data_attributes->classes_allowed['Text_simple'] = 'Text_simple';
         $field_textarea_data_attributes->data_validator_id = 'attributes';
         $field_textarea_data_attributes->build();
         $field_textarea_data_attributes->name_set($widget->parent_widget->name_get_complex().'__attributes__'.$c_row_id);

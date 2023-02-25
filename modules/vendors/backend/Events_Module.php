@@ -6,17 +6,17 @@
 
 namespace effcore\modules\vendors;
 
-use effcore\module;
+use effcore\Module;
 
-abstract class events_module {
+abstract class Events_Module {
 
     static function on_enable($event) {
-        $module = module::get('vendors');
+        $module = Module::get('vendors');
         $module->enable();
     }
 
     static function on_disable($event) {
-        $module = module::get('vendors');
+        $module = Module::get('vendors');
         $module->disable();
     }
 

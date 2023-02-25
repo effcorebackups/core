@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class role {
+class Role {
 
     public $id;
     public $title;
@@ -27,7 +27,7 @@ class role {
     static function init_sql() {
         if (!static::$is_init___sql) {
              static::$is_init___sql = true;
-            $instances = entity::get('role')->instances_select([
+            $instances = Entity::get('role')->instances_select([
                 'order' => ['fields_!,' => [
                     'weight' => ['weight_!f' => 'weight', 'weight_type' => 'DESC'],
                     'title'  => [ 'title_!f' => 'title',   'title_type' => 'ASC' ] ]] ]);
@@ -52,7 +52,7 @@ class role {
 
     static function related_permissions_select($id_role) {
         $result = [];
-        $items = entity::get('relation_role_ws_permission')->instances_select(['conditions' => [
+        $items = Entity::get('relation_role_ws_permission')->instances_select(['conditions' => [
             'id_role_!f'       => 'id_role',
             'id_role_operator' => '=',
             'id_role_!v'       => $id_role]]);
@@ -64,7 +64,7 @@ class role {
 
     static function related_permissions_by_roles_select($roles) {
         $result = [];
-        $items = entity::get('relation_role_ws_permission')->instances_select(['conditions' => [
+        $items = Entity::get('relation_role_ws_permission')->instances_select(['conditions' => [
             'id_role_!f'           => 'id_role',
             'id_in_begin_operator' => 'in (',
             'id_in_!v'             => $roles,
@@ -77,7 +77,7 @@ class role {
 
     static function related_permissions_insert($id_role, $permissions, $module_id = null) {
         foreach ($permissions as $c_id_permission) {
-            (new instance('relation_role_ws_permission', [
+            (new Instance('relation_role_ws_permission', [
                 'id_permission' => $c_id_permission,
                 'id_role'       => $id_role,
                 'module_id'     => $module_id
@@ -86,7 +86,7 @@ class role {
     }
 
     static function related_permissions_delete($id_role) {
-        entity::get('relation_role_ws_permission')->instances_delete(['conditions' => [
+        Entity::get('relation_role_ws_permission')->instances_delete(['conditions' => [
             'id_role_!f'       => 'id_role',
             'id_role_operator' => '=',
             'id_role_!v'       => $id_role
@@ -94,7 +94,7 @@ class role {
     }
 
     static function related_permission_delete($id_role, $id_permission) {
-        (new instance('relation_role_ws_permission', [
+        (new Instance('relation_role_ws_permission', [
             'id_role'       => $id_role,
             'id_permission' => $id_permission
         ]))->delete();

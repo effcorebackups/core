@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class button_default extends button {
+class Button_default extends Button {
 
     public $title = null;
     public $attributes = [

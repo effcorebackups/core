@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class table_body_row extends markup {
+class Table_body_row extends Markup {
 
     public $tag_name = 'tr';
 
@@ -15,9 +15,9 @@ class table_body_row extends markup {
     }
 
     function child_insert($child, $id = null) {
-        if ($child instanceof table_body_row_cell)
+        if ($child instanceof Table_body_row_cell)
              return parent::child_insert(                            $child,  $id);
-        else return parent::child_insert(new table_body_row_cell([], $child), $id);
+        else return parent::child_insert(new Table_body_row_cell([], $child), $id);
     }
 
 }

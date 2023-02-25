@@ -8,7 +8,7 @@ namespace effcore;
 
 use stdClass;
 
-abstract class captcha {
+abstract class Captcha {
 
     # ──────────────────────────────────────────────────────────────────────
     # about CAPTCHA ID:
@@ -33,11 +33,11 @@ abstract class captcha {
     ];
 
     static function settings_get() {
-        $settings = module::settings_get('captcha');
+        $settings = Module::settings_get('captcha');
         $result = new stdClass;
         $result->length = $settings->captcha_length;
         $result->glyphs = [];
-        foreach (glyph::get_all() as $c_row_id => $c_item) {
+        foreach (Glyph::get_all() as $c_row_id => $c_item) {
             if (isset($settings->captcha_glyphs[$c_row_id])) {
                 $result->glyphs[$c_row_id] = $c_row_id;
             }
@@ -48,20 +48,20 @@ abstract class captcha {
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function select_by_id($id) {
-        return (new instance('captcha', [
+        return (new Instance('captcha', [
             'ip_hex' => $id
         ]))->select();
     }
 
     static function select() {
-        return (new instance('captcha', [
-            'ip_hex' => core::ip_to_hex(request::addr_remote_get())
+        return (new Instance('captcha', [
+            'ip_hex' => Core::ip_to_hex(Request::addr_remote_get())
         ]))->select();
     }
 
     static function insert($attempts, $characters, $width, $height, $data) {
-        return (new instance('captcha', [
-            'ip_hex'        => core::ip_to_hex(request::addr_remote_get()),
+        return (new Instance('captcha', [
+            'ip_hex'        => Core::ip_to_hex(Request::addr_remote_get()),
             'attempts'      => $attempts,
             'characters'    => $characters,
             'canvas_width'  => $width,
@@ -71,11 +71,11 @@ abstract class captcha {
     }
 
     static function delete_all() {
-        entity::get('captcha')->instances_delete();
+        Entity::get('captcha')->instances_delete();
     }
 
     static function cleaning() {
-        entity::get('captcha')->instances_delete(['conditions' => [
+        Entity::get('captcha')->instances_delete(['conditions' => [
             'created_!f'       => 'created',
             'created_operator' => '<',
             'created_!v'       => time() - (60 * 5)
@@ -85,7 +85,7 @@ abstract class captcha {
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function canvas_restore($width, $height, $binstr) {
-        $canvas = new canvas_svg($width, $height, 5);
+        $canvas = new Canvas_svg($width, $height, 5);
         $canvas->color_mask_set($binstr);
         return $canvas;
     }
@@ -94,16 +94,16 @@ abstract class captcha {
         $result = new stdClass;
         $result->characters = '';
         $result->canvas = null;
-        $settings = module::settings_get('captcha');
-        $glyphs = glyph::get_all();
+        $settings = Module::settings_get('captcha');
+        $glyphs = Glyph::get_all();
         $row_ids_settings = $settings->captcha_glyphs;
-        $row_ids_all = core::array_keys_map(array_keys($glyphs));
+        $row_ids_all = Core::array_keys_map(array_keys($glyphs));
         $row_ids_available = array_intersect($row_ids_settings, $row_ids_all);
         $row_ids_random = [];
         # the case when uses glyphs from third-party module and this module is disabled
         if (!count($row_ids_available)) {
             $row_ids_available = static::GLYPHS_DEFAULT;
-            message::insert('Module "CAPTCHA" uses glyphs by default!', 'warning');
+            Message::insert('Module "CAPTCHA" uses glyphs by default!', 'warning');
         }
         # get random items
         for ($i = 0; $i < $settings->captcha_length; $i++) {
@@ -113,16 +113,16 @@ abstract class captcha {
         $canvas_w = 0;
         $canvas_h = 0;
         for ($i = 0; $i < $settings->captcha_length; $i++) {
-            $c_sizes = glyph::get_sizes($glyphs[$row_ids_random[$i]]->glyph);
+            $c_sizes = Glyph::get_sizes($glyphs[$row_ids_random[$i]]->glyph);
             $canvas_w +=     $c_sizes->width;
             $canvas_h  = max($c_sizes->height, $canvas_h);
         }
         # generate canvas
         $c_width_offset = 0;
-        $canvas = new canvas_svg($canvas_w + 2, $canvas_h + 2, 5);
+        $canvas = new Canvas_svg($canvas_w + 2, $canvas_h + 2, 5);
         $canvas->fill('#000000', 0, 0, null, null, $noise);
         for ($i = 0; $i < $settings->captcha_length; $i++) {
-            $c_sizes = glyph::get_sizes($glyphs[$row_ids_random[$i]]->glyph);
+            $c_sizes = Glyph::get_sizes($glyphs[$row_ids_random[$i]]->glyph);
             $canvas->glyph_set($glyphs[$row_ids_random[$i]]->glyph, $c_width_offset + 1 + random_int(-1, 1), 1 + random_int(-2, 2));
             $result->characters.= $glyphs[$row_ids_random[$i]]->character;
             $c_width_offset += $c_sizes->width;

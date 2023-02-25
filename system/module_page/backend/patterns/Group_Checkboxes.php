@@ -6,12 +6,12 @@
 
 namespace effcore;
 
-class group_checkboxes extends group_radiobuttons {
+class Group_Checkboxes extends Group_Radiobuttons {
 
     public $attributes = [
         'data-type' => 'checkboxes',
         'role'      => 'group'];
-    public $field_class = '\\effcore\\field_checkbox';
+    public $field_class = '\\effcore\\Field_Checkbox';
     public $field_attributes = [
         'data-type' => 'checkbox'
     ];
@@ -32,7 +32,7 @@ class group_checkboxes extends group_radiobuttons {
 
     function value_set($value, $options = []) {
         $this->value_set_initial($value);
-        if (core::data_is_serialized($value)) $value = unserialize($value);
+        if (Core::data_is_serialized($value)) $value = unserialize($value);
         if ($value === null) $value = [];
         if ($value ===  '' ) $value = [];
         if (is_array($value)) {
@@ -53,7 +53,7 @@ class group_checkboxes extends group_radiobuttons {
         if ($group->required_any && count($group->items) !== count($group->disabled) && $group->value_get() === []) {
             $group->error_set_in();
             $form->error_set(
-                'Group "%%_title" should contain at least one selected item!', ['title' => (new text($group->title))->render() ]
+                'Group "%%_title" should contain at least one selected item!', ['title' => (new Text($group->title))->render() ]
             );
         } else {
             return true;

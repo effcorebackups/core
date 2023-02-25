@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class text extends text_simple {
+class Text extends Text_simple {
 
     public $args = [];
     public $is_apply_translation = true;
@@ -24,9 +24,9 @@ class text extends text_simple {
     function args_set($args) {$this->args = $args;}
 
     function render() {
-        $result = translation::apply($this->text, $this->args, $this->is_apply_translation ? null : 'en');
+        $result = Translation::apply($this->text, $this->args, $this->is_apply_translation ? null : 'en');
         if ($this->is_apply_tokens)
-               $result = token::apply($result);
+               $result = Token::apply($result);
         return $result;
     }
 

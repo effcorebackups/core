@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-abstract class dynamic {
+abstract class Dynamic {
 
     const DIRECTORY = DIR_DYNAMIC;
     const DIR_FILES = DIR_DYNAMIC.'files/';
@@ -14,8 +14,8 @@ abstract class dynamic {
     static public $data = [];
 
     static function get_file_by_name($name, $sub_dirs = '') {
-        $name = core::sanitize_file_part($name);
-        return new file(static::DIRECTORY.$sub_dirs.$name.'.php');
+        $name = Core::sanitize_file_part($name);
+        return new File(static::DIRECTORY.$sub_dirs.$name.'.php');
     }
 
     static function is_exists($name, $sub_dirs = '') {
@@ -43,11 +43,11 @@ abstract class dynamic {
         static::$data[$name] = $data;
         $file = static::get_file_by_name($name, $sub_dirs);
         if ($info) static::$info[$name] = $info;
-        if (file::mkdir_if_not_exists($file->dirs_get()) &&
+        if (File::mkdir_if_not_exists($file->dirs_get()) &&
                           is_writable($file->dirs_get())) {
             $file->data_set('<?php'.NL.NL.'namespace effcore;'.NL.NL.'# '.$name.NL.NL.($info ?
-                core::data_to_code($info, core::structure_get_part_name(static::class).'::$info[\''.$name.'\']') : '').
-                core::data_to_code($data, core::structure_get_part_name(static::class).'::$data[\''.$name.'\']')
+                Core::data_to_code($info, Core::structure_get_part_name(static::class).'::$info[\''.$name.'\']') : '').
+                Core::data_to_code($data, Core::structure_get_part_name(static::class).'::$data[\''.$name.'\']')
             );
             if (!$file->save()) {
                 static::message_on_error_insert($file);
@@ -78,7 +78,7 @@ abstract class dynamic {
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function message_on_error_insert($file) {
-        message::insert(new text_multiline([
+        Message::insert(new Text_multiline([
             'File "%%_file" was not written to disc!',
             'File permissions (if the file exists) and directory permissions should be checked.'], [
             'file' => $file->path_get_relative()]), 'error'
@@ -86,7 +86,7 @@ abstract class dynamic {
     }
 
     static function message_on_error_delete($file) {
-        message::insert(new text_multiline([
+        Message::insert(new Text_multiline([
             'File "%%_file" was not deleted!',
             'Directory permissions should be checked.'], [
             'file' => $file->path_get_relative()]), 'error'

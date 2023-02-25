@@ -1,4 +1,4 @@
-module|module
+module|Module
   id: poll
   id_bundle: system
   title: Poll

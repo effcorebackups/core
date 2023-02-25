@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-trait widget_files_audios__shared {
+trait Trait__Widget_Files_audios {
 
     public $cover_is_allowed = true;
     public $cover_thumbnails = [

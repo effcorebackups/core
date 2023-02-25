@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class field_color extends field_text {
+class Field_Color extends Field_Text {
 
     public $title = 'Color';
     public $description = 'Color should be in the format "#abcdef", where "ab" is the value of the red component, "cd" — green and "ef" — blue.';
@@ -29,8 +29,8 @@ class field_color extends field_text {
         if ($name && $type) {
             if ($field->disabled_get()) return true;
             if ($field->readonly_get()) return true;
-            $new_value = request::value_get($name, static::current_number_generate($name), $form->source_get());
-            $new_value = core::strtolower_en($new_value);
+            $new_value = Request::value_get($name, static::current_number_generate($name), $form->source_get());
+            $new_value = Core::strtolower_en($new_value);
             $old_value = $field->value_get_initial();
             $result = static::validate_required  ($field, $form, $element, $new_value) &&
                       static::validate_minlength ($field, $form, $element, $new_value) &&
@@ -44,10 +44,10 @@ class field_color extends field_text {
     }
 
     static function validate_value($field, $form, $element, &$new_value) {
-        if (strlen($new_value) && !core::validate_hex_color($new_value)) {
-            $field->error_set(new text_multiline([
+        if (strlen($new_value) && !Core::validate_hex_color($new_value)) {
+            $field->error_set(new Text_multiline([
                 'Field "%%_title" contains an error!',
-                'Color should be in the format "#abcdef", where "ab" is the value of the red component, "cd" — green and "ef" — blue.'], ['title' => (new text($field->title))->render() ]
+                'Color should be in the format "#abcdef", where "ab" is the value of the red component, "cd" — green and "ef" — blue.'], ['title' => (new Text($field->title))->render() ]
             ));
         } else {
             return true;

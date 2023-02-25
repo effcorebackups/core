@@ -6,9 +6,9 @@
 
 namespace effcore;
 
-class widget_files_pictures extends widget_files {
+class Widget_Files_pictures extends Widget_Files {
 
-    use widget_files_pictures__shared;
+    use Trait__Widget_Files_pictures;
 
     public $title = 'Pictures';
     public $item_title = 'Picture';
@@ -31,16 +31,16 @@ class widget_files_pictures extends widget_files {
     ###########################
 
     static function value_to_markup($value) {
-        $decorator = new decorator;
+        $decorator = new Decorator;
         $decorator->id = 'widget_files-pictures-items';
         $decorator->view_type = 'template';
         $decorator->template = 'content';
         $decorator->template_item = 'gallery_item';
-        $decorator->mapping = core::array_keys_map(['num', 'type', 'children']);
+        $decorator->mapping = Core::array_keys_map(['num', 'type', 'children']);
         if ($value) {
-            core::array_sort_by_number($value);
+            Core::array_sort_by_number($value);
             foreach ($value as $c_row_id => $c_item) {
-                if (media::media_class_get($c_item->object->type) === 'picture') {
+                if (Media::media_class_get($c_item->object->type) === 'picture') {
                     $decorator->data[$c_row_id] = [
                         'type'     => ['value' => 'picture'],
                         'num'      => ['value' => $c_row_id],
@@ -54,8 +54,8 @@ class widget_files_pictures extends widget_files {
 
     static function item_markup_get($item, $row_id) {
         $src = '/'.$item->object->get_current_path(true);
-        return new markup('a', ['data-type' => 'picture-wrapper', 'href' => $src.'?thumb=big', 'title' => new text($item->settings['title']), 'target' => $item->settings['target']],
-            new markup_simple('img', ['src' => $src.'?thumb=middle', 'alt' => new text($item->settings['alt'])])
+        return new Markup('a', ['data-type' => 'picture-wrapper', 'href' => $src.'?thumb=big', 'title' => new Text($item->settings['title']), 'target' => $item->settings['target']],
+            new Markup_simple('img', ['src' => $src.'?thumb=middle', 'alt' => new Text($item->settings['alt'])])
         );
     }
 
@@ -64,18 +64,18 @@ class widget_files_pictures extends widget_files {
     static function widget_manage_get($widget, $item, $c_row_id) {
         $result = parent::widget_manage_get($widget, $item, $c_row_id);
         $result->attribute_insert('data-is-new', $item->object->get_current_state() === 'pre' ? 'true' : 'false');
-        if (media::media_class_get($item->object->type) === 'picture') {
+        if (Media::media_class_get($item->object->type) === 'picture') {
             if (!empty($item->settings['data-thumbnails-is-embedded'])) {
-                $result->child_insert(new markup_simple('img', ['src' => '/'.$item->object->get_current_path(true).'?thumb=small', 'alt' => new text('thumbnail'), 'width' => '44', 'height' => '44', 'data-type' => 'thumbnail'], +450), 'thumbnail');
+                $result->child_insert(new Markup_simple('img', ['src' => '/'.$item->object->get_current_path(true).'?thumb=small', 'alt' => new Text('thumbnail'), 'width' => '44', 'height' => '44', 'data-type' => 'thumbnail'], +450), 'thumbnail');
             }
         }
         return $result;
     }
 
     static function widget_insert_get($widget, $group = '') {
-        $result = new markup('x-widget', ['data-type' => 'insert']);
+        $result = new Markup('x-widget', ['data-type' => 'insert']);
         # control for upload new picture
-        $field_file_picture = new field_file_picture;
+        $field_file_picture = new Field_File_picture;
         $field_file_picture->title             = 'Picture';
         $field_file_picture->max_file_size     = $widget->{($group ? $group.'_' : '').'max_file_size'};
         $field_file_picture->types_allowed     = $widget->{($group ? $group.'_' : '').'types_allowed'};
@@ -88,7 +88,7 @@ class widget_files_pictures extends widget_files {
         $field_file_picture->multiple_set();
         $field_file_picture->name_set($widget->name_get_complex().'__file'.($group ? '_'.$group : '').'[]');
         # button for insertion of the new item
-        $button_insert = new button(null, ['data-style' => 'insert', 'title' => new text('insert')]);
+        $button_insert = new Button(null, ['data-style' => 'insert', 'title' => new Text('insert')]);
         $button_insert->break_on_validate = true;
         $button_insert->build();
         $button_insert->value_set($widget->name_get_complex().'__insert'.($group ? '_'.$group : ''));
@@ -105,13 +105,13 @@ class widget_files_pictures extends widget_files {
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function on_file_prepare($widget, $form, $npath, $button, &$items, &$new_item) {
-        $pre_path = temporary::DIRECTORY.'validation/'.$form->validation_cache_date_get().'/'.$form->validation_id.'-'.$widget->name_get_complex().'-'.core::array_key_last($items).'.'.$new_item->object->type;
+        $pre_path = Temporary::DIRECTORY.'validation/'.$form->validation_cache_date_get().'/'.$form->validation_id.'-'.$widget->name_get_complex().'-'.Core::array_key_last($items).'.'.$new_item->object->type;
         if ($new_item->object->move_tmp_to_pre($pre_path)) {
             $new_item->settings = $widget->picture_default_settings;
             $new_item->settings['data-thumbnails-is-embedded'] = false;
             if ($widget->thumbnails_is_allowed) {
-                if (media::media_class_get($new_item->object->type) === 'picture') {
-                    if (media::is_type_for_thumbnail($new_item->object->type)) {
+                if (Media::media_class_get($new_item->object->type) === 'picture') {
+                    if (Media::is_type_for_thumbnail($new_item->object->type)) {
                         if ($new_item->object->container_picture_make($widget->thumbnails)) {
                             $new_item->settings['data-thumbnails-is-embedded'] = true;
                         }

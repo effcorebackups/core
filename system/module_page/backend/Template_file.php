@@ -6,13 +6,13 @@
 
 namespace effcore;
 
-class template_file extends template_text {
+class Template_file extends Template_text {
 
     public $path = '';
 
     function render() {
-        $path = module::get($this->module_id)->path.$this->path;
-        $file = new file($path);
+        $path = Module::get($this->module_id)->path.$this->path;
+        $file = new File($path);
         $this->data = $file->load();
         return parent::render();
     }

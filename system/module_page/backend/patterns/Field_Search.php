@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class field_search extends field_text {
+class Field_Search extends Field_Text {
 
     public $title = 'Search';
     public $attributes = ['data-type' => 'search'];

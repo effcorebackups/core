@@ -6,9 +6,9 @@
 
 namespace effcore;
 
-class field_date extends field_text {
+class Field_Date extends Field_Text {
 
-    use field__shared;
+    use Trait__Field;
 
     const INPUT_MIN_DATE = '0001-01-01';
     const INPUT_MAX_DATE = '9999-12-31';
@@ -32,16 +32,16 @@ class field_date extends field_text {
 
     function value_get() { # @return: null | string | __OTHER_TYPE__ (when "value" in *.data is another type)
         $value = parent::value_get();
-        if         (core::validate_date($value))
-             return core::sanitize_date($value);
+        if         (Core::validate_date($value))
+             return Core::sanitize_date($value);
         else return $value;
     }
 
     function value_set($value) {
         $this->value_set_initial($value);
         if (is_null($value) || is_string($value)) {
-            if ($this->value_current_if_null === true && $value === null) $value = core::date_get();
-            if (core::validate_date($value)) parent::value_set(core::sanitize_date($value));
+            if ($this->value_current_if_null === true && $value === null) $value = Core::date_get();
+            if (Core::validate_date($value)) parent::value_set(Core::sanitize_date($value));
             else                             parent::value_set(                    $value );
         }
     }
@@ -57,7 +57,7 @@ class field_date extends field_text {
         if ($name && $type) {
             if ($field->disabled_get()) return true;
             if ($field->readonly_get()) return true;
-            $new_value = request::value_get($name, static::current_number_generate($name), $form->source_get());
+            $new_value = Request::value_get($name, static::current_number_generate($name), $form->source_get());
             $old_value = $field->value_get_initial();
             $result = static::validate_required  ($field, $form, $element, $new_value) &&
                       static::validate_minlength ($field, $form, $element, $new_value) &&
@@ -73,12 +73,12 @@ class field_date extends field_text {
     }
 
     static function validate_value($field, $form, $element, &$new_value) {
-        if (strlen($new_value) && !core::validate_date($new_value)) {
+        if (strlen($new_value) && !Core::validate_date($new_value)) {
             $field->error_set(
-                'Field "%%_title" contains an incorrect date!', ['title' => (new text($field->title))->render() ]
+                'Field "%%_title" contains an incorrect date!', ['title' => (new Text($field->title))->render() ]
             );
         } else {
-            $new_value = core::sanitize_date($new_value);
+            $new_value = Core::sanitize_date($new_value);
             return true;
         }
     }

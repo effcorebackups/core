@@ -6,53 +6,53 @@
 
 namespace effcore\modules\test;
 
-use effcore\captcha;
-use effcore\core;
-use effcore\module;
-use effcore\request;
-use effcore\step_request;
-use effcore\user;
+use effcore\Captcha;
+use effcore\Core;
+use effcore\Module;
+use effcore\Request;
+use effcore\Step_Request;
+use effcore\User;
 
-abstract class events_token {
+abstract class Events_Token {
 
     static protected $cache = [];
 
     static function on_apply($name, $args = []) {
-        if ($name === 'test_software_name') return request::software_get_info()->name ?? '';
-        if ($name === 'test_email_random'    && count($args) === 0) {                                                                                                                                            return 'test_'.core::hash_get_mini(random_int(0, PHP_INT_32_MAX)).'@example.com';}
-        if ($name === 'test_nickname_random' && count($args) === 0) {                                                                                                                                            return 'test_'.core::hash_get_mini(random_int(0, PHP_INT_32_MAX));               }
-        if ($name === 'test_password_random' && count($args) === 0) {                                                                                                                                            return         user::password_generate();                                        }
-        if ($name === 'test_email_random'    && count($args) === 1) {if (!isset( static::$cache['test_email_random'   ][core::hash_get($args[0])] )) static::$cache['test_email_random'   ][core::hash_get($args[0])] = 'test_'.core::hash_get_mini(random_int(0, PHP_INT_32_MAX)).'@example.com'; return static::$cache['test_email_random'   ][core::hash_get($args[0])];}
-        if ($name === 'test_nickname_random' && count($args) === 1) {if (!isset( static::$cache['test_nickname_random'][core::hash_get($args[0])] )) static::$cache['test_nickname_random'][core::hash_get($args[0])] = 'test_'.core::hash_get_mini(random_int(0, PHP_INT_32_MAX));                return static::$cache['test_nickname_random'][core::hash_get($args[0])];}
-        if ($name === 'test_password_random' && count($args) === 1) {if (!isset( static::$cache['test_password_random'][core::hash_get($args[0])] )) static::$cache['test_password_random'][core::hash_get($args[0])] =         user::password_generate();                                         return static::$cache['test_password_random'][core::hash_get($args[0])];}
+        if ($name === 'test_software_name') return Request::software_get_info()->name ?? '';
+        if ($name === 'test_email_random'    && count($args) === 0) {                                                                                                                                            return 'test_'.Core::hash_get_mini(random_int(0, PHP_INT_32_MAX)).'@example.com';}
+        if ($name === 'test_nickname_random' && count($args) === 0) {                                                                                                                                            return 'test_'.Core::hash_get_mini(random_int(0, PHP_INT_32_MAX));               }
+        if ($name === 'test_password_random' && count($args) === 0) {                                                                                                                                            return         User::password_generate();                                        }
+        if ($name === 'test_email_random'    && count($args) === 1) {if (!isset( static::$cache['test_email_random'   ][Core::hash_get($args[0])] )) static::$cache['test_email_random'   ][Core::hash_get($args[0])] = 'test_'.Core::hash_get_mini(random_int(0, PHP_INT_32_MAX)).'@example.com'; return static::$cache['test_email_random'   ][Core::hash_get($args[0])];}
+        if ($name === 'test_nickname_random' && count($args) === 1) {if (!isset( static::$cache['test_nickname_random'][Core::hash_get($args[0])] )) static::$cache['test_nickname_random'][Core::hash_get($args[0])] = 'test_'.Core::hash_get_mini(random_int(0, PHP_INT_32_MAX));                return static::$cache['test_nickname_random'][Core::hash_get($args[0])];}
+        if ($name === 'test_password_random' && count($args) === 1) {if (!isset( static::$cache['test_password_random'][Core::hash_get($args[0])] )) static::$cache['test_password_random'][Core::hash_get($args[0])] =         User::password_generate();                                         return static::$cache['test_password_random'][Core::hash_get($args[0])];}
         if ($name === 'test_cookies') {
             $result = [];
-            foreach (step_request::$history as $c_response) {
+            foreach (Step_Request::$history as $c_response) {
                 if ( isset($c_response['headers']['Set-Cookie']) ) {
                     foreach ($c_response['headers']['Set-Cookie'] as $c_cookie) {
-                        $c_key   = core::array_key_first($c_cookie['parsed']);
+                        $c_key   = Core::array_key_first($c_cookie['parsed']);
                         $c_value =                 reset($c_cookie['parsed']);
                         $result[$c_key] = $c_value; }}}
-            return core::data_to_attributes($result, false, '; ', '', '');
+            return Core::data_to_attributes($result, false, '; ', '', '');
         }
         if ($name === 'test_captcha') {
-            if (module::is_enabled('captcha')) {
-                $last_response = end(step_request::$history);
+            if (Module::is_enabled('captcha')) {
+                $last_response = end(Step_Request::$history);
                 if ($last_response) {
-                    $captcha = captcha::select_by_id(core::ip_to_hex($last_response['info']['primary_ip']));
+                    $captcha = Captcha::select_by_id(Core::ip_to_hex($last_response['info']['primary_ip']));
                     return $captcha->characters ?? null;
                 }
             }
         }
         if ($name === 'test_form_validation_id' && count($args) === 1) {
-            $last_response = end(step_request::$history);
+            $last_response = end(Step_Request::$history);
             if ($last_response) {
                 return $last_response['headers']['X-Form-Validation-Id--'.$args[0]] ?? '';
             }
         }
         if (strpos($name, 'test_response_') === 0) {
             $type = substr($name, strlen('test_response_'));
-            $last_response = end(step_request::$history);
+            $last_response = end(Step_Request::$history);
             if ($last_response) {
                 if ($type === 'content'        && isset($last_response['data'])                                                                                ) return (string)$last_response['data'];
                 if ($type === 'http_code'      && isset($last_response['info'])    && array_key_exists('http_code',                  $last_response['info']   )) return    (int)$last_response['info']['http_code'];

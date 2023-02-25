@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class field_hidden extends markup_simple {
+class Field_Hidden extends Markup_simple {
 
     public $tag_name = 'input';
     public $attributes = [
@@ -34,7 +34,7 @@ class field_hidden extends markup_simple {
     }
 
     function value_request_get($number = 0, $source = '_POST') {
-        return request::value_get($this->name_get(), $number, $source);
+        return Request::value_get($this->name_get(), $number, $source);
     }
 
     function value_get() {

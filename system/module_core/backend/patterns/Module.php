@@ -6,15 +6,15 @@
 
 namespace effcore;
 
-class module extends module_embedded {
+class Module extends Module_embedded {
 
     public $group = 'Other';
     public $enabled = 'no';
 
     function disable() {
-        if (core::boot_delete($this->id, 'enabled')) {
-            message::insert(
-                new text('Module "%%_title" (%%_id) was disabled.', ['title' => (new text($this->title))->render(), 'id' => $this->id])
+        if (Core::boot_delete($this->id, 'enabled')) {
+            Message::insert(
+                new Text('Module "%%_title" (%%_id) was disabled.', ['title' => (new Text($this->title))->render(), 'id' => $this->id])
             );
         }
     }
@@ -25,13 +25,13 @@ class module extends module_embedded {
         # reverse the deployment process: delete files
         # ─────────────────────────────────────────────────────────────────────
 
-        $copy = storage::get('data')->select('copy');
+        $copy = Storage::get('data')->select('copy');
         if ( isset($copy[$this->id]) ) {
             foreach ($copy[$this->id] as $c_info) {
-                $c_file = new file($c_info->to);
+                $c_file = new File($c_info->to);
                 if (@unlink($c_file->path_get()))
-                     message::insert(new text('File "%%_file" was deleted.',     ['file' => $c_file->path_get_relative()]));
-                else message::insert(new text('File "%%_file" was not deleted!', ['file' => $c_file->path_get_relative()]), 'warning');
+                     Message::insert(new Text('File "%%_file" was deleted.',     ['file' => $c_file->path_get_relative()]));
+                else Message::insert(new Text('File "%%_file" was not deleted!', ['file' => $c_file->path_get_relative()]), 'warning');
             }
         }
 
@@ -39,11 +39,11 @@ class module extends module_embedded {
         # reverse the deployment process: delete instances
         # ─────────────────────────────────────────────────────────────────────
 
-        foreach (instance::get_all_by_module($this->id) as $c_row_id => $c_instance) {
+        foreach (Instance::get_all_by_module($this->id) as $c_row_id => $c_instance) {
             $c_instance->entity_get()->storage_get()->foreign_keys_checks_set(false);
             if ($c_instance->delete())
-                 message::insert(new text('Instance with Row ID = "%%_row_id" was deleted.',     ['row_id' => $c_row_id])           );
-            else message::insert(new text('Instance with Row ID = "%%_row_id" was not deleted!', ['row_id' => $c_row_id]), 'warning');
+                 Message::insert(new Text('Instance with Row ID = "%%_row_id" was deleted.',     ['row_id' => $c_row_id])           );
+            else Message::insert(new Text('Instance with Row ID = "%%_row_id" was not deleted!', ['row_id' => $c_row_id]), 'warning');
             $c_instance->entity_get()->storage_get()->foreign_keys_checks_set(true);
         }
 
@@ -51,17 +51,17 @@ class module extends module_embedded {
         # reverse the deployment process: delete entities
         # ─────────────────────────────────────────────────────────────────────
 
-        foreach (entity::get_all_by_module($this->id) as $c_entity) {
+        foreach (Entity::get_all_by_module($this->id) as $c_entity) {
             if ($c_entity->uninstall())
-                 message::insert(new text('Entity "%%_entity" was uninstalled.',     ['entity' => $c_entity->name])           );
-            else message::insert(new text('Entity "%%_entity" was not uninstalled!', ['entity' => $c_entity->name]), 'warning');
+                 Message::insert(new Text('Entity "%%_entity" was uninstalled.',     ['entity' => $c_entity->name])           );
+            else Message::insert(new Text('Entity "%%_entity" was not uninstalled!', ['entity' => $c_entity->name]), 'warning');
         }
 
         # ─────────────────────────────────────────────────────────────────────
         # delete changes
         # ─────────────────────────────────────────────────────────────────────
 
-        storage::get('data')->changes_delete_all(
+        Storage::get('data')->changes_delete_all(
             $this->id
         );
 
@@ -69,9 +69,9 @@ class module extends module_embedded {
         # delete from boot
         # ─────────────────────────────────────────────────────────────────────
 
-        if (core::boot_delete($this->id, 'installed')) {
-            message::insert(
-                new text('Module data "%%_title" (%%_id) was removed.', ['title' => (new text($this->title))->render(), 'id' => $this->id])
+        if (Core::boot_delete($this->id, 'installed')) {
+            Message::insert(
+                new Text('Module data "%%_title" (%%_id) was removed.', ['title' => (new Text($this->title))->render(), 'id' => $this->id])
             );
         }
     }

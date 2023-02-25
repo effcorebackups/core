@@ -6,13 +6,13 @@
 
 namespace effcore\modules\user;
 
-use effcore\url;
+use effcore\Url;
 
-abstract class events_page_security {
+abstract class Events_Page_Security {
 
     static function on_redirect($event, $page) {
         $type = $page->args_get('type');
-        if ($type === null) url::go($page->args_get('base').'/settings');
+        if ($type === null) Url::go($page->args_get('base').'/settings');
     }
 
 }

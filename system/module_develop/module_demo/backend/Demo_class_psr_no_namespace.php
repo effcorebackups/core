@@ -1,8 +1,10 @@
 <?php
 
-# PSR Style.
+##################################################################
+### Copyright © 2017—2022 Maxim Rysevets. All rights reserved. ###
+##################################################################
 
-class Vendor_Model_DemoClassPsr
+class Vendor_Model_DemoClassPsrNoNamespace
 {
 
     public $PublicAttribute;

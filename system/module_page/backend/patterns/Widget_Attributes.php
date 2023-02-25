@@ -8,7 +8,7 @@ namespace effcore;
 
 use stdClass;
 
-class widget_attributes extends widget_items {
+class Widget_Attributes extends Widget_Items {
 
     public $title = 'Attributes';
     public $item_title = 'Attribute';
@@ -24,10 +24,10 @@ class widget_attributes extends widget_items {
 
     static function value_to_attributes($value) {
         if ($value) {
-            core::array_sort_by_number($value);
+            Core::array_sort_by_number($value);
             $attributes = [];
             foreach ($value as $c_item)
-                $attributes[$c_item->name] = new text(
+                $attributes[$c_item->name] = new Text(
                             $c_item->value, [],
                      !empty($c_item->is_apply_translation),
                      !empty($c_item->is_apply_tokens));
@@ -37,7 +37,7 @@ class widget_attributes extends widget_items {
 
     static function value_to_markup($value) {
         if ($value) {
-            return core::data_to_attributes(
+            return Core::data_to_attributes(
                 static::value_to_attributes($value)
             );
         }
@@ -48,7 +48,7 @@ class widget_attributes extends widget_items {
     static function widget_manage_get($widget, $item, $c_row_id) {
         $result = parent::widget_manage_get($widget, $item, $c_row_id);
         # control for attribute name
-        $field_text_name = new field_text('Name', null, [], +400);
+        $field_text_name = new Field_Text('Name', null, [], +400);
         $field_text_name->cform = $widget->cform;
         $field_text_name->attributes['data-role'] = 'name';
         $field_text_name->attributes['data-style'] = 'inline';
@@ -58,7 +58,7 @@ class widget_attributes extends widget_items {
         $field_text_name->maxlength_set($widget->attribute_name_maxlength);
         $field_text_name->value_set($item->name);
         # control for attribute value
-        $widget_text_object_value = new widget_text_object;
+        $widget_text_object_value = new Widget_Text_object;
         $widget_text_object_value->cform = $widget->cform;
         $widget_text_object_value->name_complex = $widget->name_get_complex().'__'.$c_row_id;
         $widget_text_object_value->attributes['data-role'] = 'value';
@@ -66,7 +66,7 @@ class widget_attributes extends widget_items {
         $widget_text_object_value->field_text_maxlength = $widget->attribute_value_maxlength;
         $widget_text_object_value->field_text_required = false;
         $widget_text_object_value->build();
-        $widget_text_object_value->value_set(new text($item->value, [],
+        $widget_text_object_value->value_set(new Text($item->value, [],
             !empty($item->is_apply_translation),
             !empty($item->is_apply_tokens)));
         # relate new controls with the widget
@@ -92,10 +92,10 @@ class widget_attributes extends widget_items {
         $new_item->is_apply_tokens      = false;
         $items[] = $new_item;
         $widget->items_set($items);
-        message::insert(new text_multiline([
+        Message::insert(new Text_multiline([
             'Item of type "%%_type" was inserted.',
             'Do not forget to save the changes!'], [
-            'type' => (new text($widget->item_title))->render() ]));
+            'type' => (new Text($widget->item_title))->render() ]));
         return true;
     }
 
@@ -105,7 +105,7 @@ class widget_attributes extends widget_items {
             $c_item->weight = (int)$widget->controls['#weight__'.$c_row_id]->value_get();
             $c_item->name   =      $widget->controls['#name__'  .$c_row_id]->value_get();
             $c_value        =      $widget->controls['#value__' .$c_row_id]->value_get();
-            if ($c_value instanceof text) {
+            if ($c_value instanceof Text) {
                 $c_item->value                = $c_value->text;
                 $c_item->is_apply_translation = $c_value->is_apply_translation;
                 $c_item->is_apply_tokens      = $c_value->is_apply_tokens; }}

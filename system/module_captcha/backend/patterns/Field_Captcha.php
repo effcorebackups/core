@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class field_captcha extends field_text {
+class Field_Captcha extends Field_Text {
 
     public $title = 'CAPTCHA';
     public $attributes = ['data-type' => 'captcha'];
@@ -23,39 +23,39 @@ class field_captcha extends field_text {
     function build() {
         if (!$this->is_builded) {
             parent::build();
-            $captcha = captcha::select();
+            $captcha = Captcha::select();
             if ($captcha) {
                 $this->attempts_cur = $captcha->attempts;
-                $canvas = captcha::canvas_restore(
+                $canvas = Captcha::canvas_restore(
                     $captcha->canvas_width,
                     $captcha->canvas_height,
-                    core::bin_to_binstr($captcha->canvas_data)
+                    Core::bin_to_binstr($captcha->canvas_data)
                 );
             } else {
                 $this->attempts_cur = $this->attempts_max;
-                $result = captcha::canvas_generate_new($this->noise);
+                $result = Captcha::canvas_generate_new($this->noise);
                 $canvas = $result->canvas;
-                captcha::insert(
+                Captcha::insert(
                     $this->attempts_max,
                     $result->characters,
                     $result->canvas->w,
                     $result->canvas->h,
-                    core::binstr_to_bin($result->canvas->color_mask_get())
+                    Core::binstr_to_bin($result->canvas->color_mask_get())
                 );
             }
             $this->child_insert_first($canvas, 'canvas');
-            $settings_length = module::settings_get('captcha')->captcha_length;
+            $settings_length = Module::settings_get('captcha')->captcha_length;
             $this->     size_set($settings_length);
             $this->minlength_set($settings_length);
             $this->maxlength_set($settings_length);
-            if (!frontend::select('form_all__captcha'))
-                 frontend::insert('form_all__captcha', null, 'styles', ['path' => 'frontend/captcha.css', 'attributes' => ['rel' => 'stylesheet', 'media' => 'all'], 'weight' => -300], 'form_style', 'captcha');
+            if (!Frontend::select('form_all__captcha'))
+                 Frontend::insert('form_all__captcha', null, 'styles', ['path' => 'frontend/captcha.css', 'attributes' => ['rel' => 'stylesheet', 'media' => 'all'], 'weight' => -300], 'form_style', 'captcha');
             $this->is_builded = true;
         }
     }
 
     function captcha_validate($characters) {
-        $captcha = captcha::select();
+        $captcha = Captcha::select();
         if ($captcha) {
             $result = (string)$captcha->characters ===
                       (string)$characters;
@@ -71,8 +71,8 @@ class field_captcha extends field_text {
     function render_description() {
         $this->description = static::description_prepare($this->description);
         if (!isset($this->description['default']))
-                   $this->description['default'] = new markup('p', ['data-id' => 'default'], 'Write the characters from the picture.');
-        $this->description['attempts'] = new markup('p', ['data-id' => 'attempts'], new text('Number of attempts: %%_attempts', ['attempts' => $this->attempts_cur === null ? 'n/a' : $this->attempts_cur]));
+                   $this->description['default'] = new Markup('p', ['data-id' => 'default'], 'Write the characters from the picture.');
+        $this->description['attempts'] = new Markup('p', ['data-id' => 'attempts'], new Text('Number of attempts: %%_attempts', ['attempts' => $this->attempts_cur === null ? 'n/a' : $this->attempts_cur]));
         return parent::render_description();
     }
 
@@ -83,7 +83,7 @@ class field_captcha extends field_text {
     static function validate_value($field, $form, $element, &$new_value) {
         if (!$field->captcha_validate($new_value)) {
             $field->error_set(
-                'Field "%%_title" contains an incorrect characters from picture!', ['title' => (new text($field->title))->render() ]
+                'Field "%%_title" contains an incorrect characters from picture!', ['title' => (new Text($field->title))->render() ]
             );
         } else {
             return true;

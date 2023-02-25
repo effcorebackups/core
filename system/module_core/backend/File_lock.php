@@ -6,26 +6,26 @@
 
 namespace effcore;
 
-abstract class file_lock {
+abstract class File_lock {
 
     # ────────────────────────────────────────────────────────────────────────────
     # lock usage example:
     # ════════════════════════════════════════════════════════════════════════════
     #
-    #    $file = new file('test.txt');
+    #    $file = new File('test.txt');
     #    $lock_life_time         = 3;
     #    $lock_checks_sleep_time = 1;
     #    $lock_checks_count      = 10;
     #
     #    for ($i = 0; $i < $lock_checks_count; $i++) {
-    #      if (file_lock::is_set($file, $lock_life_time) === file_lock::LOCK_IS_ACTIVE)
+    #      if (File_lock::is_set($file, $lock_life_time) === File_lock::LOCK_IS_ACTIVE)
     #           sleep($lock_checks_sleep_time);
     #      else break;
     #    }
     #
-    #    file_lock::insert($file);
+    #    File_lock::insert($file);
     #      # … code …
-    #    file_lock::delete($file);
+    #    File_lock::delete($file);
     #
     # ────────────────────────────────────────────────────────────────────────────
 

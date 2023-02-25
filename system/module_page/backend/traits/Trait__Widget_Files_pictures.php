@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-trait widget_files_pictures__shared {
+trait Trait__Widget_Files_pictures {
 
     public $thumbnails_is_allowed = true;
     public $thumbnails = [

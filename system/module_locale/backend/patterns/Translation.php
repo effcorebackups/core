@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class translation implements has_external_cache {
+class Translation implements Has_external_cache {
 
     public $code;
     public $data;
@@ -29,10 +29,10 @@ class translation implements has_external_cache {
 
     static function init($code) {
         if (!isset(static::$cache[$code])) {
-            foreach (storage::get('data')->select_array('translations') as $c_module_id => $c_translations) {
+            foreach (Storage::get('data')->select_array('translations') as $c_module_id => $c_translations) {
                 foreach ($c_translations as $c_row_id => $c_translation) {
                     if ($c_translation->code === $code) {
-                        if ($c_translation instanceof external_cache)
+                        if ($c_translation instanceof External_cache)
                             $c_translation =
                             $c_translation->load_from_nosql_storage();
                         if (!isset(static::$cache[$c_translation->code]))
@@ -45,13 +45,13 @@ class translation implements has_external_cache {
     }
 
     static function select_all_by_code($code = '') {
-        $c_code = $code ?: language::code_get_current();
+        $c_code = $code ?: Language::code_get_current();
         if ($c_code !== 'en') static::init($c_code);
         return static::$cache[$c_code] ?? [];
     }
 
     static function apply($string, $args = [], $code = '') {
-        $c_code = $code ?: language::code_get_current();
+        $c_code = $code ?: Language::code_get_current();
         if ($c_code !== 'en') static::init($c_code);
         $string = static::$cache[$c_code][$string] ?? $string;
         if ($string) {
@@ -65,7 +65,7 @@ class translation implements has_external_cache {
                         isset($c_args[1])) {
                         $p_number_name = $c_args[0];
                         $p_plural_type = $c_args[1];
-                        $p_plurals     = language::plurals_get($c_code);
+                        $p_plurals     = Language::plurals_get($c_code);
                         if (isset($p_plurals[$p_plural_type]) &&
                             isset($args     [$p_number_name])) {
                             $p_plural_info = $p_plurals[$p_plural_type];

@@ -6,30 +6,30 @@
 
 namespace effcore\modules\page;
 
-use effcore\form;
-use effcore\module;
-use effcore\page;
+use effcore\Form;
+use effcore\Module;
+use effcore\Page;
 
-abstract class events_module {
+abstract class Events_Module {
 
     static function on_install($event) {
-        $module = module::get('page');
+        $module = Module::get('page');
         $module->install();
     }
 
     static function on_enable($event) {
-        if (module::is_installed('page')) {
-            $module = module::get('page');
+        if (Module::is_installed('page')) {
+            $module = Module::get('page');
             $module->enable();
         }
     }
 
     static function on_start($event) {
-        return page::init_current()->render();
+        return Page::init_current()->render();
     }
 
     static function on_cron_run($event) {
-        form::validation_cleaning();
+        Form::validation_cleaning();
     }
 
 }

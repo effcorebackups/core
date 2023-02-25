@@ -6,19 +6,19 @@
 
 namespace effcore\modules\menu;
 
-use effcore\entity;
-use effcore\tree_item;
-use effcore\url;
+use effcore\Entity;
+use effcore\Tree_item;
+use effcore\Url;
 
-abstract class events_form_instance_update {
+abstract class Events_Form_Instance_update {
 
     static function on_build($event, $form) {
         if ($form->has_error_on_build === false &&
             $form->has_no_fields      === false) {
-            $entity = entity::get($form->entity_name);
+            $entity = Entity::get($form->entity_name);
             if ($entity->name === 'tree_item') {
                 # field 'parent'
-                $tree_item = tree_item::select(
+                $tree_item = Tree_item::select(
                     $form->_instance->id,
                     $form->_instance->id_tree);
                 $tree_item->build();
@@ -34,13 +34,13 @@ abstract class events_form_instance_update {
     }
 
     static function on_submit($event, $form, $items) {
-        $entity = entity::get($form->entity_name);
+        $entity = Entity::get($form->entity_name);
         switch ($form->clicked_button->value_get()) {
             case 'update':
             case 'cancel':
                 if ($entity->name === 'tree_item') {
-                    if (!url::back_url_get())
-                         url::back_url_set('back', $entity->make_url_for_select_multiple().'///'.$form->_instance->id_tree);
+                    if (!Url::back_url_get())
+                         Url::back_url_set('back', $entity->make_url_for_select_multiple().'///'.$form->_instance->id_tree);
                 }
                 break;
         }

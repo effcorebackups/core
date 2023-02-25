@@ -9,7 +9,7 @@ namespace effcore;
 use ReflectionExtension;
 use stdClass;
 
-class module_embedded {
+class Module_embedded {
 
     # ─────────────────────────────────────────────────────────────────────
     # module state diagram for modules without installation process:
@@ -53,9 +53,9 @@ class module_embedded {
     public $deploy_weight = 0;
 
     function enable() {
-        if (core::boot_insert($this->id, $this->path, 'enabled')) {
-            message::insert(
-                new text('Module "%%_title" (%%_id) was enabled.', ['title' => (new text($this->title))->render(), 'id' => $this->id])
+        if (Core::boot_insert($this->id, $this->path, 'enabled')) {
+            Message::insert(
+                new Text('Module "%%_title" (%%_id) was enabled.', ['title' => (new Text($this->title))->render(), 'id' => $this->id])
             );
         }
     }
@@ -66,10 +66,10 @@ class module_embedded {
         # deployment process: insert entities
         # ─────────────────────────────────────────────────────────────────────
 
-        foreach (entity::get_all_by_module($this->id) as $c_entity) {
+        foreach (Entity::get_all_by_module($this->id) as $c_entity) {
             if ($c_entity->install())
-                 message::insert(new text('Entity "%%_entity" was installed.',     ['entity' => $c_entity->name])         );
-            else message::insert(new text('Entity "%%_entity" was not installed!', ['entity' => $c_entity->name]), 'error');
+                 Message::insert(new Text('Entity "%%_entity" was installed.',     ['entity' => $c_entity->name])         );
+            else Message::insert(new Text('Entity "%%_entity" was not installed!', ['entity' => $c_entity->name]), 'error');
         }
 
         # ─────────────────────────────────────────────────────────────────────
@@ -77,20 +77,20 @@ class module_embedded {
         # ─────────────────────────────────────────────────────────────────────
 
         $has_duplicates = false;
-        foreach (storage::get('data')->select_array('instances') as $c_module_id => $c_instances) {
+        foreach (Storage::get('data')->select_array('instances') as $c_module_id => $c_instances) {
             if ($c_module_id === $this->id) {
                 foreach ($c_instances as $c_row_id => $c_instance) {
                     if ($c_instance->select()) {
                         $has_duplicates = true;
-                        message::insert(new text(
-                            'Duplicate of type "%%_type" with ID = "%%_id" was found in module "%%_title"!', ['type' => 'instance', 'id' => $c_row_id, 'title' => module::get($c_instance->module_id)->title ?? 'n/a']), 'warning'
+                        Message::insert(new Text(
+                            'Duplicate of type "%%_type" with ID = "%%_id" was found in module "%%_title"!', ['type' => 'instance', 'id' => $c_row_id, 'title' => Module::get($c_instance->module_id)->title ?? 'n/a']), 'warning'
                         );
                     }
                 }
             }
         }
         if ($has_duplicates) {
-            message::insert(new text(
+            Message::insert(new Text(
                 'Uninstall the modules where the dependencies were found and then you can install module "%%_title".', ['title' => $this->title]), 'warning'
             );
             return;
@@ -100,11 +100,11 @@ class module_embedded {
         # deployment process: insert instances
         # ─────────────────────────────────────────────────────────────────────
 
-        foreach (instance::get_all_by_module($this->id) as $c_row_id => $c_instance) {
+        foreach (Instance::get_all_by_module($this->id) as $c_row_id => $c_instance) {
             $c_instance->entity_get()->storage_get()->foreign_keys_checks_set(false);
             if ($c_instance->insert())
-                 message::insert(new text('Instance with Row ID = "%%_row_id" was inserted.',     ['row_id' => $c_row_id])         );
-            else message::insert(new text('Instance with Row ID = "%%_row_id" was not inserted!', ['row_id' => $c_row_id]), 'error');
+                 Message::insert(new Text('Instance with Row ID = "%%_row_id" was inserted.',     ['row_id' => $c_row_id])         );
+            else Message::insert(new Text('Instance with Row ID = "%%_row_id" was not inserted!', ['row_id' => $c_row_id]), 'error');
             $c_instance->entity_get()->storage_get()->foreign_keys_checks_set(true);
         }
 
@@ -112,11 +112,11 @@ class module_embedded {
         # deployment process: copy files
         # ─────────────────────────────────────────────────────────────────────
 
-        $copy = storage::get('data')->select('copy');
+        $copy = Storage::get('data')->select('copy');
         if (isset($copy[$this->id]) ) {
             foreach ($copy[$this->id] as $c_info) {
-                $c_src_file = new file($this->path.$c_info->from);
-                $c_dst_file = new file(            $c_info->to  );
+                $c_src_file = new File($this->path.$c_info->from);
+                $c_dst_file = new File(            $c_info->to  );
                 # what to do if the file exists? to make a backup and replace, skip, replace?
                 if ($c_dst_file->is_exists()) {
                     $c_if_file_exists = $c_info->if_exists ?? 'replace'; # skip | replace | backup_and_replace
@@ -133,8 +133,8 @@ class module_embedded {
                 }
                 # trying to copy the file
                 if ($c_src_file->copy($c_dst_file->dirs_get(), $c_dst_file->file_get()))
-                     message::insert(new text('File was copied from "%%_from" to "%%_to".',     ['from' => $c_src_file->path_get_relative(), 'to' => $c_dst_file->path_get_relative()]));
-                else message::insert(new text('File was not copied from "%%_from" to "%%_to"!', ['from' => $c_src_file->path_get_relative(), 'to' => $c_dst_file->path_get_relative()]), 'error');
+                     Message::insert(new Text('File was copied from "%%_from" to "%%_to".',     ['from' => $c_src_file->path_get_relative(), 'to' => $c_dst_file->path_get_relative()]));
+                else Message::insert(new Text('File was not copied from "%%_from" to "%%_to"!', ['from' => $c_src_file->path_get_relative(), 'to' => $c_dst_file->path_get_relative()]), 'error');
             }
         }
 
@@ -142,9 +142,9 @@ class module_embedded {
         # insert to boot
         # ─────────────────────────────────────────────────────────────────────
 
-        if (core::boot_insert($this->id, $this->path, 'installed')) {
-            message::insert(
-                new text('Module "%%_title" (%%_id) was installed.', ['title' => (new text($this->title))->render(), 'id' => $this->id])
+        if (Core::boot_insert($this->id, $this->path, 'installed')) {
+            Message::insert(
+                new Text('Module "%%_title" (%%_id) was installed.', ['title' => (new Text($this->title))->render(), 'id' => $this->id])
             );
         }
     }
@@ -190,7 +190,7 @@ class module_embedded {
     }
 
     function group_get_id() {
-        return core::sanitize_id($this->group);
+        return Core::sanitize_id($this->group);
     }
 
     ###########################
@@ -205,20 +205,20 @@ class module_embedded {
 
     static function init() {
         if (static::$cache === null) {
-            static::$cache['modules'] = storage::get('data')->select('module');
-            static::$cache['bundles'] = storage::get('data')->select('bundle');
+            static::$cache['modules'] = Storage::get('data')->select('module');
+            static::$cache['bundles'] = Storage::get('data')->select('bundle');
         }
     }
 
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function is_enabled($module_id) {
-        $enabled = core::boot_select('enabled');
+        $enabled = Core::boot_select('enabled');
         return isset($enabled[$module_id]);
     }
 
     static function is_installed($module_id) {
-        $installed = core::boot_select('installed');
+        $installed = Core::boot_select('installed');
         return isset($installed[$module_id]);
     }
 
@@ -242,7 +242,7 @@ class module_embedded {
     static function get_profiles($property = null, $ws_disabled_by_default = false) {
         $result = [];
         foreach (static::get_all() as $c_module) {
-            if ($c_module instanceof module_as_profile) {
+            if ($c_module instanceof Module_as_profile) {
                 if ($c_module->enabled !== 'yes' && $ws_disabled_by_default === true) $result[$c_module->id] = $property ? $c_module->{$property} : $c_module;
                 if ($c_module->enabled === 'yes'                                    ) $result[$c_module->id] = $property ? $c_module->{$property} : $c_module;
             }
@@ -253,8 +253,8 @@ class module_embedded {
     static function get_embedded($property = null) {
         $result = [];
         foreach (static::get_all() as $c_module)
-            if ($c_module instanceof module_embedded &&
-               !$c_module instanceof module)
+            if ($c_module instanceof Module_embedded &&
+               !$c_module instanceof Module)
                 $result[$c_module->id] = $property ?
                         $c_module->{$property} :
                         $c_module;
@@ -264,7 +264,7 @@ class module_embedded {
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function get_enabled_by_boot() {
-        return core::boot_select('enabled');
+        return Core::boot_select('enabled');
     }
 
     static function get_enabled_by_default($property = null) {
@@ -279,8 +279,8 @@ class module_embedded {
 
     static function get_installed($ws_enabled = true, $ws_disabled = true) {
         $result    = [];
-        $installed = core::boot_select('installed');
-        $enabled   = core::boot_select('enabled');
+        $installed = Core::boot_select('installed');
+        $enabled   = Core::boot_select('enabled');
         foreach ($installed as $c_id => $c_path) {
             if ($ws_enabled  === true && isset($enabled[$c_id]) === true) $result[$c_id] = $c_path;
             if ($ws_disabled === true && isset($enabled[$c_id]) !== true) $result[$c_id] = $c_path;
@@ -311,12 +311,12 @@ class module_embedded {
         static::init();
         $groups = [];
         foreach (static::$cache['modules'] as $c_module)
-            $groups[core::sanitize_id($c_module->group)] = $c_module->group;
+            $groups[Core::sanitize_id($c_module->group)] = $c_module->group;
         return $groups;
     }
 
     static function settings_get($module_id) {
-        $settings = storage::get('data')->select_array('settings');
+        $settings = Storage::get('data')->select_array('settings');
         return $settings[$module_id] ?? [];
     }
 

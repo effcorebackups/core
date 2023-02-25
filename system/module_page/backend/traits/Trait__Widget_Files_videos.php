@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-trait widget_files_videos__shared {
+trait Trait__Widget_Files_videos {
 
     public $poster_is_allowed = true;
     public $poster_thumbnails = [

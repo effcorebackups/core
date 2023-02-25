@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class micro_tabs extends node {
+class Micro_tabs extends Node {
 
     public $element_attributes = ['role' => 'micro_tabs-item'];
     public $items   = [];
@@ -27,7 +27,7 @@ class micro_tabs extends node {
                     if (!isset($c_info->weight                     )) $c_info->weight = 0;
                     if (!isset($c_info->element_attributes         )) $c_info->element_attributes = [];
                     if (!isset($c_info->element_attributes['value'])) $c_info->element_attributes['value'] = $c_value;
-                    $c_field                     = new field_radiobutton;
+                    $c_field                     = new Field_Radiobutton;
                     $c_field->tag_name           = null;
                     $c_field->template           = 'container_content';
                     $c_field->title              = $c_info->title;

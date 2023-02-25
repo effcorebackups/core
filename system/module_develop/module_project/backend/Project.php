@@ -6,10 +6,10 @@
 
 namespace effcore;
 
-abstract class project {
+abstract class Project {
 
     static function select($id) {
-        return (new instance('project', [
+        return (new Instance('project', [
             'id' => $id
         ]))->select();
     }

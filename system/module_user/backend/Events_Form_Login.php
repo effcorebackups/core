@@ -6,25 +6,25 @@
 
 namespace effcore\modules\user;
 
-use effcore\core;
-use effcore\instance;
-use effcore\message;
-use effcore\module;
-use effcore\session;
-use effcore\text_multiline;
-use effcore\text;
-use effcore\url;
+use effcore\Core;
+use effcore\Instance;
+use effcore\Message;
+use effcore\Module;
+use effcore\Session;
+use effcore\Text_multiline;
+use effcore\Text;
+use effcore\Url;
 
-abstract class events_form_login {
+abstract class Events_Form_Login {
 
     static function on_init($event, $form, $items) {
-        $settings = module::settings_get('user');
-        $items['#session_params:is_long_session']->attributes['title'] = new text_multiline([
+        $settings = Module::settings_get('user');
+        $items['#session_params:is_long_session']->attributes['title'] = new Text_multiline([
             'Short session: %%_min day%%_plural(min|s) | long session: %%_max day%%_plural(max|s)'], [
             'min' => $settings->session_duration_min,
             'max' => $settings->session_duration_max], '', true, true);
         if (!isset($_COOKIE['cookies_is_enabled'])) {
-            message::insert(new text_multiline([
+            Message::insert(new Text_multiline([
                 'Cookies are disabled. You cannot log in!',
                 'Enable cookies before login.']), 'warning'
             );
@@ -35,7 +35,7 @@ abstract class events_form_login {
         switch ($form->clicked_button->value_get()) {
             case 'login':
                 if (!$form->has_error()) {
-                    $user = (new instance('user', [
+                    $user = (new Instance('user', [
                         'email' => $items['#email']->value_get()
                     ]))->select();
                     if (!$user || !hash_equals($user->password_hash, $items['#password']->value_get())) {
@@ -51,13 +51,13 @@ abstract class events_form_login {
     static function on_submit($event, $form, $items) {
         switch ($form->clicked_button->value_get()) {
             case 'login':
-                $user = (new instance('user', [
+                $user = (new Instance('user', [
                     'email' => $items['#email']->value_get()
                 ]))->select();
                 if ($user && hash_equals($user->password_hash, $items['#password']->value_get())) {
-                    session::insert($user->id, core::array_keys_map($items['*session_params']->value_get()));
-                    message::insert(new text('Welcome, %%_nickname!', ['nickname' => $user->nickname]));
-                    url::go(url::back_url_get() ?: '/user/'.$user->nickname);
+                    Session::insert($user->id, Core::array_keys_map($items['*session_params']->value_get()));
+                    Message::insert(new Text('Welcome, %%_nickname!', ['nickname' => $user->nickname]));
+                    Url::go(Url::back_url_get() ?: '/user/'.$user->nickname);
                 }
                 break;
         }

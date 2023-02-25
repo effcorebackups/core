@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class test implements has_external_cache {
+class Test implements Has_external_cache {
 
     public $id;
     public $title;
@@ -44,9 +44,9 @@ class test implements has_external_cache {
 
     static function init() {
         if (static::$cache === null) {
-            foreach (storage::get('data')->select_array('tests') as $c_module_id => $c_tests) {
+            foreach (Storage::get('data')->select_array('tests') as $c_module_id => $c_tests) {
                 foreach ($c_tests as $c_row_id => $c_test) {
-                    if (isset(static::$cache[$c_test->id])) console::report_about_duplicate('tests', $c_test->id, $c_module_id, static::$cache[$c_test->id]);
+                    if (isset(static::$cache[$c_test->id])) Console::report_about_duplicate('tests', $c_test->id, $c_module_id, static::$cache[$c_test->id]);
                               static::$cache[$c_test->id] = $c_test;
                               static::$cache[$c_test->id]->module_id = $c_module_id;
                 }
@@ -57,7 +57,7 @@ class test implements has_external_cache {
     static function get($id, $load = true) {
         static::init();
         if (isset(static::$cache[$id]) === false) return;
-        if (static::$cache[$id] instanceof external_cache && $load)
+        if (static::$cache[$id] instanceof External_cache && $load)
             static::$cache[$id] =
             static::$cache[$id]->load_from_nosql_storage();
         return static::$cache[$id];
@@ -67,7 +67,7 @@ class test implements has_external_cache {
         static::init();
         if ($load)
             foreach (static::$cache as $id => $c_item)
-                if (static::$cache[$id] instanceof external_cache)
+                if (static::$cache[$id] instanceof External_cache)
                     static::$cache[$id] =
                     static::$cache[$id]->load_from_nosql_storage();
         return static::$cache;

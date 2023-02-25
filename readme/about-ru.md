@@ -293,34 +293,34 @@ UTF8, UTC, WAI-ARIA, NoSQL, Markdown, UML, Composer…
         property_name_2: value 2
         property_name_3: value 3
       demo_object_empty
-      demo_object_text|text
+      demo_object_text|Text
         text: some translated text
 
 Такой файл будет преобразован в PHP-файл `/dynamic/cache/data--demo.php`
 со следующим содержанием:
 
     namespace effcore {
-        cache::$data['demo_data'] = new \stdClass;
-        cache::$data['demo_data']->demo_string = 'text';
-        cache::$data['demo_data']->demo_string_empty = '';
-        cache::$data['demo_data']->demo_integer = 123;
-        cache::$data['demo_data']->demo_float = 0.000001;
-        cache::$data['demo_data']->demo_boolean = true;
-        cache::$data['demo_data']->demo_null = null;
-        cache::$data['demo_data']->demo_array['key_1'] = 'value 1';
-        cache::$data['demo_data']->demo_array['key_2'] = 'value 2';
-        cache::$data['demo_data']->demo_array['key_3'] = 'value 3';
-        cache::$data['demo_data']->demo_array_empty = [];
-        cache::$data['demo_data']->demo_object = new \stdClass;
-        cache::$data['demo_data']->demo_object->property_name_1 = 'value 1';
-        cache::$data['demo_data']->demo_object->property_name_2 = 'value 2';
-        cache::$data['demo_data']->demo_object->property_name_3 = 'value 3';
-        cache::$data['demo_data']->demo_object_empty = new \stdClass;
-        cache::$data['demo_data']->demo_object_text = new \effcore\text;
-        cache::$data['demo_data']->demo_object_text->text = 'some translated text';
+        Cache::$data['demo_data'] = new \stdClass;
+        Cache::$data['demo_data']->demo_string = 'text';
+        Cache::$data['demo_data']->demo_string_empty = '';
+        Cache::$data['demo_data']->demo_integer = 123;
+        Cache::$data['demo_data']->demo_float = 0.000001;
+        Cache::$data['demo_data']->demo_boolean = true;
+        Cache::$data['demo_data']->demo_null = null;
+        Cache::$data['demo_data']->demo_array['key_1'] = 'value 1';
+        Cache::$data['demo_data']->demo_array['key_2'] = 'value 2';
+        Cache::$data['demo_data']->demo_array['key_3'] = 'value 3';
+        Cache::$data['demo_data']->demo_array_empty = [];
+        Cache::$data['demo_data']->demo_object = new \stdClass;
+        Cache::$data['demo_data']->demo_object->property_name_1 = 'value 1';
+        Cache::$data['demo_data']->demo_object->property_name_2 = 'value 2';
+        Cache::$data['demo_data']->demo_object->property_name_3 = 'value 3';
+        Cache::$data['demo_data']->demo_object_empty = new \stdClass;
+        Cache::$data['demo_data']->demo_object_text = new \effcore\Text;
+        Cache::$data['demo_data']->demo_object_text->text = 'some translated text';
     }
 
-При вызове `cache::select('demo_data')` этот файл будет загружен
+При вызове `Cache::select('demo_data')` этот файл будет загружен
 в память и данные станут доступны без задержки.
 
 **Если используется PHP OPCache**, тогда все данные будут скомпилированы
@@ -335,7 +335,7 @@ UTF8, UTC, WAI-ARIA, NoSQL, Markdown, UML, Composer…
 вариаций записи:
 
 - `имя_сущности`
-- `имя_сущности|имя_класса`
+- `имя_сущности|Имя_класса`
 - `имя_свойства_обьекта: значение`
 - `- имя_ключа_массива: значение`
 

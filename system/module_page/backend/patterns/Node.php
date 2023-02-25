@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class node extends node_simple {
+class Node extends Node_simple {
 
     public $children = [];
 
@@ -38,7 +38,7 @@ class node extends node_simple {
     function children_select($sort = false) {
         if ($sort) {
             $copy = $this->children;
-               return core::array_sort_by_number($copy);
+               return Core::array_sort_by_number($copy);
         } else return $this->children;
     }
 
@@ -124,7 +124,7 @@ class node extends node_simple {
 
     function render() {
         if ($this->template) {
-            return (template::make_new($this->template, [
+            return (Template::make_new($this->template, [
                 'attributes' => $this->render_attributes(),
                 'self'       => $this->render_self(),
                 'children'   => $this->render_children($this->children_select(true))
@@ -144,7 +144,7 @@ class node extends node_simple {
     }
 
     function render_child($child) {
-        return core::return_rendered($child);
+        return Core::return_rendered($child);
     }
 
 }

@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class area extends markup {
+class Area extends Markup {
 
     public $tag_name = 'x-area';
     public $tag_name_real;
@@ -20,9 +20,9 @@ class area extends markup {
         if (!$this->is_builded) {
             if ($this->type) $this->attribute_insert('data-area-type', $this->type);
             if ($this->id  ) $this->attribute_insert('data-area-id',   $this->id  );
-            if ($this->id && $this->managing_is_enabled) $this->child_insert(new markup('x-area-info', [], [
-                'id'       => new markup('x-area-id',       [], new text_simple($this->id)),
-                'tag_name' => new markup('x-area-tag-name', [], new text_simple($this->tag_name_real)) ]), 'id');
+            if ($this->id && $this->managing_is_enabled) $this->child_insert(new Markup('x-area-info', [], [
+                'id'       => new Markup('x-area-id',       [], new Text_simple($this->id)),
+                'tag_name' => new Markup('x-area-tag-name', [], new Text_simple($this->tag_name_real)) ]), 'id');
             $this->is_builded = true;
         }
     }

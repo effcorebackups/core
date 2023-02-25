@@ -1,4 +1,4 @@
-module|module
+module|Module
   id: test
   id_bundle: system
   title: Test

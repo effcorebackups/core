@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class template {
+class Template {
 
     public $name;
     public $data;
@@ -36,9 +36,9 @@ class template {
 
     static function init() {
         if (static::$cache === null) {
-            foreach (storage::get('data')->select_array('templates') as $c_module_id => $c_templates) {
+            foreach (Storage::get('data')->select_array('templates') as $c_module_id => $c_templates) {
                 foreach ($c_templates as $c_row_id => $c_template) {
-                    if (isset(static::$cache[$c_template->name])) console::report_about_duplicate('templates', $c_template->name, $c_module_id, static::$cache[$c_template->name]);
+                    if (isset(static::$cache[$c_template->name])) Console::report_about_duplicate('templates', $c_template->name, $c_module_id, static::$cache[$c_template->name]);
                               static::$cache[$c_template->name] = $c_template;
                               static::$cache[$c_template->name]->module_id = $c_module_id;
                 }
@@ -72,7 +72,7 @@ class template {
 
     static function make_new($name, $args = []) {
         $template = static::get($name);
-        $class_name = '\\effcore\\template_'.$template->type;
+        $class_name = '\\effcore\\Template_'.$template->type;
         $result = new $class_name($name, $args);
         foreach ($class_name::copied_properties_get() as $c_property_name) {
             if (property_exists($template, $c_property_name)) {

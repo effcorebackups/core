@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-abstract class form_part {
+abstract class Form_part {
 
     static protected $cache;
 
@@ -16,9 +16,9 @@ abstract class form_part {
 
     static function init() {
         if (static::$cache === null) {
-            foreach (storage::get('data')->select_array('form_parts') as $c_module_id => $c_form_parts) {
+            foreach (Storage::get('data')->select_array('form_parts') as $c_module_id => $c_form_parts) {
                 foreach ($c_form_parts as $c_row_id => $c_form_part) {
-                    if (isset(static::$cache[$c_row_id])) console::report_about_duplicate('form_parts', $c_row_id, $c_module_id, static::$cache[$c_row_id]);
+                    if (isset(static::$cache[$c_row_id])) Console::report_about_duplicate('form_parts', $c_row_id, $c_module_id, static::$cache[$c_row_id]);
                               static::$cache[$c_row_id] = $c_form_part;
                               static::$cache[$c_row_id]->module_id = $c_module_id;
                 }

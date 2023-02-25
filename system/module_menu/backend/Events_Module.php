@@ -6,18 +6,18 @@
 
 namespace effcore\modules\menu;
 
-use effcore\module;
+use effcore\Module;
 
-abstract class events_module {
+abstract class Events_Module {
 
     static function on_install($event) {
-        $module = module::get('menu');
+        $module = Module::get('menu');
         $module->install();
     }
 
     static function on_enable($event) {
-        if (module::is_installed('menu')) {
-            $module = module::get('menu');
+        if (Module::is_installed('menu')) {
+            $module = Module::get('menu');
             $module->enable();
         }
     }

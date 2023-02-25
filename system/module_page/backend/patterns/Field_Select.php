@@ -6,11 +6,11 @@
 
 namespace effcore;
 
-class field_select extends field {
+class Field_Select extends Field {
 
     public $title = 'Selection list';
     public $attributes = ['data-type' => 'select'];
-    public $element_class = '\\effcore\\markup';
+    public $element_class = '\\effcore\\Markup';
     public $element_tag_name = 'select';
     public $element_attributes = [
         'name'     => 'select',
@@ -53,12 +53,12 @@ class field_select extends field {
 
     function optgroup_insert($id, $title, $attributes = []) {
         $this->child_select('element')->child_insert(
-            new markup('optgroup', $attributes + ['label' => new text($title)]), $id
+            new Markup('optgroup', $attributes + ['label' => new Text($title)]), $id
         );
     }
 
     function option_insert($title, $value, $attributes = [], $optgroup_id = null) {
-        $option = new markup('option', $attributes, ['content' => $title]);
+        $option = new Markup('option', $attributes, ['content' => $title]);
         $option->attribute_insert('value', $value === 'not_selected' ? '' : $value);
         if (isset($this->selected[$value])) $option->attribute_insert('selected', true);
         if (isset($this->disabled[$value])) $option->attribute_insert('disabled', true);
@@ -73,7 +73,7 @@ class field_select extends field {
         $result = [];
         $element = $this->child_select('element');
         foreach ($element->children_select_recursive() as $c_child) {
-            if ($c_child instanceof node        &&
+            if ($c_child instanceof Node        &&
                 $c_child->tag_name === 'option' &&
                 $c_child->attribute_select('selected') === true) {
                 $result[$c_child->attribute_select('value')] =
@@ -92,7 +92,7 @@ class field_select extends field {
         $result = [];
         $element = $this->child_select('element');
         foreach ($element->children_select_recursive() as $c_child) {
-            if ($c_child instanceof node &&
+            if ($c_child instanceof Node &&
                 $c_child->tag_name === 'option') {
                 if ($c_child->attribute_select('disabled') !== true) {
                     $result[$c_child->attribute_select('value')] =
@@ -105,18 +105,18 @@ class field_select extends field {
 
     function value_set($value) {
         $this->value_set_initial($value);
-        if (core::data_is_serialized($value)) $value = unserialize($value);
+        if (Core::data_is_serialized($value)) $value = unserialize($value);
         if (is_null  ($value)) $value = [];
-        if (is_int   ($value)) $value = [core::format_number($value)];
-        if (is_float ($value)) $value = [core::format_number($value, core::FPART_MAX_LEN)];
+        if (is_int   ($value)) $value = [Core::format_number($value)];
+        if (is_float ($value)) $value = [Core::format_number($value, Core::FPART_MAX_LEN)];
         if (is_string($value)) $value = [$value];
         if (is_array ($value)) {
             $element = $this->child_select('element');
             $element_children = $element->children_select_recursive();
-            foreach ($element_children as $c_child) if ($c_child instanceof node && $c_child->tag_name === 'option') $c_child->attribute_delete('selected');
-            foreach ($element_children as $c_child) if ($c_child instanceof node && $c_child->tag_name === 'option') {
+            foreach ($element_children as $c_child) if ($c_child instanceof Node && $c_child->tag_name === 'option') $c_child->attribute_delete('selected');
+            foreach ($element_children as $c_child) if ($c_child instanceof Node && $c_child->tag_name === 'option') {
                 if ($c_child->attribute_select('disabled') !== true) {
-                    if (core::array_search__any_array_item_is_equal_value($c_child->attribute_select('value'), $value)) {
+                    if (Core::array_search__any_array_item_is_equal_value($c_child->attribute_select('value'), $value)) {
                         $c_child->attribute_insert('selected', true);
                         if ($this->multiple_get() === false) {
                             return;
@@ -137,7 +137,7 @@ class field_select extends field {
         if ($name && $type) {
             if ($field->disabled_get()) return true;
             $values_allowed = $field->values_get_allowed();
-            $new_values = request::values_get($name, $form->source_get());
+            $new_values = Request::values_get($name, $form->source_get());
             $new_values = array_unique(array_intersect($new_values, array_keys($values_allowed))); # filter fake values
             $field->value_set($new_values);
         }
@@ -150,7 +150,7 @@ class field_select extends field {
         if ($name && $type) {
             if ($field->disabled_get()) return true;
             $values_allowed = $field->values_get_allowed();
-            $new_values = request::values_get($name, $form->source_get());
+            $new_values = Request::values_get($name, $form->source_get());
             $new_values = array_unique(array_intersect($new_values, array_keys($values_allowed))); # filter fake values
             $result = static::validate_required($field, $form, $element, $new_values) &&
                       static::validate_multiple($field, $form, $element, $new_values);
@@ -162,7 +162,7 @@ class field_select extends field {
     static function validate_required($field, $form, $element, &$new_values) {
         if ($field->required_get() && empty(array_filter($new_values, 'strlen'))) {
             $field->error_set(
-                'Field "%%_title" should be selected!', ['title' => (new text($field->title))->render() ]
+                'Field "%%_title" should be selected!', ['title' => (new Text($field->title))->render() ]
             );
         } else {
             return true;
@@ -173,7 +173,7 @@ class field_select extends field {
         if (!$field->multiple_get() && count($new_values) > 1) {
             $new_values = array_slice($new_values, -1);
             $field->error_set(
-                'Field "%%_title" does not support multiple select!', ['title' => (new text($field->title))->render() ]
+                'Field "%%_title" does not support multiple select!', ['title' => (new Text($field->title))->render() ]
             );
         } else {
             return true;

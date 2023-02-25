@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class field_datetime_local extends field_datetime {
+class Field_Datetime_local extends Field_Datetime {
 
     const INPUT_MIN_DATETIME = '0001-01-01 12:00:00';
     const INPUT_MAX_DATETIME = '9999-12-31 09:00:00';
@@ -24,27 +24,27 @@ class field_datetime_local extends field_datetime {
 
     function build() {
         if (!$this->is_builded) {
-            field_text::build();
+            Field_Text::build();
             $min = $this->min_get();
             $max = $this->max_get();
-            if ($min) $this->min_set(core::datetime_to_T_datetime(locale::datetime_utc_to_loc($min)));
-            if ($max) $this->max_set(core::datetime_to_T_datetime(locale::datetime_utc_to_loc($max)));
-            $this->value_set(field_text::value_get());
+            if ($min) $this->min_set(Core::datetime_to_T_datetime(Locale::datetime_utc_to_loc($min)));
+            if ($max) $this->max_set(Core::datetime_to_T_datetime(Locale::datetime_utc_to_loc($max)));
+            $this->value_set(Field_Text::value_get());
         }
     }
 
     function value_get() { # @return: null | string | __OTHER_TYPE__ (when "value" in *.data is another type)
         $value = parent::value_get();
-        if ($value !== null && core::validate_datetime($value) && $this->is_utc_conversion === true) $value = locale::datetime_loc_to_utc($value);
+        if ($value !== null && Core::validate_datetime($value) && $this->is_utc_conversion === true) $value = Locale::datetime_loc_to_utc($value);
         return $value;
     }
 
     function value_set($value) {
         $this->value_set_initial($value);
         if (is_null($value) || is_string($value)) {
-            if ($value === null && $this->value_current_if_null === true) $value = core::datetime_get();
-            if ($value !== null && core::validate_datetime($value)) $value = core::datetime_to_T_datetime($value);
-            if ($value !== null && core::validate_T_datetime($value) && $this->is_utc_conversion === true) $value = locale::datetime_T_utc_to_T_loc($value);
+            if ($value === null && $this->value_current_if_null === true) $value = Core::datetime_get();
+            if ($value !== null && Core::validate_datetime($value)) $value = Core::datetime_to_T_datetime($value);
+            if ($value !== null && Core::validate_T_datetime($value) && $this->is_utc_conversion === true) $value = Locale::datetime_T_utc_to_T_loc($value);
             parent::value_set($value);
         }
     }

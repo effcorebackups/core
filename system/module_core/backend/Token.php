@@ -8,7 +8,7 @@ namespace effcore;
 
 use stdClass;
 
-abstract class token {
+abstract class Token {
 
     static protected $cache;
 
@@ -22,9 +22,9 @@ abstract class token {
 
     static function init() {
         if (static::$cache === null) {
-            foreach (storage::get('data')->select_array('tokens') as $c_module_id => $c_tokens) {
+            foreach (Storage::get('data')->select_array('tokens') as $c_module_id => $c_tokens) {
                 foreach ($c_tokens as $c_row_id => $c_token) {
-                    if (isset(static::$cache[$c_row_id])) console::report_about_duplicate('tokens', $c_row_id, $c_module_id, static::$cache[$c_row_id]);
+                    if (isset(static::$cache[$c_row_id])) Console::report_about_duplicate('tokens', $c_row_id, $c_module_id, static::$cache[$c_row_id]);
                               static::$cache[$c_row_id] = $c_token;
                               static::$cache[$c_row_id]->origin = 'nosql';
                               static::$cache[$c_row_id]->module_id = $c_module_id;

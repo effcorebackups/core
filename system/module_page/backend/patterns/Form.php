@@ -7,11 +7,11 @@
 namespace effcore;
 
 use DateTime;
-use RecursiveDirectoryIterator as rd_iterator;
-use RecursiveIteratorIterator as ri_iterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use stdClass;
 
-class form extends markup implements has_external_cache {
+class Form extends Markup implements Has_external_cache {
 
     public $tag_name = 'form';
     public $template = 'form';
@@ -34,7 +34,7 @@ class form extends markup implements has_external_cache {
     function build() {
         $id = $this->id_get();
         if (!$id) {
-            message::insert('Form ID is required!', 'warning');
+            Message::insert('Form ID is required!', 'warning');
             $this->children_delete();
             return;
         }
@@ -45,36 +45,36 @@ class form extends markup implements has_external_cache {
             $this->validation_id = static::validation_id_get($this);
 
             # hidden fields
-            $this->child_insert(new field_hidden('form_id',       $id                 ), 'hidden_id_form'      );
-            $this->child_insert(new field_hidden('validation_id', $this->validation_id), 'hidden_id_validation');
+            $this->child_insert(new Field_Hidden('form_id',       $id                 ), 'hidden_id_form'      );
+            $this->child_insert(new Field_Hidden('validation_id', $this->validation_id), 'hidden_id_validation');
 
             # send test headers 'X-Form-Validation-Id--form_id: validation_id'
-            if (module::is_enabled('test')) {
+            if (Module::is_enabled('test')) {
                 header('X-Form-Validation-Id--'.$id.': '.$this->validation_id);
             }
 
             # call "build" handlers
-            event::start('on_form_build', $id, ['form' => &$this]);
+            Event::start('on_form_build', $id, ['form' => &$this]);
 
             # resolve form plugins
             foreach ($this->children_select_recursive() as $c_npath => $c_child) {
-                if ($c_child instanceof form_plugin) {
+                if ($c_child instanceof Form_plugin) {
                     $c_npath_parts = explode('/', $c_npath);
                     $c_npath_last_part = end($c_npath_parts);
-                    $c_pointers = core::npath_get_pointers($this, $c_npath);
+                    $c_pointers = Core::npath_get_pointers($this, $c_npath);
                     if ($c_child->is_available()) $c_pointers[$c_npath_last_part] = $c_child->object_get();
                     else                    unset($c_pointers[$c_npath_last_part]);
                 }
             }
 
             # set cform → build → set cform (note: for new items after build)
-            foreach ($this->children_select_recursive() as $c_child) if (          $c_child instanceof control                  ) $c_child->cform = $this;
+            foreach ($this->children_select_recursive() as $c_child) if (          $c_child instanceof Control                  ) $c_child->cform = $this;
             foreach ($this->children_select_recursive() as $c_child) if (is_object($c_child) && method_exists($c_child, 'build')) $c_child->build();
-            foreach ($this->children_select_recursive() as $c_child) if (          $c_child instanceof control                  ) $c_child->cform = $this;
+            foreach ($this->children_select_recursive() as $c_child) if (          $c_child instanceof Control                  ) $c_child->cform = $this;
 
             # call "init" handlers
             $this->items_update();
-            event::start('on_form_init', $id, ['form' => &$this, 'items' => &$this->items], /* on_before_step */ null,
+            Event::start('on_form_init', $id, ['form' => &$this, 'items' => &$this->items], /* on_before_step */ null,
                 function ($event, $form, $items) { /* on_after_step */
                     $form->items_update();
                 }
@@ -89,22 +89,22 @@ class form extends markup implements has_external_cache {
                     if (empty($this->clicked_button->break_on_request_value_set)) {
                         foreach ($this->children_select_recursive(null, '', true) as $c_npath => $c_child) {
                             if (is_object($c_child) && method_exists($c_child, 'on_request_value_set')) {
-                                $c_result = event::start_local('on_request_value_set', $c_child, ['form' => $this, 'npath' => $c_npath]);
-                                console::log_insert('form', 'value_set', $c_npath);
+                                $c_result = Event::start_local('on_request_value_set', $c_child, ['form' => $this, 'npath' => $c_npath]);
+                                Console::log_insert('form', 'value_set', $c_npath);
                             }
                         }
                     }
 
                     # call "on_validate" handlers (parent should be at the end)
                     if (empty($this->clicked_button->break_on_validate)) {
-                        foreach ($this->children_select_recursive(null, '', true) as $c_npath => $c_child) if (is_object($c_child) && method_exists($c_child, 'on_validate'        )) {$c_result = event::start_local('on_validate',         $c_child, ['form' => $this, 'npath' => $c_npath]); console::log_insert('form', 'validation_1', $c_npath, $c_result ? 'ok' : 'warning');}
-                        foreach ($this->children_select_recursive(null, '', true) as $c_npath => $c_child) if (is_object($c_child) && method_exists($c_child, 'on_validate_phase_2')) {$c_result = event::start_local('on_validate_phase_2', $c_child, ['form' => $this, 'npath' => $c_npath]); console::log_insert('form', 'validation_2', $c_npath, $c_result ? 'ok' : 'warning');}
-                        foreach ($this->children_select_recursive(null, '', true) as $c_npath => $c_child) if (is_object($c_child) && method_exists($c_child, 'on_validate_phase_3')) {$c_result = event::start_local('on_validate_phase_3', $c_child, ['form' => $this, 'npath' => $c_npath]); console::log_insert('form', 'validation_3', $c_npath, $c_result ? 'ok' : 'warning');}
-                        event::start('on_form_validate', $id, ['form' => &$this, 'items' => &$this->items]);
+                        foreach ($this->children_select_recursive(null, '', true) as $c_npath => $c_child) if (is_object($c_child) && method_exists($c_child, 'on_validate'        )) {$c_result = Event::start_local('on_validate',         $c_child, ['form' => $this, 'npath' => $c_npath]); Console::log_insert('form', 'validation_1', $c_npath, $c_result ? 'ok' : 'warning');}
+                        foreach ($this->children_select_recursive(null, '', true) as $c_npath => $c_child) if (is_object($c_child) && method_exists($c_child, 'on_validate_phase_2')) {$c_result = Event::start_local('on_validate_phase_2', $c_child, ['form' => $this, 'npath' => $c_npath]); Console::log_insert('form', 'validation_2', $c_npath, $c_result ? 'ok' : 'warning');}
+                        foreach ($this->children_select_recursive(null, '', true) as $c_npath => $c_child) if (is_object($c_child) && method_exists($c_child, 'on_validate_phase_3')) {$c_result = Event::start_local('on_validate_phase_3', $c_child, ['form' => $this, 'npath' => $c_npath]); Console::log_insert('form', 'validation_3', $c_npath, $c_result ? 'ok' : 'warning');}
+                        Event::start('on_form_validate', $id, ['form' => &$this, 'items' => &$this->items]);
                     }
 
                     # send test headers 'X-Form-Submit-Errors-Count: N' (before a possible redirect)
-                    if (module::is_enabled('test')) {
+                    if (Module::is_enabled('test')) {
                         header('X-Form-Submit-Errors-Count: '.count(static::$errors));
                     }
 
@@ -115,15 +115,15 @@ class form extends markup implements has_external_cache {
                     if (!$this->has_error()) {
                         foreach ($this->children_select_recursive(null, '', true) as $c_npath => $c_child)
                             if (is_object($c_child) && method_exists($c_child, 'on_submit')) {
-                                event::start_local('on_submit', $c_child, ['form' => $this, 'npath' => $c_npath]); console::log_insert('form', 'submission', $c_npath); }
-                        event::start('on_form_submit', $id, ['form' => &$this, 'items' => &$this->items]);
+                                Event::start_local('on_submit', $c_child, ['form' => $this, 'npath' => $c_npath]); Console::log_insert('form', 'submission', $c_npath); }
+                        Event::start('on_form_submit', $id, ['form' => &$this, 'items' => &$this->items]);
                         # show errors after call "on_submit" handlers for buttons with 'break_on_validate' (will not be shown if a redirect has occurred)
                         $this->errors_show();
                     }
 
                     # update or delete validation cache (will not be deleted if redirection has occurred)
-                    if ($this->validation_cache !== null && $this->validation_cache_is_persistent !== false &&                                core::hash_get($this->validation_cache) !== $this->validation_cache_hash) $this->validation_cache_storage_update();
-                    if ($this->validation_cache !== null && $this->validation_cache_is_persistent === false && $this->has_error() === true && core::hash_get($this->validation_cache) !== $this->validation_cache_hash) $this->validation_cache_storage_update();
+                    if ($this->validation_cache !== null && $this->validation_cache_is_persistent !== false &&                                Core::hash_get($this->validation_cache) !== $this->validation_cache_hash) $this->validation_cache_storage_update();
+                    if ($this->validation_cache !== null && $this->validation_cache_is_persistent === false && $this->has_error() === true && Core::hash_get($this->validation_cache) !== $this->validation_cache_hash) $this->validation_cache_storage_update();
                     if ($this->validation_cache !== null && $this->validation_cache_is_persistent === false && $this->has_error() !== true                                                                            ) $this->validation_cache_storage_delete();
 
                 }
@@ -139,8 +139,8 @@ class form extends markup implements has_external_cache {
     }
 
     function render_self() {
-        if ($this->title && (bool)$this->title_is_visible !== true) return (new markup($this->title_tag_name, $this->title_attributes + ['aria-hidden' => 'true'], $this->title))->render();
-        if ($this->title && (bool)$this->title_is_visible === true) return (new markup($this->title_tag_name, $this->title_attributes + [                       ], $this->title))->render();
+        if ($this->title && (bool)$this->title_is_visible !== true) return (new Markup($this->title_tag_name, $this->title_attributes + ['aria-hidden' => 'true'], $this->title))->render();
+        if ($this->title && (bool)$this->title_is_visible === true) return (new Markup($this->title_tag_name, $this->title_attributes + [                       ], $this->title))->render();
     }
 
     # ─────────────────────────────────────────────────────────────────────
@@ -168,7 +168,7 @@ class form extends markup implements has_external_cache {
 
     function clicked_button_get() {
         foreach ($this->children_select_recursive() as $c_child) {
-            if ($c_child instanceof button &&
+            if ($c_child instanceof Button &&
                 $c_child->is_clicked(0, $this->source_get())) {
                 return $c_child;
             }
@@ -179,12 +179,12 @@ class form extends markup implements has_external_cache {
         $this->items = [];
         $groups      = [];
         foreach ($this->children_select_recursive(null, '', true) as $c_npath => $c_child) {
-            if ($c_child instanceof container                                      ) $this->items[    $c_npath                                                ] = $c_child;
-            if ($c_child instanceof button                                         ) $this->items['~'.$c_child->value_get       ()                            ] = $c_child;
-            if ($c_child instanceof field_hidden                                   ) $this->items['!'.$c_child->name_get        ()                            ] = $c_child;
-            if ($c_child instanceof field                                          ) $groups     ['#'.$c_child->name_get        ()                          ][] = $c_child;
-            if ($c_child instanceof field_radiobutton                              ) $groups     ['#'.$c_child->name_get        ().':'.$c_child->value_get()][] = $c_child;
-            if ($c_child instanceof control_complex && $c_child->name_get_complex()) $groups     ['*'.$c_child->name_get_complex()                          ][] = $c_child;
+            if ($c_child instanceof Container                                      ) $this->items[    $c_npath                                                ] = $c_child;
+            if ($c_child instanceof Button                                         ) $this->items['~'.$c_child->value_get       ()                            ] = $c_child;
+            if ($c_child instanceof Field_Hidden                                   ) $this->items['!'.$c_child->name_get        ()                            ] = $c_child;
+            if ($c_child instanceof Field                                          ) $groups     ['#'.$c_child->name_get        ()                          ][] = $c_child;
+            if ($c_child instanceof Field_Radiobutton                              ) $groups     ['#'.$c_child->name_get        ().':'.$c_child->value_get()][] = $c_child;
+            if ($c_child instanceof Control_complex && $c_child->name_get_complex()) $groups     ['*'.$c_child->name_get_complex()                          ][] = $c_child;
         }
         foreach ($groups as $c_name => $c_group) {
             if (count($c_group) === 1) $this->items[$c_name] = reset($c_group);
@@ -214,8 +214,8 @@ class form extends markup implements has_external_cache {
             $this->attribute_insert('aria-invalid', 'true');
             foreach (static::$errors as $c_error) {
                 switch (gettype($c_error->message)) {
-                    case 'string': message::insert(new text($c_error->message, $c_error->args), 'error'); break;
-                    case 'object': message::insert(         $c_error->message,                  'error'); break;
+                    case 'string': Message::insert(new Text($c_error->message, $c_error->args), 'error'); break;
+                    case 'object': Message::insert(         $c_error->message,                  'error'); break;
                 }
             }
         }
@@ -232,9 +232,9 @@ class form extends markup implements has_external_cache {
 
     function validation_cache_init() {
         if ($this->validation_cache === null) {
-            $instance = (new instance('cache_validation', ['id' => $this->validation_id]))->select();
+            $instance = (new Instance('cache_validation', ['id' => $this->validation_id]))->select();
             $this->validation_cache = $instance ? $instance->data : [];
-            $this->validation_cache_hash = core::hash_get($this->validation_cache);
+            $this->validation_cache_hash = Core::hash_get($this->validation_cache);
         }
     }
 
@@ -249,33 +249,33 @@ class form extends markup implements has_external_cache {
     }
 
     function validation_cache_storage_update() {
-        $instance = new instance('cache_validation', ['id' => $this->validation_id]);
+        $instance = new Instance('cache_validation', ['id' => $this->validation_id]);
         if ($instance->select()) {$instance->data = $this->validation_cache; return $instance->update();}
         else                     {$instance->data = $this->validation_cache; return $instance->insert();}
     }
 
     function validation_cache_storage_delete() {
-        return (new instance('cache_validation', [
+        return (new Instance('cache_validation', [
             'id' => $this->validation_id
         ]))->delete();
     }
 
     static function validation_cleaning($files_limit = 5000) {
         # delete items from the storage
-        entity::get('cache_validation')->instances_delete(['conditions' => [
+        Entity::get('cache_validation')->instances_delete(['conditions' => [
             'updated_!f'       => 'updated',
             'updated_operator' => '<',
-            'updated_!v'       => time() - core::DATE_PERIOD_D
+            'updated_!v'       => time() - Core::DATE_PERIOD_D
         ]]);
         # delete temporary files
-        if (file_exists(temporary::DIRECTORY.'validation/')) {
+        if (file_exists(Temporary::DIRECTORY.'validation/')) {
             $counter = 0;
-            foreach (new rd_iterator(temporary::DIRECTORY.'validation/', file::SCAN_MODE) as $c_dir_path => $c_spl_dir_info) {
+            foreach (new RecursiveDirectoryIterator(Temporary::DIRECTORY.'validation/', File::SCAN_MODE) as $c_dir_path => $c_spl_dir_info) {
                 if ($c_spl_dir_info->isDir()) {
-                    if (core::validate_date($c_spl_dir_info->getFilename()) &&
-                                            $c_spl_dir_info->getFilename() < core::date_get()) {
+                    if (Core::validate_date($c_spl_dir_info->getFilename()) &&
+                                            $c_spl_dir_info->getFilename() < Core::date_get()) {
                         # try to recursively delete all files and directories in current "YYYY-MM-DD" directory
-                        foreach (new ri_iterator(new rd_iterator($c_dir_path, file::SCAN_MODE), file::SCAN_WITH_DIR_AT_LAST) as $c_df_path => $c_spl_dir_or_file_info) {
+                        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($c_dir_path, File::SCAN_MODE), File::SCAN_WITH_DIR_AT_LAST) as $c_df_path => $c_spl_dir_or_file_info) {
                             if     ($counter >= $files_limit) return;
                             if     ($c_spl_dir_or_file_info->isFile()) {@unlink($c_df_path); $counter++;}
                             elseif ($c_spl_dir_or_file_info->isDir ()) {@rmdir ($c_df_path);}
@@ -319,7 +319,7 @@ class form extends markup implements has_external_cache {
                          $hex_ip.            # strlen === 32
                          $hex_uagent_hash_8. # strlen === 8
                          $hex_random;        # strlen === 8
-        $validation_id.= user::signature_get($validation_id, 'form', 8);
+        $validation_id.= User::signature_get($validation_id, 'form', 8);
         return $validation_id;
     }
 
@@ -337,10 +337,10 @@ class form extends markup implements has_external_cache {
 
     static function validation_id_get_hex_number($number) {return str_pad(dechex($number), 2, '0', STR_PAD_LEFT);}
     static function validation_id_get_hex_created      () {return dechex(time());}
-    static function validation_id_get_hex_ip           () {return core::ip_to_hex(request::addr_remote_get());}
-    static function validation_id_get_hex_uagent_hash_8() {return core::hash_get_mini(request::user_agent_get());}
+    static function validation_id_get_hex_ip           () {return Core::ip_to_hex(Request::addr_remote_get());}
+    static function validation_id_get_hex_uagent_hash_8() {return Core::hash_get_mini(Request::user_agent_get());}
     static function validation_id_get_hex_random       () {return str_pad(dechex(random_int(0, PHP_INT_32_MAX)), 8, '0', STR_PAD_LEFT);}
-    static function validation_id_get_hex_signature ($id) {return user::signature_get(substr($id, 0, 58), 'form', 8);}
+    static function validation_id_get_hex_signature ($id) {return User::signature_get(substr($id, 0, 58), 'form', 8);}
 
     static function validation_id_extract_number           ($id) {return hexdec(static::validation_id_extract_hex_number ($id));}
     static function validation_id_extract_created          ($id) {return hexdec(static::validation_id_extract_hex_created($id));}
@@ -352,14 +352,14 @@ class form extends markup implements has_external_cache {
     static function validation_id_extract_hex_signature    ($id) {return substr($id, 58,  8);}
 
     static function validation_id_check($id, $form) {
-        if (core::validate_hash($id, 66)) {
+        if (Core::validate_hash($id, 66)) {
             $number            = static::validation_id_extract_number           ($id);
             $created           = static::validation_id_extract_created          ($id);
             $hex_ip            = static::validation_id_extract_hex_ip           ($id);
             $hex_uagent_hash_8 = static::validation_id_extract_hex_uagent_hash_8($id);
             $hex_signature     = static::validation_id_extract_hex_signature    ($id);
             if ($created <= time()                                                   &&
-                $created >= time() - core::DATE_PERIOD_D                             &&
+                $created >= time() - Core::DATE_PERIOD_D                             &&
                 $form->number      === $number                                       &&
                 $hex_ip            === static::validation_id_get_hex_ip           () &&
                 $hex_uagent_hash_8 === static::validation_id_get_hex_uagent_hash_8() &&

@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class page_hybrid extends page {
+class Page_hybrid extends Page {
 
     const IS_LOADING_WAS_NOT            = 0b00;
     const IS_LOADING_WAS_NOT_SUCCESSFUL = 0b01;
@@ -17,7 +17,7 @@ class page_hybrid extends page {
 
     function load_from___sql_storage() {
         if (!$this->is_loaded) {
-            $instance = (new instance('page', ['id' => $this->id]))->select();
+            $instance = (new Instance('page', ['id' => $this->id]))->select();
             if ($instance) {
                 foreach ($instance->values_get() as $c_key => $c_value)
                    $this->                         {$c_key} = $c_value;

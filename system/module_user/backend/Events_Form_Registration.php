@@ -6,21 +6,21 @@
 
 namespace effcore\modules\user;
 
-use effcore\core;
-use effcore\mail;
-use effcore\message;
-use effcore\module;
-use effcore\session;
-use effcore\text_multiline;
-use effcore\text;
-use effcore\url;
-use effcore\user;
+use effcore\Core;
+use effcore\Mail;
+use effcore\Message;
+use effcore\Module;
+use effcore\Session;
+use effcore\Text_multiline;
+use effcore\Text;
+use effcore\Url;
+use effcore\User;
 
-abstract class events_form_registration {
+abstract class Events_Form_Registration {
 
     static function on_init($event, $form, $items) {
-        $settings = module::settings_get('user');
-        $items['#session_params:is_long_session']->attributes['title'] = new text_multiline([
+        $settings = Module::settings_get('user');
+        $items['#session_params:is_long_session']->attributes['title'] = new Text_multiline([
             'Short session: %%_min day%%_plural(min|s) | long session: %%_max day%%_plural(max|s)'], [
             'min' => $settings->session_duration_min,
             'max' => $settings->session_duration_max], '', true, true);
@@ -32,28 +32,28 @@ abstract class events_form_registration {
     static function on_submit($event, $form, $items) {
         switch ($form->clicked_button->value_get()) {
             case 'register':
-                $settings = module::settings_get('user');
+                $settings = Module::settings_get('user');
 
                 # ────────────────────────────────────────────────────────────────────────────────────
                 # registration via Email: a password is generated and sent to the user-specified Email
                 # ────────────────────────────────────────────────────────────────────────────────────
 
                 if ($settings->send_password_to_email) {
-                    $new_password = user::password_generate();
-                    $user = user::insert([
+                    $new_password = User::password_generate();
+                    $user = User::insert([
                         'email'         => $items['#email'   ]->value_get(),
                         'nickname'      => $items['#nickname']->value_get(),
                         'timezone'      => $items['#timezone']->value_get(),
-                        'password_hash' => user::password_hash($new_password)
+                        'password_hash' => User::password_hash($new_password)
                     ]);
                     if ($user) {
-                        $domain = url::get_current()->domain;
-                        if (mail::send('registration', 'no-reply@'.$domain, $user, ['domain' => $domain], ['domain' => $domain, 'new_password' => $new_password], $form, $items)) {
-                            message::insert('A new password was sent to the selected Email.');
-                            url::go(url::back_url_get() ?: '/login');
+                        $domain = Url::get_current()->domain;
+                        if (Mail::send('registration', 'no-reply@'.$domain, $user, ['domain' => $domain], ['domain' => $domain, 'new_password' => $new_password], $form, $items)) {
+                            Message::insert('A new password was sent to the selected Email.');
+                            Url::go(Url::back_url_get() ?: '/login');
                         }
                     } else {
-                        message::insert(
+                        Message::insert(
                             'User was not registered!', 'error'
                         );
                     }
@@ -63,22 +63,22 @@ abstract class events_form_registration {
                     # standard registration: the user sets his own password
                     # ─────────────────────────────────────────────────────────────────────
 
-                    $user = user::insert([
+                    $user = User::insert([
                         'email'         => $items['#email'   ]->value_get(),
                         'nickname'      => $items['#nickname']->value_get(),
                         'timezone'      => $items['#timezone']->value_get(),
                         'password_hash' => $items['#password']->value_get()
                     ]);
                     if ($user) {
-                        session::insert($user->id,
-                            core::array_keys_map($items['*session_params']->value_get())
+                        Session::insert($user->id,
+                            Core::array_keys_map($items['*session_params']->value_get())
                         );
-                        message::insert(
-                            new text('Welcome, %%_nickname!', ['nickname' => $user->nickname])
+                        Message::insert(
+                            new Text('Welcome, %%_nickname!', ['nickname' => $user->nickname])
                         );
-                        url::go(url::back_url_get() ?: '/user/'.$user->nickname);
+                        Url::go(Url::back_url_get() ?: '/user/'.$user->nickname);
                     } else {
-                        message::insert(
+                        Message::insert(
                             'User was not registered!', 'error'
                         );
                     }

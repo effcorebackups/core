@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class widget_selection_query extends control implements control_complex {
+class Widget_Selection_query extends Control implements Control_complex {
 
     public $tag_name = 'x-widget';
     public $title_tag_name = 'label';
@@ -49,7 +49,7 @@ class widget_selection_query extends control implements control_complex {
 
     function value_set($value, $options = []) {
         $this->value_set_initial($value);
-        if (core::data_is_serialized($value)) $value = unserialize($value);
+        if (Core::data_is_serialized($value)) $value = unserialize($value);
         if ($value === null) $value = [];
         if ($value ===  '' ) $value = [];
         if (is_array($value)) {
@@ -84,10 +84,10 @@ class widget_selection_query extends control implements control_complex {
 
     static function widget_manage_conditions_get($widget) {
         $is_custom_conditions = $widget->_instance->data['is_custom_conditions'] ?? false;
-        $result = $is_custom_conditions ? new fieldset('Conditions') : new node;
+        $result = $is_custom_conditions ? new Fieldset('Conditions') : new Node;
         # controls for conditions
         if ($is_custom_conditions) {
-            $field_textarea_data_conditions = new field_textarea_data;
+            $field_textarea_data_conditions = new Field_Textarea_data;
             $field_textarea_data_conditions->cform = $widget->cform;
             $field_textarea_data_conditions->attributes['data-role'] = 'data-conditions';
             $field_textarea_data_conditions->title = null;
@@ -104,7 +104,7 @@ class widget_selection_query extends control implements control_complex {
             $result->child_insert($field_textarea_data_conditions, 'field_textarea_data_conditions');
         } else {
             # widget for conditions
-            $widget_query_conditions = new widget_selection_query_conditions;
+            $widget_query_conditions = new Widget_Selection_query_conditions;
             $widget_query_conditions->cform = $widget->cform;
             $widget_query_conditions->_instance = $widget->_instance;
             $widget_query_conditions->build();
@@ -116,9 +116,9 @@ class widget_selection_query extends control implements control_complex {
     }
 
     static function widget_manage_order_get($widget) {
-        $result = new node;
+        $result = new Node;
         # widget for order
-        $widget_query_order = new widget_selection_query_order;
+        $widget_query_order = new Widget_Selection_query_order;
         $widget_query_order->cform = $widget->cform;
         $widget_query_order->_instance = $widget->_instance;
         $widget_query_order->build();
@@ -129,9 +129,9 @@ class widget_selection_query extends control implements control_complex {
     }
 
     static function widget_manage_limit_get($widget) {
-        $result = new node;
+        $result = new Node;
         # control for limit
-        $field_number_limit = new field_number;
+        $field_number_limit = new Field_Number;
         $field_number_limit->cform = $widget->cform;
         $field_number_limit->attributes['data-role'] = 'limit';
         $field_number_limit->title = 'Limit';

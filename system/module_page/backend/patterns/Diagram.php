@@ -8,7 +8,7 @@ namespace effcore;
 
 use stdClass;
 
-class diagram extends container {
+class Diagram extends Container {
 
     public $tag_name = 'x-diagram';
     public $title_tag_name = 'x-diagram-title';
@@ -29,41 +29,41 @@ class diagram extends container {
 
                 case 'linear':
                     foreach ($this->slices as $c_slice) {
-                        $c_param = new markup('x-param', $c_slice->attributes, [], $c_slice->weight);
-                        $c_param->child_insert(new markup('x-title', [], $c_slice->title));
-                        $c_param->child_insert(new markup('x-value', [], [
+                        $c_param = new Markup('x-param', $c_slice->attributes, [], $c_slice->weight);
+                        $c_param->child_insert(new Markup('x-title', [], $c_slice->title));
+                        $c_param->child_insert(new Markup('x-value', [], [
                             $c_slice->complex_value ?
-                            $c_slice->complex_value.' ('.locale::format_persent($c_slice->persent_value, 1).')' :
-                                                         locale::format_persent($c_slice->persent_value, 1),
-                            new markup('x-scale',      [                                                       ],
-                            new markup('x-scale-fill', ['style' => ['width: '.(int)$c_slice->persent_value.'%']])) ]));
+                            $c_slice->complex_value.' ('.Locale::format_persent($c_slice->persent_value, 1).')' :
+                                                         Locale::format_persent($c_slice->persent_value, 1),
+                            new Markup('x-scale',      [                                                       ],
+                            new Markup('x-scale-fill', ['style' => ['width: '.(int)$c_slice->persent_value.'%']])) ]));
                         $this->child_insert($c_param);
                     }
                     break;
 
                 case 'radial':
                     $coords = ['r' => '25%', 'cx' => '50%', 'cy' => '50%'];
-                    $diagram = new markup_xml('svg', ['viewBox' => '0 0 64 64', 'width' => '100', 'height' => '100']);
-                    $params = new markup('x-params');
-                    $diagram->child_insert(new markup_xml_simple('circle', $coords + ['style' => 'stroke: lightgray; stroke-width: 30%; fill: none']));
+                    $diagram = new Markup_xml('svg', ['viewBox' => '0 0 64 64', 'width' => '100', 'height' => '100']);
+                    $params = new Markup('x-params');
+                    $diagram->child_insert(new Markup_xml_simple('circle', $coords + ['style' => 'stroke: lightgray; stroke-width: 30%; fill: none']));
                     $this->child_insert($diagram, 'diagram');
                     $this->child_insert($params, 'params');
                     $c_offset = 0;
                     foreach ($this->slices as $c_slice) {
-                        $diagram->child_insert(new markup_xml_simple('circle', $coords + ['style' =>
+                        $diagram->child_insert(new Markup_xml_simple('circle', $coords + ['style' =>
                             'stroke: '           .                    $c_slice->color            .    '; '.
-                            'stroke-dasharray: ' .core::format_number($c_slice->persent_value, 2).' 100; '.
-                            'stroke-dashoffset: '.core::format_number($c_offset,               2).    '; '.
+                            'stroke-dasharray: ' .Core::format_number($c_slice->persent_value, 2).' 100; '.
+                            'stroke-dashoffset: '.Core::format_number($c_offset,               2).    '; '.
                             'stroke-width: 30%; '.
                             'fill: none']));
                         $c_offset -= $c_slice->persent_value;
-                        $c_param = new markup('x-param', $c_slice->attributes, [], $c_slice->weight);
-                        $c_param->child_insert(new markup('x-color', ['style' => 'background: '.$c_slice->color]));
-                        $c_param->child_insert(new markup('x-title', [], $c_slice->title));
-                        $c_param->child_insert(new markup('x-value', [], [
+                        $c_param = new Markup('x-param', $c_slice->attributes, [], $c_slice->weight);
+                        $c_param->child_insert(new Markup('x-color', ['style' => 'background: '.$c_slice->color]));
+                        $c_param->child_insert(new Markup('x-title', [], $c_slice->title));
+                        $c_param->child_insert(new Markup('x-value', [], [
                             $c_slice->complex_value ?
-                            $c_slice->complex_value.' ('.locale::format_persent($c_slice->persent_value, 1).')' :
-                                                         locale::format_persent($c_slice->persent_value, 1) ]));
+                            $c_slice->complex_value.' ('.Locale::format_persent($c_slice->persent_value, 1).')' :
+                                                         Locale::format_persent($c_slice->persent_value, 1) ]));
                         $params->child_insert($c_param);
                     }
                     break;

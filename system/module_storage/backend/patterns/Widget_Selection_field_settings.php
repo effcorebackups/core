@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class widget_selection_field_settings extends container {
+class Widget_Selection_field_settings extends Container {
 
     public $tag_name = null;
     public $content_tag_name = 'x-settings';
@@ -38,14 +38,14 @@ class widget_selection_field_settings extends container {
 
     function render_opener() {
         $html_name    = $this->parent_widget->name_get_complex().'__settings_opener__'.$this->c_row_id;
-        $form_id      = request::value_get('form_id');
-        $submit_value = request::value_get($html_name);
+        $form_id      = Request::value_get('form_id');
+        $submit_value = Request::value_get($html_name);
         $has_error    = $this->has_error_in();
-        if ($form_id === ''                                                 ) /*               default = closed */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
-        if ($form_id !== '' && $has_error !== true && $submit_value !== 'on') /* no error + no checked = opened */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => null                          ]))->render();
-        if ($form_id !== '' && $has_error !== true && $submit_value === 'on') /* no error +    checked = closed */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
-        if ($form_id !== '' && $has_error === true && $submit_value !== 'on') /*    error + no checked = opened */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
-        if ($form_id !== '' && $has_error === true && $submit_value === 'on') /*    error +    checked = opened */ return (new markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
+        if ($form_id === ''                                                 ) /*               default = closed */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new Text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
+        if ($form_id !== '' && $has_error !== true && $submit_value !== 'on') /* no error + no checked = opened */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new Text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => null                          ]))->render();
+        if ($form_id !== '' && $has_error !== true && $submit_value === 'on') /* no error +    checked = closed */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new Text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => true                          ]))->render();
+        if ($form_id !== '' && $has_error === true && $submit_value !== 'on') /*    error + no checked = opened */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new Text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
+        if ($form_id !== '' && $has_error === true && $submit_value === 'on') /*    error +    checked = opened */ return (new Markup_simple('input', ['type' => 'checkbox', 'role' => 'button', 'data-opener-type' => 'settings', 'title' => new Text('press to show more settings'), 'name' => $html_name, 'id' => $html_name, 'checked' => null, 'aria-invalid' => 'true']))->render();
     }
 
     ###########################
@@ -53,20 +53,20 @@ class widget_selection_field_settings extends container {
     ###########################
 
     static function widget_manage_get($widget, $item, $c_row_id) {
-        $result = new node;
+        $result = new Node;
         # control for title
-        $widget_text_object_title = new widget_text_object;
+        $widget_text_object_title = new Widget_Text_object;
         $widget_text_object_title->cform = $widget->parent_widget->cform;
         $widget_text_object_title->name_complex = $widget->parent_widget->name_get_complex().'__title__'.$c_row_id;
         $widget_text_object_title->attributes['data-role'] = 'title';
         $widget_text_object_title->field_text_title = 'Title';
         $widget_text_object_title->field_text_required = false;
         $widget_text_object_title->build();
-        $widget_text_object_title->value_set($item->title instanceof text ?
+        $widget_text_object_title->value_set($item->title instanceof Text ?
                                              $item->title :
-                                    new text($item->title));
+                                    new Text($item->title));
         # control for value settings
-        $group_value_settings = new group_checkboxes;
+        $group_value_settings = new Group_Checkboxes;
         $group_value_settings->title = 'Value settings';
         $group_value_settings->attributes['data-role'] = 'value-settings';
         $group_value_settings->element_attributes['name'] = $widget->parent_widget->name_get_complex().'__value_settings__'.$c_row_id.'[]';

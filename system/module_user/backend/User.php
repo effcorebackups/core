@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-abstract class user {
+abstract class User {
 
     static protected $cache;
 
@@ -16,11 +16,11 @@ abstract class user {
 
     static function init($is_load_roles = true, $is_load_permissions = false) {
         if (static::$cache === null) {
-            static::$cache = new instance('user');
+            static::$cache = new Instance('user');
             static::$cache->nickname = null;
             static::$cache->id       = null;
             static::$cache->roles    = ['anonymous' => 'anonymous'];
-            $session = session::select();
+            $session = Session::select();
             if ($session &&
                 $session->id_user) {
                 $user = static::select(
@@ -42,26 +42,26 @@ abstract class user {
     }
 
     static function select($id, $is_load_roles = false, $is_load_permissions = false) {
-        $user = new instance('user', ['id' => $id]);
+        $user = new Instance('user', ['id' => $id]);
         if ($user->select()) {
             $user->roles = $is_load_roles ?
                 ['registered' => 'registered'] + static::related_roles_select($id) :
                 ['registered' => 'registered'];
             $user->permissions = $is_load_permissions ?
-                role::related_permissions_by_roles_select($user->roles) : [];
+                Role::related_permissions_by_roles_select($user->roles) : [];
             return $user;
         }
     }
 
     static function insert($values) {
-        return (new instance('user', $values))->insert();
+        return (new Instance('user', $values))->insert();
     }
 
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function related_roles_select($id_user) {
         $result = [];
-        $items = entity::get('relation_role_ws_user')->instances_select(['conditions' => [
+        $items = Entity::get('relation_role_ws_user')->instances_select(['conditions' => [
             'id_user_!f'       => 'id_user',
             'id_user_operator' => '=',
             'id_user_!v'       => $id_user]]);
@@ -73,7 +73,7 @@ abstract class user {
 
     static function related_roles_insert($id_user, $roles, $module_id = null) {
         foreach ($roles as $c_id_role) {
-            (new instance('relation_role_ws_user', [
+            (new Instance('relation_role_ws_user', [
                 'id_role'   => $c_id_role,
                 'id_user'   =>   $id_user,
                 'module_id' => $module_id
@@ -82,7 +82,7 @@ abstract class user {
     }
 
     static function related_roles_delete($id_user) {
-        entity::get('relation_role_ws_user')->instances_delete(['conditions' => [
+        Entity::get('relation_role_ws_user')->instances_delete(['conditions' => [
             'id_user_!f'       => 'id_user',
             'id_user_operator' => '=',
             'id_user_!v'       => $id_user
@@ -90,7 +90,7 @@ abstract class user {
     }
 
     static function related_role_delete($id_user, $id_role) {
-        (new instance('relation_role_ws_user', [
+        (new Instance('relation_role_ws_user', [
             'id_user' => $id_user,
             'id_role' => $id_role
         ]))->delete();
@@ -99,30 +99,30 @@ abstract class user {
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function key_get($name) {
-        return storage::get('data')->select('settings/user/keys/'.$name);
+        return Storage::get('data')->select('settings/user/keys/'.$name);
     }
 
     static function keys_install() {
-        return storage::get('data')->changes_insert('user', 'update', 'settings/user/keys', [
-            'cron' => core::random_bytes_generate(40, module::settings_get('user')->hash_characters),
-            'salt' => core::random_bytes_generate(40, module::settings_get('user')->key_characters),
-            'form' => core::random_bytes_generate(40, module::settings_get('user')->key_characters),
-            'user' => core::random_bytes_generate(40, module::settings_get('user')->key_characters),
-            'args' => core::random_bytes_generate(40, module::settings_get('user')->key_characters),
+        return Storage::get('data')->changes_insert('user', 'update', 'settings/user/keys', [
+            'cron' => Core::random_bytes_generate(40, Module::settings_get('user')->hash_characters),
+            'salt' => Core::random_bytes_generate(40, Module::settings_get('user')->key_characters),
+            'form' => Core::random_bytes_generate(40, Module::settings_get('user')->key_characters),
+            'user' => Core::random_bytes_generate(40, Module::settings_get('user')->key_characters),
+            'args' => Core::random_bytes_generate(40, Module::settings_get('user')->key_characters),
         ], true, false);
     }
 
     static function signature_get($string, $key_name, $length = 40) {
         $key = static::key_get($key_name);
         if ($key) return substr(hash('sha3-512', hash('sha3-512', $string).$key), 0, $length);
-        else message::insert(new text('Key "%%_key" does not exist!', ['key' => $key_name]), 'error');
+        else Message::insert(new Text('Key "%%_key" does not exist!', ['key' => $key_name]), 'error');
     }
 
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function password_generate($length = 8) {
-        return core::random_bytes_generate($length,
-            module::settings_get('user')->password_characters
+        return Core::random_bytes_generate($length,
+            Module::settings_get('user')->password_characters
         );
     }
 

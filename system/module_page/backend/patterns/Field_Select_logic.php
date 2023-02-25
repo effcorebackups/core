@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class field_select_logic extends field_select {
+class Field_Select_logic extends Field_Select {
 
     public $title = 'Logic';
     public $attributes = ['data-type' => 'logic'];

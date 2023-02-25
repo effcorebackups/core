@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class field_id_text extends field_text {
+class Field_Id_text extends Field_Text {
 
     const CHARACTERS_ALLOWED = 'a-z0-9_';
     const CHARACTERS_ALLOWED_FOR_DESCRIPTION = '"a-z", "0-9", "_"';
@@ -23,7 +23,7 @@ class field_id_text extends field_text {
     function render_description() {
         $this->description = static::description_prepare($this->description);
         if (!isset($this->description['characters-allowed']))
-                   $this->description['characters-allowed'] = new markup('p', ['data-id' => 'characters-allowed'], new text('Field value can contain only the next characters: %%_characters', ['characters' => static::CHARACTERS_ALLOWED_FOR_DESCRIPTION]));
+                   $this->description['characters-allowed'] = new Markup('p', ['data-id' => 'characters-allowed'], new Text('Field value can contain only the next characters: %%_characters', ['characters' => static::CHARACTERS_ALLOWED_FOR_DESCRIPTION]));
         return parent::render_description();
     }
 
@@ -32,10 +32,10 @@ class field_id_text extends field_text {
     ###########################
 
     static function validate_value($field, $form, $element, &$new_value) {
-        if (strlen($new_value) && !core::validate_id($new_value)) {
-            $field->error_set(new text_multiline([
+        if (strlen($new_value) && !Core::validate_id($new_value)) {
+            $field->error_set(new Text_multiline([
                 'Field "%%_title" contains an error!',
-                'Field value can contain only the next characters: %%_characters'], ['title' => (new text($field->title))->render(), 'characters' => static::CHARACTERS_ALLOWED_FOR_DESCRIPTION ]
+                'Field value can contain only the next characters: %%_characters'], ['title' => (new Text($field->title))->render(), 'characters' => static::CHARACTERS_ALLOWED_FOR_DESCRIPTION ]
             ));
         } else {
             return true;

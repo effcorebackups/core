@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class group_switchers extends group_checkboxes {
+class Group_Switchers extends Group_Checkboxes {
 
     public $attributes = [
         'data-type' => 'switchers',

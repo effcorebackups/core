@@ -6,29 +6,29 @@
 
 namespace effcore\modules\poll;
 
-use effcore\module;
+use effcore\Module;
 
-abstract class events_module {
+abstract class Events_Module {
 
     static function on_install($event) {
-        $module = module::get('poll');
+        $module = Module::get('poll');
         $module->install();
     }
 
     static function on_uninstall($event) {
-        $module = module::get('poll');
+        $module = Module::get('poll');
         $module->uninstall();
     }
 
     static function on_enable($event) {
-        if (module::is_installed('poll')) {
-            $module = module::get('poll');
+        if (Module::is_installed('poll')) {
+            $module = Module::get('poll');
             $module->enable();
         }
     }
 
     static function on_disable($event) {
-        $module = module::get('poll');
+        $module = Module::get('poll');
         $module->disable();
     }
 

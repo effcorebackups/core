@@ -1,10 +1,12 @@
 <?php
 
-# PSR Style with namespace.
+##################################################################
+### Copyright © 2017—2022 Maxim Rysevets. All rights reserved. ###
+##################################################################
 
 namespace Vendor\Model;
 
-class DemoClassPsrWithNamespace
+class Demo_class_psr
 {
 
     public $PublicAttribute;

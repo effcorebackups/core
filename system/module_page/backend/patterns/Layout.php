@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class layout extends node implements has_external_cache {
+class Layout extends Node implements Has_external_cache {
 
     public $id;
     public $title;
@@ -33,9 +33,9 @@ class layout extends node implements has_external_cache {
 
     static function init() {
         if (static::$cache === null) {
-            foreach (storage::get('data')->select_array('layouts') as $c_module_id => $c_layouts) {
+            foreach (Storage::get('data')->select_array('layouts') as $c_module_id => $c_layouts) {
                 foreach ($c_layouts as $c_id => $c_layout) {
-                    if (isset(static::$cache[$c_id])) console::report_about_duplicate('layouts', $c_id, $c_module_id, static::$cache[$c_id]);
+                    if (isset(static::$cache[$c_id])) Console::report_about_duplicate('layouts', $c_id, $c_module_id, static::$cache[$c_id]);
                               static::$cache[$c_id] = $c_layout;
                               static::$cache[$c_id]->module_id = $c_module_id;
                 }
@@ -47,7 +47,7 @@ class layout extends node implements has_external_cache {
         static::init();
         if ($load)
             foreach (static::$cache as $id => $c_item)
-                if (static::$cache[$id] instanceof external_cache)
+                if (static::$cache[$id] instanceof External_cache)
                     static::$cache[$id] =
                     static::$cache[$id]->load_from_nosql_storage();
         return static::$cache;
@@ -56,7 +56,7 @@ class layout extends node implements has_external_cache {
     static function select($id, $load = true) {
         static::init();
         if (isset(static::$cache[$id]) === false) return;
-        if (static::$cache[$id] instanceof external_cache && $load)
+        if (static::$cache[$id] instanceof External_cache && $load)
                static::$cache[$id] =
                static::$cache[$id]->load_from_nosql_storage();
         return static::$cache[$id];

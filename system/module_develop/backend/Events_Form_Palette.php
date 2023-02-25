@@ -6,18 +6,18 @@
 
 namespace effcore\modules\develop;
 
-use effcore\color;
-use effcore\markup;
-use effcore\message;
-use effcore\storage_nosql_data;
-use effcore\text;
+use effcore\Color;
+use effcore\Markup;
+use effcore\Message;
+use effcore\Storage_Nosql_data;
+use effcore\Text;
 
-abstract class events_form_palette {
+abstract class Events_Form_Palette {
 
     static function on_submit($event, $form, $items) {
         switch ($form->clicked_button->value_get()) {
             case 'generate':
-                $base_color = new color(null, $items['#color']->value_get());
+                $base_color = new Color(null, $items['#color']->value_get());
                 $palette_markup = [];
                 $palette_colors = [];
                 for ($i = 0; $i < 21; $i++) {
@@ -25,12 +25,12 @@ abstract class events_form_palette {
                     $c_offset = ($i - 10) * $c_multiplier;
                     if ($c_offset !== 0) $c_color_id = $items['#prefix']->value_get().($c_offset < 0 ? 'l' : 'r').abs($i - 10);
                     else                 $c_color_id = $items['#prefix']->value_get().'base';
-                    $c_color_value = $base_color->filter_shift($c_offset, $c_offset, $c_offset, 1, color::RETURN_HEX);
-                    $palette_colors[$c_color_id] = new color($c_color_id, $c_color_value, $items['#group']->value_get());
-                    $palette_markup[$c_color_id] = new markup('x-color', ['style' => 'background-color: '.$c_color_value]); }
-                $items['palette/report']->child_select('palette')->child_insert(new markup('x-palette', [], $palette_markup), 'palette');
-                $items['palette/report']->child_select('data'   )->child_insert(new text(storage_nosql_data::data_to_text($palette_colors, 'colors')), 'data');
-                message::insert('Generation done.');
+                    $c_color_value = $base_color->filter_shift($c_offset, $c_offset, $c_offset, 1, Color::RETURN_HEX);
+                    $palette_colors[$c_color_id] = new Color($c_color_id, $c_color_value, $items['#group']->value_get());
+                    $palette_markup[$c_color_id] = new Markup('x-color', ['style' => 'background-color: '.$c_color_value]); }
+                $items['palette/report']->child_select('palette')->child_insert(new Markup('x-palette', [], $palette_markup), 'palette');
+                $items['palette/report']->child_select('data'   )->child_insert(new Text(Storage_Nosql_data::data_to_text($palette_colors, 'colors')), 'data');
+                Message::insert('Generation done.');
                 break;
         }
     }

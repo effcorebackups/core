@@ -7,20 +7,20 @@
 namespace effcore\modules\menu;
 
 use const effcore\BR;
-use effcore\page;
-use effcore\response;
-use effcore\text_multiline;
-use effcore\tree;
+use effcore\Page;
+use effcore\Response;
+use effcore\Text_multiline;
+use effcore\Tree;
 
-abstract class events_page_instance_insert {
+abstract class Events_Page_Instance_insert {
 
     static function on_check_existence($event, $page) {
-        $entity_name = page::get_current()->args_get('entity_name');
-        $category_id = page::get_current()->args_get('category_id');
+        $entity_name = Page::get_current()->args_get('entity_name');
+        $category_id = Page::get_current()->args_get('category_id');
         if ($entity_name === 'tree_item') {
-            $trees = tree::select_all('sql');
+            $trees = Tree::select_all('sql');
             if (!$category_id || empty($trees[$category_id])) {
-                response::send_header_and_exit('page_not_found', null, new text_multiline(['wrong category', 'go to <a href="/">front page</a>'], [], BR.BR));
+                Response::send_header_and_exit('page_not_found', null, new Text_multiline(['wrong category', 'go to <a href="/">front page</a>'], [], BR.BR));
             }
         }
     }

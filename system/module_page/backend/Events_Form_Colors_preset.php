@@ -6,19 +6,19 @@
 
 namespace effcore\modules\page;
 
-use effcore\color_preset;
-use effcore\field_checkbox_color;
-use effcore\message;
-use effcore\page;
+use effcore\Color_preset;
+use effcore\Field_Checkbox_color;
+use effcore\Message;
+use effcore\Page;
 
-abstract class events_form_colors_preset {
+abstract class Events_Form_Colors_preset {
 
     static function on_init($event, $form, $items) {
-        $id = page::get_current()->args_get('id');
-        $preset = color_preset::get($id);
+        $id = Page::get_current()->args_get('id');
+        $preset = Color_preset::get($id);
         if ($preset) {
             foreach ($items as $c_item) {
-                if ($c_item instanceof field_checkbox_color) {
+                if ($c_item instanceof Field_Checkbox_color) {
                     if (strpos($c_item->name_get(), 'color__') === 0) {
                         $c_item->color_set(
                             $preset->colors->{$c_item->name_get()}
@@ -33,11 +33,11 @@ abstract class events_form_colors_preset {
         switch ($form->clicked_button->value_get()) {
             case 'apply':
                 $changes = [];
-                $id = page::get_current()->args_get('id');
-                $preset = color_preset::get($id);
+                $id = Page::get_current()->args_get('id');
+                $preset = Color_preset::get($id);
                 if ($preset) {
                     foreach ($items as $c_item) {
-                        if ($c_item instanceof field_checkbox_color) {
+                        if ($c_item instanceof Field_Checkbox_color) {
                             if (strpos($c_item->name_get(), 'color__') === 0) {
                                 if ($c_item->checked_get()) {
                                     $changes[$c_item->name_get()] = true;
@@ -46,11 +46,11 @@ abstract class events_form_colors_preset {
                         }
                     }
                     if (!count($changes)) {
-                        message::insert('No one item was selected!', 'warning');
+                        Message::insert('No one item was selected!', 'warning');
                     } else {
-                        $result = color_preset::apply($id, $changes, true);
-                        if ($result) message::insert('Colors was applied.'             );
-                        else         message::insert('Colors was not applied!', 'error');
+                        $result = Color_preset::apply($id, $changes, true);
+                        if ($result) Message::insert('Colors was applied.'             );
+                        else         Message::insert('Colors was not applied!', 'error');
                         static::on_init(null, $form, $items);
                     }
                 }

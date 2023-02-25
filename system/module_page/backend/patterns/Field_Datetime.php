@@ -6,9 +6,9 @@
 
 namespace effcore;
 
-class field_datetime extends field_text {
+class Field_Datetime extends Field_Text {
 
-    use field__shared;
+    use Trait__Field;
 
     const INPUT_MIN_DATETIME = '0001-01-01 00:00:00';
     const INPUT_MAX_DATETIME = '9999-12-31 00:00:00';
@@ -29,23 +29,23 @@ class field_datetime extends field_text {
             parent::build();
             $min = $this->min_get();
             $max = $this->max_get();
-            if ($min) $this->min_set(core::datetime_to_T_datetime($min));
-            if ($max) $this->max_set(core::datetime_to_T_datetime($max));
+            if ($min) $this->min_set(Core::datetime_to_T_datetime($min));
+            if ($max) $this->max_set(Core::datetime_to_T_datetime($max));
             $this->value_set(parent::value_get());
         }
     }
 
     function value_get() { # @return: null | string | __OTHER_TYPE__ (when "value" in *.data is another type)
         $value = parent::value_get();
-        if ($value !== null && core::validate_T_datetime($value)) $value = core::T_datetime_to_datetime($value);
+        if ($value !== null && Core::validate_T_datetime($value)) $value = Core::T_datetime_to_datetime($value);
         return $value;
     }
 
     function value_set($value) {
         $this->value_set_initial($value);
         if (is_null($value) || is_string($value)) {
-            if ($value === null && $this->value_current_if_null === true) $value = core::datetime_get();
-            if ($value !== null && core::validate_datetime($value)) $value = core::datetime_to_T_datetime($value);
+            if ($value === null && $this->value_current_if_null === true) $value = Core::datetime_get();
+            if ($value !== null && Core::validate_datetime($value)) $value = Core::datetime_to_T_datetime($value);
             parent::value_set($value);
         }
     }
@@ -61,7 +61,7 @@ class field_datetime extends field_text {
         if ($name && $type) {
             if ($field->disabled_get()) return true;
             if ($field->readonly_get()) return true;
-            $new_value = request::value_get($name, static::current_number_generate($name), $form->source_get());
+            $new_value = Request::value_get($name, static::current_number_generate($name), $form->source_get());
             $new_value = strlen($new_value) === 16 ? $new_value.':00' : $new_value;
             $old_value = $field->value_get_initial();
             $result = static::validate_required  ($field, $form, $element, $new_value) &&
@@ -78,12 +78,12 @@ class field_datetime extends field_text {
     }
 
     static function validate_value($field, $form, $element, &$new_value) {
-        if (strlen($new_value) && !core::validate_T_datetime($new_value)) {
+        if (strlen($new_value) && !Core::validate_T_datetime($new_value)) {
             $field->error_set(
-                'Field "%%_title" contains an incorrect date/time!', ['title' => (new text($field->title))->render() ]
+                'Field "%%_title" contains an incorrect date/time!', ['title' => (new Text($field->title))->render() ]
             );
         } else {
-            $new_value = core::sanitize_T_datetime($new_value);
+            $new_value = Core::sanitize_T_datetime($new_value);
             return true;
         }
     }

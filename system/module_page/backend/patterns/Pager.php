@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class pager extends markup {
+class Pager extends Markup {
 
     const ERR_CODE_OK         = 0b0000;
     const ERR_CODE_CUR_NO_INT = 0b0001;
@@ -34,7 +34,7 @@ class pager extends markup {
 
     function init() {
         if ($this->cur === null) {
-            $this->cur = request::value_get($this->name_get(), 0, '_GET');
+            $this->cur = Request::value_get($this->name_get(), 0, '_GET');
             if ($this->cur === ''                                                  ) {$this->cur = $this->min;}
             if ($this->cur !== '' && (string)$this->cur !== (string)(int)$this->cur) {$this->cur = $this->min; $this->error_code |= static::ERR_CODE_CUR_NO_INT;}
             $this->min = (int)$this->min;
@@ -62,7 +62,7 @@ class pager extends markup {
         $this->init();
         $pager_name               = $this->name_get();
         $pager_name_not_optimized = $this->name_get(false);
-        $url = clone url::get_current();
+        $url = clone Url::get_current();
         $url->query_arg_delete($pager_name);
         $url->query_arg_delete($pager_name_not_optimized);
         if ($this->max > 1) $url->query_arg_insert($pager_name, $this->max);
@@ -121,7 +121,7 @@ class pager extends markup {
             $this->init();
             $pager_name               = $this->name_get();
             $pager_name_not_optimized = $this->name_get(false);
-            $url = clone url::get_current();
+            $url = clone Url::get_current();
             $url->query_arg_delete($pager_name);
             $url->query_arg_delete($pager_name_not_optimized);
 
@@ -131,8 +131,8 @@ class pager extends markup {
 
             if ($this->max - $this->min > 0) {
                 if ($this->cur === $this->min)
-                     $this->child_insert(new markup('a', ['title' => new text('go to page #%%_number', ['number' => $this->min]), 'href' => $url->tiny_get(), 'aria-current' => 'true'], $this->min));
-                else $this->child_insert(new markup('a', ['title' => new text('go to page #%%_number', ['number' => $this->min]), 'href' => $url->tiny_get()                          ], $this->min));
+                     $this->child_insert(new Markup('a', ['title' => new Text('go to page #%%_number', ['number' => $this->min]), 'href' => $url->tiny_get(), 'aria-current' => 'true'], $this->min));
+                else $this->child_insert(new Markup('a', ['title' => new Text('go to page #%%_number', ['number' => $this->min]), 'href' => $url->tiny_get()                          ], $this->min));
             }
 
             # ─────────────────────────────────────────────────────────────────────
@@ -149,28 +149,28 @@ class pager extends markup {
 
                 # l-shoulder part
                 if ($a > $this->min + 10) {
-                    $this->child_insert(new text('…'));
+                    $this->child_insert(new Text('…'));
                     for ($j = 1; $j < 4; $j++) {
                         $c_i = $this->min + (int)(($a - $this->min) / 4 * $j);
                         $url->query_arg_insert($pager_name, $c_i);
-                        $this->child_insert(new markup('a', ['title' => new text('go to page #%%_number', ['number' => $c_i]), 'href' => $url->tiny_get()], $c_i));
+                        $this->child_insert(new Markup('a', ['title' => new Text('go to page #%%_number', ['number' => $c_i]), 'href' => $url->tiny_get()], $c_i));
                     }
                 }
 
                 # central links part
                 if ($a > $this->min + 1) {
-                    $this->child_insert(new text('…'));
+                    $this->child_insert(new Text('…'));
                 }
                 for ($i = $a; $i <= $b; $i++) {
                     if ($i > $this->min && $i < $this->max) {
                         $url->query_arg_insert($pager_name, $i);
                         if ($this->cur === $i)
-                             $this->child_insert(new markup('a', ['title' => new text('go to page #%%_number', ['number' => $i]), 'href' => $url->tiny_get(), 'aria-current' => 'true'], $i));
-                        else $this->child_insert(new markup('a', ['title' => new text('go to page #%%_number', ['number' => $i]), 'href' => $url->tiny_get()                          ], $i));
+                             $this->child_insert(new Markup('a', ['title' => new Text('go to page #%%_number', ['number' => $i]), 'href' => $url->tiny_get(), 'aria-current' => 'true'], $i));
+                        else $this->child_insert(new Markup('a', ['title' => new Text('go to page #%%_number', ['number' => $i]), 'href' => $url->tiny_get()                          ], $i));
                     }
                 }
                 if ($b < $this->max - 1) {
-                    $this->child_insert(new text('…'));
+                    $this->child_insert(new Text('…'));
                 }
 
                 # r-shoulder part
@@ -178,9 +178,9 @@ class pager extends markup {
                     for ($j = 1; $j < 4; $j++) {
                         $c_i = $b + (int)(($this->max - $b) / 4 * $j);
                         $url->query_arg_insert($pager_name, $c_i);
-                        $this->child_insert(new markup('a', ['title' => new text('go to page #%%_number', ['number' => $c_i]), 'href' => $url->tiny_get()], $c_i));
+                        $this->child_insert(new Markup('a', ['title' => new Text('go to page #%%_number', ['number' => $c_i]), 'href' => $url->tiny_get()], $c_i));
                     }
-                    $this->child_insert(new text('…'));
+                    $this->child_insert(new Text('…'));
                 }
             }
 
@@ -191,8 +191,8 @@ class pager extends markup {
             if ($this->max - $this->min > 0) {
                 $url->query_arg_insert($pager_name, $this->max);
                 if ($this->cur === $this->max)
-                     $this->child_insert(new markup('a', ['title' => new text('go to page #%%_number', ['number' => $this->max]), 'href' => $url->tiny_get(), 'aria-current' => 'true'], $this->max));
-                else $this->child_insert(new markup('a', ['title' => new text('go to page #%%_number', ['number' => $this->max]), 'href' => $url->tiny_get()                          ], $this->max));
+                     $this->child_insert(new Markup('a', ['title' => new Text('go to page #%%_number', ['number' => $this->max]), 'href' => $url->tiny_get(), 'aria-current' => 'true'], $this->max));
+                else $this->child_insert(new Markup('a', ['title' => new Text('go to page #%%_number', ['number' => $this->max]), 'href' => $url->tiny_get()                          ], $this->max));
             }
 
             $this->is_builded = true;

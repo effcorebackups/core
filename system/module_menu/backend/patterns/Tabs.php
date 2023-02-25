@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class tabs extends node {
+class Tabs extends Node {
 
     public $id;
     public $template = 'tabs';
@@ -22,14 +22,14 @@ class tabs extends node {
 
     function build() {
         if (!$this->is_builded) {
-            event::start('on_tab_build_before', $this->id, ['tab' => &$this]);
+            Event::start('on_tab_build_before', $this->id, ['tab' => &$this]);
             $this->attribute_insert('data-id', $this->id);
-            foreach (tab_item::select_all() as $c_item) {
+            foreach (Tab_item::select_all() as $c_item) {
                 if ($c_item->id_tab    === $this->id &&
                     $c_item->id_parent === null) {
                     $this->child_insert($c_item, $c_item->id);
                     $c_item->build(); }}
-            event::start('on_tab_build_after', $this->id, ['tab' => &$this]);
+            Event::start('on_tab_build_after', $this->id, ['tab' => &$this]);
             $this->is_builded = true;
         }
     }
@@ -37,7 +37,7 @@ class tabs extends node {
     function render() {
         static::init();
         $this->build();
-        return (template::make_new($this->template, [
+        return (Template::make_new($this->template, [
             'attributes' => $this->render_attributes(),
             'top_items'  => $this->render_top_items(),
             'sub_items'  => $this->render_sub_items()
@@ -51,7 +51,7 @@ class tabs extends node {
             $c_clone->children = [];
             $rendered.= $c_clone->render();
         }
-        return $rendered ? (template::make_new($this->template_top_items, [
+        return $rendered ? (Template::make_new($this->template_top_items, [
             'children' => $rendered
         ]))->render() : '';
     }
@@ -59,15 +59,15 @@ class tabs extends node {
     function render_sub_items() {
         $rendered = '';
         foreach ($this->children_select(true) as $c_item) {
-            $c_url = rtrim(page::get_current()->args_get('base').'/'.$c_item->action_name, '/');
-            if (url::is_active_trail($c_url)) {
+            $c_url = rtrim(Page::get_current()->args_get('base').'/'.$c_item->action_name, '/');
+            if (Url::is_active_trail($c_url)) {
                 foreach ($c_item->children_select(true) as $c_child) {
                     $rendered.= $c_child->render();
                 }
                 break;
             }
         }
-        return $rendered ? (template::make_new($this->template_sub_items, [
+        return $rendered ? (Template::make_new($this->template_sub_items, [
             'children' => $rendered
         ]))->render() : '';
     }
@@ -79,11 +79,11 @@ class tabs extends node {
         $c_children = $this->children;
         while (true) {
             if (count($c_children)) {
-                core::array_sort_by_number($c_children);
+                Core::array_sort_by_number($c_children);
                 $c_found = false;
                 foreach ($c_children as $c_child) {
                     if ( ($ws_access !== true) ||
-                         ($ws_access === true && access::check($c_child->access)) ) {
+                         ($ws_access === true && Access::check($c_child->access)) ) {
                         $result[] = $c_child;
                         $c_children = $c_child->children;
                         $c_found = true;
@@ -105,9 +105,9 @@ class tabs extends node {
 
     static function init() {
         if (static::$cache === null) {
-            foreach (storage::get('data')->select_array('tabs') as $c_module_id => $c_tabs) {
+            foreach (Storage::get('data')->select_array('tabs') as $c_module_id => $c_tabs) {
                 foreach ($c_tabs as $c_row_id => $c_tab) {
-                    if (isset(static::$cache[$c_tab->id])) console::report_about_duplicate('tabs', $c_tab->id, $c_module_id, static::$cache[$c_tab->id]);
+                    if (isset(static::$cache[$c_tab->id])) Console::report_about_duplicate('tabs', $c_tab->id, $c_module_id, static::$cache[$c_tab->id]);
                               static::$cache[$c_tab->id] = $c_tab;
                               static::$cache[$c_tab->id]->origin = 'nosql';
                               static::$cache[$c_tab->id]->module_id = $c_module_id;

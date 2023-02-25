@@ -6,12 +6,12 @@
 
 namespace effcore;
 
-abstract class media {
+abstract class Media {
 
     static function container_make($file_path, $container_path, $info = []) {
         $result = true;
-        $result&= (bool)file_container::add_file       ($file_path,       $container_path.':original');
-        $result&= (bool)file_container::add_from_string(serialize($info), $container_path.':info');
+        $result&= (bool)File_container::add_file       ($file_path,       $container_path.':original');
+        $result&= (bool)File_container::add_from_string(serialize($info), $container_path.':info');
         return (bool)$result;
     }
 
@@ -22,13 +22,13 @@ abstract class media {
             $info_parsed = @unserialize($info);
             fclose($handle);
             if ($info_parsed) {
-                $file = new file($file_path);
+                $file = new File($file_path);
                 $info_parsed[$path_local]['type'] = $file->type_get();
                 $info_parsed[$path_local]['mime'] = $file->mime_get();
                 $info_parsed[$path_local]['size'] = $file->size_get();
                 $result = true;
-                $result&= (bool)file_container::add_file       ($file_path,              $container_path.':'.$path_local);
-                $result&= (bool)file_container::add_from_string(serialize($info_parsed), $container_path.':info');
+                $result&= (bool)File_container::add_file       ($file_path,              $container_path.':'.$path_local);
+                $result&= (bool)File_container::add_from_string(serialize($info_parsed), $container_path.':info');
                 return (bool)$result;
             }
         }
@@ -76,7 +76,7 @@ abstract class media {
                         if (!$dst_w) $dst_w = (int)($src_w / ($src_h / $dst_h));
                         $dst_resource = @imagecreatetruecolor($dst_w, $dst_h);
                         if ($dst_resource) {
-                            $dst_file = new file($dst_path);
+                            $dst_file = new File($dst_path);
                             if ($dst_file->type === 'jpg' || # fill with white background in JPG for beautiful degrade of PNG/GIF transparency in $src_resource
                                 $dst_file->type === 'jpeg') @imagefilledrectangle ($dst_resource, 0, 0, $dst_w - 1, $dst_h - 1, imagecolorallocate($dst_resource, 255, 255, 255));
                             if ($dst_file->type === 'gif' ) @imagecolortransparent($dst_resource,                               imagecolorallocate($dst_resource,   0,   0,   0));

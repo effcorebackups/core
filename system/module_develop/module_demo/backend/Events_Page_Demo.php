@@ -6,40 +6,40 @@
 
 namespace effcore\modules\demo;
 
-use effcore\canvas_svg;
-use effcore\decorator;
-use effcore\diagram;
-use effcore\locale;
-use effcore\markup;
-use effcore\message;
-use effcore\node;
-use effcore\tab_item;
-use effcore\table_body_row_cell;
-use effcore\table_body_row;
-use effcore\table;
-use effcore\text_multiline;
-use effcore\text;
-use effcore\tree_item;
-use effcore\url;
+use effcore\Canvas_svg;
+use effcore\Decorator;
+use effcore\Diagram;
+use effcore\Locale;
+use effcore\Markup;
+use effcore\Message;
+use effcore\Node;
+use effcore\Tab_item;
+use effcore\Table_body_row_cell;
+use effcore\Table_body_row;
+use effcore\Table;
+use effcore\Text_multiline;
+use effcore\Text;
+use effcore\Tree_item;
+use effcore\Url;
 
-abstract class events_page_demo {
+abstract class Events_Page_Demo {
 
     static function on_redirect($event, $page) {
         $type = $page->args_get('type');
         if ($type === null) {
-            $items = tab_item::select_all(null, 'demo_embedded');
-            url::go($page->args_get('base').'/'.reset($items)->action_name);
+            $items = Tab_item::select_all(null, 'demo_embedded');
+            Url::go($page->args_get('base').'/'.reset($items)->action_name);
         }
     }
 
     static function on_tree_build_before_nosql($event, $tree) {
-        tree_item::insert('item #1.2.3 (from code)', 'demo_nosql_item_1_2_3', 'demo_nosql_item_1_2', 'demo_nosql', '/develop/demo/embedded/trees/item_1/item_1_2/item_1_2_3', null, [], [], -10, 'demo');
-        tree_item::insert('item #3 (from code)',     'demo_nosql_item_3',      null,                 'demo_nosql', '/develop/demo/embedded/trees/item_3',                     null, [], [], -10, 'demo');
+        Tree_item::insert('item #1.2.3 (from code)', 'demo_nosql_item_1_2_3', 'demo_nosql_item_1_2', 'demo_nosql', '/develop/demo/embedded/trees/item_1/item_1_2/item_1_2_3', null, [], [], -10, 'demo');
+        Tree_item::insert('item #3 (from code)',     'demo_nosql_item_3',      null,                 'demo_nosql', '/develop/demo/embedded/trees/item_3',                     null, [], [], -10, 'demo');
     }
 
     static function on_tree_build_before_sql($event, $tree) {
-        tree_item::insert('item #1.2.3 (from code)', 'demo_sql_item_1_2_3',   'demo_sql_item_1_2',   'demo_sql',   '/develop/demo/embedded/trees/item_1/item_1_2/item_1_2_3', null, [], [], -10, 'demo');
-        tree_item::insert('item #3 (from code)',     'demo_sql_item_3',        null,                 'demo_sql',   '/develop/demo/embedded/trees/item_3',                     null, [], [], -10, 'demo');
+        Tree_item::insert('item #1.2.3 (from code)', 'demo_sql_item_1_2_3',   'demo_sql_item_1_2',   'demo_sql',   '/develop/demo/embedded/trees/item_1/item_1_2/item_1_2_3', null, [], [], -10, 'demo');
+        Tree_item::insert('item #3 (from code)',     'demo_sql_item_3',        null,                 'demo_sql',   '/develop/demo/embedded/trees/item_3',                     null, [], [], -10, 'demo');
     }
 
     ##############
@@ -52,68 +52,68 @@ abstract class events_page_demo {
         # headers
         # ─────────────────────────────────────────────────────────────────────
 
-        $header_h2 = new markup('h2', [], [new text('Header %%_size', ['size' => 'H2'])]);
-        $header_h3 = new markup('h3', [], [new text('Header %%_size', ['size' => 'H3'])]);
-        $header_h2_paragraph = new markup('p', [], ['content' => rtrim(str_repeat('Paragraph content. ', 16)).'&NewLine;',                                                                  ]);
-        $header_h3_paragraph = new markup('p', [], ['content' => rtrim(str_repeat('Paragraph content. ', 16)).'&NewLine;', 'link_view_more' => new markup('a', ['href' => '/'], 'View more')]);
+        $header_h2 = new Markup('h2', [], [new Text('Header %%_size', ['size' => 'H2'])]);
+        $header_h3 = new Markup('h3', [], [new Text('Header %%_size', ['size' => 'H3'])]);
+        $header_h2_paragraph = new Markup('p', [], ['content' => rtrim(str_repeat('Paragraph content. ', 16)).'&NewLine;',                                                                  ]);
+        $header_h3_paragraph = new Markup('p', [], ['content' => rtrim(str_repeat('Paragraph content. ', 16)).'&NewLine;', 'link_view_more' => new Markup('a', ['href' => '/'], 'View more')]);
 
         # ─────────────────────────────────────────────────────────────────────
         # unordered list
         # ─────────────────────────────────────────────────────────────────────
 
-        $list_title = new markup('h2', [], 'Lists');
-        $list_unordered_title = new markup('h3', [], 'Unordered list');
-        $list_unordered = new markup('ul', [], [
-            'li_1'           => new markup('li', [], ['content' => new text('item #%%_number', ['number' => 1])]),
-            'li_2'           => new markup('li', [], ['content' => new text('item #%%_number', ['number' => 2]),
-                'li_2_ul'    => new markup('ul', [], [
-                    'li_2_1' => new markup('li', [], new text('item #%%_number', ['number' => 2.1])),
-                    'li_2_2' => new markup('li', [], new text('item #%%_number', ['number' => 2.2])),
-                    'li_2_3' => new markup('li', [], new text('item #%%_number', ['number' => 2.3]))])]),
-            'li_3'           => new markup('li', [], ['content' => new text('item #%%_number', ['number' => 3])])
+        $list_title = new Markup('h2', [], 'Lists');
+        $list_unordered_title = new Markup('h3', [], 'Unordered list');
+        $list_unordered = new Markup('ul', [], [
+            'li_1'           => new Markup('li', [], ['content' => new Text('item #%%_number', ['number' => 1])]),
+            'li_2'           => new Markup('li', [], ['content' => new Text('item #%%_number', ['number' => 2]),
+                'li_2_ul'    => new Markup('ul', [], [
+                    'li_2_1' => new Markup('li', [], new Text('item #%%_number', ['number' => 2.1])),
+                    'li_2_2' => new Markup('li', [], new Text('item #%%_number', ['number' => 2.2])),
+                    'li_2_3' => new Markup('li', [], new Text('item #%%_number', ['number' => 2.3]))])]),
+            'li_3'           => new Markup('li', [], ['content' => new Text('item #%%_number', ['number' => 3])])
         ]);
 
         # ─────────────────────────────────────────────────────────────────────
         # ordered list
         # ─────────────────────────────────────────────────────────────────────
 
-        $list_ordered_title = new markup('h3', [], 'Ordered list');
-        $list_ordered = new markup('ol', [], [
-            'li_1'           => new markup('li', [], ['content' => new text('item #%%_number', ['number' => 1])]),
-            'li_2'           => new markup('li', [], ['content' => new text('item #%%_number', ['number' => 2]),
-                'li_2_ol'    => new markup('ol', [], [
-                    'li_2_1' => new markup('li', [], new text('item #%%_number', ['number' => 2.1])),
-                    'li_2_2' => new markup('li', [], new text('item #%%_number', ['number' => 2.2])),
-                    'li_2_3' => new markup('li', [], new text('item #%%_number', ['number' => 2.3]))])]),
-            'li_3'           => new markup('li', [], ['content' => new text('item #%%_number', ['number' => 3])])
+        $list_ordered_title = new Markup('h3', [], 'Ordered list');
+        $list_ordered = new Markup('ol', [], [
+            'li_1'           => new Markup('li', [], ['content' => new Text('item #%%_number', ['number' => 1])]),
+            'li_2'           => new Markup('li', [], ['content' => new Text('item #%%_number', ['number' => 2]),
+                'li_2_ol'    => new Markup('ol', [], [
+                    'li_2_1' => new Markup('li', [], new Text('item #%%_number', ['number' => 2.1])),
+                    'li_2_2' => new Markup('li', [], new Text('item #%%_number', ['number' => 2.2])),
+                    'li_2_3' => new Markup('li', [], new Text('item #%%_number', ['number' => 2.3]))])]),
+            'li_3'           => new Markup('li', [], ['content' => new Text('item #%%_number', ['number' => 3])])
         ]);
 
         # ─────────────────────────────────────────────────────────────────────
-        # table (combinations of arrays and table_body_row and table_body_row_cell)
+        # table (combinations of arrays and Table_body_row and Table_body_row_cell)
         # ─────────────────────────────────────────────────────────────────────
 
         $table_thead = [[
-            'th_1' => new text('head cell #%%_number', ['number' => 1]),
-            'th_2' => new text('head cell #%%_number', ['number' => 2]),
-            'th_3' => new text('head cell #%%_number', ['number' => 3])
+            'th_1' => new Text('head cell #%%_number', ['number' => 1]),
+            'th_2' => new Text('head cell #%%_number', ['number' => 2]),
+            'th_3' => new Text('head cell #%%_number', ['number' => 3])
         ]];
         $table_tbody = [
-            [   'td_1' =>                             new text('cell #%%_number', ['number' => 1.1]),
-                'td_2' =>                             new text('cell #%%_number', ['number' => 1.2]),
-                'td_3' =>                             new text('cell #%%_number', ['number' => 1.3])],
-            [   'td_1' =>                             new text('cell #%%_number', ['number' => 2.1]),
-                'td_2' =>                             new text('cell #%%_number', ['number' => 2.2]),
-                'td_3' => new table_body_row_cell([], new text('cell #%%_number', ['number' => 2.3]))],
-            new table_body_row([], [
-                'td_1' =>                             new text('cell #%%_number', ['number' => 3.1]),
-                'td_2' =>                             new text('cell #%%_number', ['number' => 3.2]),
-                'td_3' => new table_body_row_cell([], new text('cell #%%_number', ['number' => 3.3]))]),
-            new table_body_row([], [
-                'td_1' => new table_body_row_cell(['colspan' => 3], new text(''))
+            [   'td_1' =>                             new Text('cell #%%_number', ['number' => 1.1]),
+                'td_2' =>                             new Text('cell #%%_number', ['number' => 1.2]),
+                'td_3' =>                             new Text('cell #%%_number', ['number' => 1.3])],
+            [   'td_1' =>                             new Text('cell #%%_number', ['number' => 2.1]),
+                'td_2' =>                             new Text('cell #%%_number', ['number' => 2.2]),
+                'td_3' => new Table_body_row_cell([], new Text('cell #%%_number', ['number' => 2.3]))],
+            new Table_body_row([], [
+                'td_1' =>                             new Text('cell #%%_number', ['number' => 3.1]),
+                'td_2' =>                             new Text('cell #%%_number', ['number' => 3.2]),
+                'td_3' => new Table_body_row_cell([], new Text('cell #%%_number', ['number' => 3.3]))]),
+            new Table_body_row([], [
+                'td_1' => new Table_body_row_cell(['colspan' => 3], new Text(''))
             ])
         ];
-        $table_title = new markup('h2', [], 'Table');
-        $table = new table(['class' => ['table' => 'table']],
+        $table_title = new Markup('h2', [], 'Table');
+        $table = new Table(['class' => ['table' => 'table']],
             $table_tbody,
             $table_thead
         );
@@ -122,7 +122,7 @@ abstract class events_page_demo {
         # result block
         # ─────────────────────────────────────────────────────────────────────
 
-        return new node([], [
+        return new Node([], [
             $header_h2,
             $header_h2_paragraph,
             $header_h3,
@@ -147,8 +147,8 @@ abstract class events_page_demo {
         # view_type = table
         # ─────────────────────────────────────────────────────────────────────
 
-        $decorator_table_title = new markup('h3', [], 'view_type = table');
-        $decorator_table = new decorator('table');
+        $decorator_table_title = new Markup('h3', [], 'view_type = table');
+        $decorator_table = new Decorator('table');
         $decorator_table->id = 'demo_table';
         $decorator_table->visibility_rowid  = 'visible'; # visible | not_int | hidden
         $decorator_table->visibility_cellid = 'visible'; # visible | not_int | hidden
@@ -170,8 +170,8 @@ abstract class events_page_demo {
         # view_type = table-adaptive
         # ─────────────────────────────────────────────────────────────────────
 
-        $decorator_table_adaptive_title = new markup('h3', [], 'view_type = table-adaptive');
-        $decorator_table_adaptive = new decorator('table-adaptive');
+        $decorator_table_adaptive_title = new Markup('h3', [], 'view_type = table-adaptive');
+        $decorator_table_adaptive = new Decorator('table-adaptive');
         $decorator_table_adaptive->id = 'demo_table_adaptive';
         $decorator_table_adaptive->visibility_rowid  = 'visible'; # visible | not_int | hidden
         $decorator_table_adaptive->visibility_cellid = 'visible'; # visible | not_int | hidden
@@ -193,8 +193,8 @@ abstract class events_page_demo {
         # view_type = table-dl
         # ─────────────────────────────────────────────────────────────────────
 
-        $decorator_table_dl_title = new markup('h3', [], 'view_type = table-dl');
-        $decorator_table_dl = new decorator('table-dl');
+        $decorator_table_dl_title = new Markup('h3', [], 'view_type = table-dl');
+        $decorator_table_dl = new Decorator('table-dl');
         $decorator_table_dl->id = 'demo_table_dl';
         $decorator_table_dl->visibility_rowid  = 'visible'; # visible | not_int | hidden
         $decorator_table_dl->visibility_cellid = 'visible'; # visible | not_int | hidden
@@ -216,8 +216,8 @@ abstract class events_page_demo {
         # view_type = ul
         # ─────────────────────────────────────────────────────────────────────
 
-        $decorator_ul_title = new markup('h3', [], 'view_type = ul');
-        $decorator_ul = new decorator('ul');
+        $decorator_ul_title = new Markup('h3', [], 'view_type = ul');
+        $decorator_ul = new Decorator('ul');
         $decorator_ul->id = 'demo_ul';
         $decorator_ul->visibility_rowid  = 'visible'; # visible | not_int | hidden
         $decorator_ul->visibility_cellid = 'visible'; # visible | not_int | hidden
@@ -239,8 +239,8 @@ abstract class events_page_demo {
         # view_type = dl
         # ─────────────────────────────────────────────────────────────────────
 
-        $decorator_dl_title = new markup('h3', [], 'view_type = dl');
-        $decorator_dl = new decorator('dl');
+        $decorator_dl_title = new Markup('h3', [], 'view_type = dl');
+        $decorator_dl = new Decorator('dl');
         $decorator_dl->id = 'demo_dl';
         $decorator_dl->visibility_rowid  = 'visible'; # visible | not_int | hidden
         $decorator_dl->visibility_cellid = 'visible'; # visible | not_int | hidden
@@ -262,7 +262,7 @@ abstract class events_page_demo {
         # result block
         # ─────────────────────────────────────────────────────────────────────
 
-        return new node([], [
+        return new Node([], [
             $decorator_table_title,
             $decorator_table,
             $decorator_table_adaptive_title,
@@ -281,20 +281,20 @@ abstract class events_page_demo {
     ################
 
     static function block_markup__demo_messages($page, $args = []) {
-        $link = (new markup('a', ['href' => '/'], 'Link'))->render();
-        message::insert('Credentials', 'credentials');
-        message::insert( new text_multiline(['Notice message #%%_number.',              $link], ['number' => 1], ' '), 'notice');
-        message::insert( new text_multiline(['Notice message #%%_number.'                    ], ['number' => 2], ' '), 'notice');
-        message::insert( new text_multiline(['Notice message #%%_number.'                    ], ['number' => 3], ' '), 'notice');
-        message::insert( new text_multiline(['Ok message #%%_number.', 'Default type.', $link], ['number' => 1], ' '));
-        message::insert( new text_multiline(['Ok message #%%_number.',                       ], ['number' => 2], ' '));
-        message::insert( new text_multiline(['Ok message #%%_number.'                        ], ['number' => 3], ' '));
-        message::insert( new text_multiline(['Warning message #%%_number.',             $link], ['number' => 1], ' '), 'warning');
-        message::insert( new text_multiline(['Warning message #%%_number.'                   ], ['number' => 2], ' '), 'warning');
-        message::insert( new text_multiline(['Warning message #%%_number.'                   ], ['number' => 3], ' '), 'warning');
-        message::insert( new text_multiline(['Error message #%%_number!',               $link], ['number' => 1], ' '), 'error');
-        message::insert( new text_multiline(['Error message #%%_number!'                     ], ['number' => 2], ' '), 'error');
-        message::insert( new text_multiline(['Error message #%%_number!'                     ], ['number' => 3], ' '), 'error');
+        $link = (new Markup('a', ['href' => '/'], 'Link'))->render();
+        Message::insert('Credentials', 'credentials');
+        Message::insert( new Text_multiline(['Notice message #%%_number.',              $link], ['number' => 1], ' '), 'notice');
+        Message::insert( new Text_multiline(['Notice message #%%_number.'                    ], ['number' => 2], ' '), 'notice');
+        Message::insert( new Text_multiline(['Notice message #%%_number.'                    ], ['number' => 3], ' '), 'notice');
+        Message::insert( new Text_multiline(['Ok message #%%_number.', 'Default type.', $link], ['number' => 1], ' '));
+        Message::insert( new Text_multiline(['Ok message #%%_number.',                       ], ['number' => 2], ' '));
+        Message::insert( new Text_multiline(['Ok message #%%_number.'                        ], ['number' => 3], ' '));
+        Message::insert( new Text_multiline(['Warning message #%%_number.',             $link], ['number' => 1], ' '), 'warning');
+        Message::insert( new Text_multiline(['Warning message #%%_number.'                   ], ['number' => 2], ' '), 'warning');
+        Message::insert( new Text_multiline(['Warning message #%%_number.'                   ], ['number' => 3], ' '), 'warning');
+        Message::insert( new Text_multiline(['Error message #%%_number!',               $link], ['number' => 1], ' '), 'error');
+        Message::insert( new Text_multiline(['Error message #%%_number!'                     ], ['number' => 2], ' '), 'error');
+        Message::insert( new Text_multiline(['Error message #%%_number!'                     ], ['number' => 3], ' '), 'error');
     }
 
     ##############
@@ -302,7 +302,7 @@ abstract class events_page_demo {
     ##############
 
     static function block_markup__demo_canvas($page, $args = []) {
-        $canvas = new canvas_svg(105, 16, 5);
+        $canvas = new Canvas_svg(105, 16, 5);
         $canvas->glyph_set('-XXX-|X---X|X---X|X---X|X---X|X---X|X---X|X---X|X---X|-XXX-',  5, 3); # 0
         $canvas->glyph_set('----X|---X-|--X-X|-X--X|X---X|----X|----X|----X|----X|----X', 15, 3); # 1
         $canvas->glyph_set('XXXX-|----X|----X|----X|----X|---X-|--X--|-X---|X----|XXXXX', 25, 3); # 2
@@ -321,19 +321,19 @@ abstract class events_page_demo {
     ################
 
     static function block_markup__demo_diagram_linear($page, $args = []) {
-        $diagram = new diagram('Title', 'linear');
-        $diagram->slice_insert('Parameter 1', 70, (new text('%%_number sec.', ['number' => locale::format_msecond('0.07')]))->render());
-        $diagram->slice_insert('Parameter 2', 20, (new text('%%_number sec.', ['number' => locale::format_msecond('0.02')]))->render());
-        $diagram->slice_insert('Parameter 3', 10, (new text('%%_number sec.', ['number' => locale::format_msecond('0.01')]))->render());
+        $diagram = new Diagram('Title', 'linear');
+        $diagram->slice_insert('Parameter 1', 70, (new Text('%%_number sec.', ['number' => Locale::format_msecond('0.07')]))->render());
+        $diagram->slice_insert('Parameter 2', 20, (new Text('%%_number sec.', ['number' => Locale::format_msecond('0.02')]))->render());
+        $diagram->slice_insert('Parameter 3', 10, (new Text('%%_number sec.', ['number' => Locale::format_msecond('0.01')]))->render());
         return $diagram;
     }
 
     static function block_markup__demo_diagram_radial($page, $args = []) {
-        $diagram = new diagram('Title', 'radial');
-        $diagram->slice_insert('Parameter 1', 40, (new text('%%_number sec.', ['number' => locale::format_msecond('0.04')]))->render(), '#216ce4');
-        $diagram->slice_insert('Parameter 2', 30, (new text('%%_number sec.', ['number' => locale::format_msecond('0.03')]))->render(), '#48be38');
-        $diagram->slice_insert('Parameter 3', 20, (new text('%%_number sec.', ['number' => locale::format_msecond('0.02')]))->render(), '#fc5740');
-        $diagram->slice_insert('Parameter 4', 10, (new text('%%_number sec.', ['number' => locale::format_msecond('0.01')]))->render(), '#fd9a1e');
+        $diagram = new Diagram('Title', 'radial');
+        $diagram->slice_insert('Parameter 1', 40, (new Text('%%_number sec.', ['number' => Locale::format_msecond('0.04')]))->render(), '#216ce4');
+        $diagram->slice_insert('Parameter 2', 30, (new Text('%%_number sec.', ['number' => Locale::format_msecond('0.03')]))->render(), '#48be38');
+        $diagram->slice_insert('Parameter 3', 20, (new Text('%%_number sec.', ['number' => Locale::format_msecond('0.02')]))->render(), '#fc5740');
+        $diagram->slice_insert('Parameter 4', 10, (new Text('%%_number sec.', ['number' => Locale::format_msecond('0.01')]))->render(), '#fd9a1e');
         return $diagram;
     }
 

@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class field_select_relation extends field_select {
+class Field_Select_relation extends Field_Select {
 
     public $title = 'Relation';
     public $title_ws_id = true;
@@ -25,7 +25,7 @@ class field_select_relation extends field_select {
     function build() {
         if (!$this->is_builded) {
             parent::build();
-            $entity = entity::get($this->related_entity_name);
+            $entity = Entity::get($this->related_entity_name);
             if ($entity) {
                 $this->_instances = $entity->instances_select($this->query_settings);
                 if ($this->related_entity_field_id_parent_name)
@@ -45,18 +45,18 @@ class field_select_relation extends field_select {
         $result = [];
         foreach ($field->_instances as $c_instance) {
             $c_id_real = $c_instance->{$field->related_entity_field_id_name};
-            if ($field->title_ws_id === true) $result[$c_id_real] = new text_multiline(['title' => $c_instance->{$field->related_entity_field_title_name}, 'id' => '('.$c_id_real.')'], [], ' ');
-            if ($field->title_ws_id !== true) $result[$c_id_real] = new text_multiline(['title' => $c_instance->{$field->related_entity_field_title_name}                            ], [], ' ');
+            if ($field->title_ws_id === true) $result[$c_id_real] = new Text_multiline(['title' => $c_instance->{$field->related_entity_field_title_name}, 'id' => '('.$c_id_real.')'], [], ' ');
+            if ($field->title_ws_id !== true) $result[$c_id_real] = new Text_multiline(['title' => $c_instance->{$field->related_entity_field_title_name}                            ], [], ' ');
         }
         return $result;
     }
 
     static function items_generate_tree($field) {
         $tree_id = 'field_select_relation-'.$field->name_get();
-                tree::delete(      $tree_id                        );
-        $tree = tree::insert(null, $tree_id, null, [], 0, 'storage');
+                Tree::delete(      $tree_id                        );
+        $tree = Tree::insert(null, $tree_id, null, [], 0, 'storage');
         foreach ($field->_instances as $c_instance) {
-            $c_tree_item = tree_item::insert(
+            $c_tree_item = Tree_item::insert(
                 $c_instance->{$field->related_entity_field_title_name    },           $tree_id.'-'.
                 $c_instance->{$field->related_entity_field_id_name       },
                 $c_instance->{$field->related_entity_field_id_parent_name} !== null ? $tree_id.'-'.
@@ -67,9 +67,9 @@ class field_select_relation extends field_select {
         $result = [];
         foreach ($tree->children_select_recursive(null, '', false, true) as $c_npath => $c_child) {
             $c_id_real = $c_child->id_real;
-            $c_depth_marker = str_repeat('—', core::path_get_depth($c_npath) + 1);
-            if ($field->title_ws_id === true) $result[$c_id_real] = new text_multiline(['depth_marker' => $c_depth_marker, 'title' => $c_child->title, 'id' => '('.$c_id_real.')'], [], ' ');
-            if ($field->title_ws_id !== true) $result[$c_id_real] = new text_multiline(['depth_marker' => $c_depth_marker, 'title' => $c_child->title                            ], [], ' ');
+            $c_depth_marker = str_repeat('—', Core::path_get_depth($c_npath) + 1);
+            if ($field->title_ws_id === true) $result[$c_id_real] = new Text_multiline(['depth_marker' => $c_depth_marker, 'title' => $c_child->title, 'id' => '('.$c_id_real.')'], [], ' ');
+            if ($field->title_ws_id !== true) $result[$c_id_real] = new Text_multiline(['depth_marker' => $c_depth_marker, 'title' => $c_child->title                            ], [], ' ');
         }
         return $result;
     }

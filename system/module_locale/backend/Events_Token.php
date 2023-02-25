@@ -6,15 +6,15 @@
 
 namespace effcore\modules\locale;
 
-use effcore\token;
-use effcore\translation;
+use effcore\Token;
+use effcore\Translation;
 
-abstract class events_token {
+abstract class Events_Token {
 
     static function on_apply($name, $args = []) {
         switch ($name) {
             case 'return_translation':
-                if (count($args) === 1) return translation::apply($args[0]);
+                if (count($args) === 1) return Translation::apply($args[0]);
                 if (count($args)  >  1) {
                     $real_args = [];
                     for ($i = 1; $i < count($args); $i++) {
@@ -22,7 +22,7 @@ abstract class events_token {
                         if (count($c_result) === 2)
                             $real_args[$c_result[0]] =
                                        $c_result[1]; }
-                    return translation::apply($args[0], $real_args);
+                    return Translation::apply($args[0], $real_args);
                 }
                 break;
         }

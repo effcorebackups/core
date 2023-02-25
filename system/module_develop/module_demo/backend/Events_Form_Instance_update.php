@@ -6,14 +6,14 @@
 
 namespace effcore\modules\demo;
 
-use effcore\entity;
-use effcore\text_multiline;
-use effcore\text;
+use effcore\Entity;
+use effcore\Text_multiline;
+use effcore\Text;
 
-abstract class events_form_instance_update {
+abstract class Events_Form_Instance_update {
 
     static function on_validate($event, $form, $items) {
-        $entity = entity::get($form->entity_name);
+        $entity = Entity::get($form->entity_name);
         switch ($form->clicked_button->value_get()) {
             case 'update':
                 if ($entity->name === 'demo_join' && !$form->has_error()) {
@@ -26,9 +26,9 @@ abstract class events_form_instance_update {
                             'id_data_operator' => '=',
                             'id_data_!v'       => $id_data_new], 'limit' => 1]);
                         if ($result) {
-                            $items['#id_data']->error_set(new text_multiline([
+                            $items['#id_data']->error_set(new Text_multiline([
                                 'Field "%%_title" contains the previously used combination of values!',
-                                'Only unique value is allowed.'], ['title' => (new text($items['#id_data']->title))->render() ]
+                                'Only unique value is allowed.'], ['title' => (new Text($items['#id_data']->title))->render() ]
                             ));
                         }
                     }

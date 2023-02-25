@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-abstract class timer {
+abstract class Timer {
 
     static protected $data;
 

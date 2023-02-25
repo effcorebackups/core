@@ -8,17 +8,17 @@ namespace effcore\modules\demo;
 
 use const effcore\BR;
 use const effcore\NL;
-use effcore\access;
-use effcore\response;
-use effcore\text_multiline;
-use effcore\user;
+use effcore\Access;
+use effcore\Response;
+use effcore\Text_multiline;
+use effcore\User;
 
-abstract class events_file {
+abstract class Events_File {
 
     static function on_load_virtual($event, &$type_info, &$file) {
         if ($type_info->type === 'demotype') {
-            if (access::check((object)['roles' => ['admins' => 'admins']])) {
-                $user = user::get_current();
+            if (Access::check((object)['roles' => ['admins' => 'admins']])) {
+                $user = User::get_current();
                 # note: be ready to clear the path from './', '../', '~/', '//' and etc (example: "http://example.com/дир/./../~/файл.demotype")
                 $data = 'dirs: '.$file->dirs_get_relative().NL;
                 $data.= 'name: '.$file->name.NL;
@@ -33,7 +33,7 @@ abstract class events_file {
                 print $data;
                 exit();
             } else {
-                response::send_header_and_exit('access_forbidden', null, new text_multiline([
+                Response::send_header_and_exit('access_forbidden', null, new Text_multiline([
                     'go to <a href="/">front page</a>'
                 ], [], BR.BR));
             }

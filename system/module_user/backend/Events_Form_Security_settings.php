@@ -6,14 +6,14 @@
 
 namespace effcore\modules\user;
 
-use effcore\message;
-use effcore\module;
-use effcore\storage;
+use effcore\Message;
+use effcore\Module;
+use effcore\Storage;
 
-abstract class events_form_security_settings {
+abstract class Events_Form_Security_settings {
 
     static function on_init($event, $form, $items) {
-        $settings = module::settings_get('user');
+        $settings = Module::settings_get('user');
         $items['#cookie_domain'         ]->value_set($settings->cookie_domain);
         $items['#login_attempts'        ]->value_set($settings->login_attempts);
         $items['#blocked_until'         ]->value_set($settings->blocked_until);
@@ -41,25 +41,25 @@ abstract class events_form_security_settings {
         switch ($form->clicked_button->value_get()) {
             case 'save':
                 $result = true;
-                $result&= storage::get('data')->changes_insert('user', 'update', 'settings/user/cookie_domain',               $items['#cookie_domain'         ]->value_get(), false);
-                $result&= storage::get('data')->changes_insert('user', 'update', 'settings/user/login_attempts',         (int)$items['#login_attempts'        ]->value_get(), false);
-                $result&= storage::get('data')->changes_insert('user', 'update', 'settings/user/blocked_until',          (int)$items['#blocked_until'         ]->value_get(), false);
-                $result&= storage::get('data')->changes_insert('user', 'update', 'settings/user/session_duration_min',   (int)$items['#session_duration_min'  ]->value_get(), false);
-                $result&= storage::get('data')->changes_insert('user', 'update', 'settings/user/session_duration_max',   (int)$items['#session_duration_max'  ]->value_get(), false);
-                $result&= storage::get('data')->changes_insert('user', 'update', 'settings/user/send_password_to_email', (int)$items['#send_password_to_email']->value_get());
-                if ($result) message::insert('Changes was saved.'             );
-                else         message::insert('Changes was not saved!', 'error');
+                $result&= Storage::get('data')->changes_insert('user', 'update', 'settings/user/cookie_domain',               $items['#cookie_domain'         ]->value_get(), false);
+                $result&= Storage::get('data')->changes_insert('user', 'update', 'settings/user/login_attempts',         (int)$items['#login_attempts'        ]->value_get(), false);
+                $result&= Storage::get('data')->changes_insert('user', 'update', 'settings/user/blocked_until',          (int)$items['#blocked_until'         ]->value_get(), false);
+                $result&= Storage::get('data')->changes_insert('user', 'update', 'settings/user/session_duration_min',   (int)$items['#session_duration_min'  ]->value_get(), false);
+                $result&= Storage::get('data')->changes_insert('user', 'update', 'settings/user/session_duration_max',   (int)$items['#session_duration_max'  ]->value_get(), false);
+                $result&= Storage::get('data')->changes_insert('user', 'update', 'settings/user/send_password_to_email', (int)$items['#send_password_to_email']->value_get());
+                if ($result) Message::insert('Changes was saved.'             );
+                else         Message::insert('Changes was not saved!', 'error');
                 break;
             case 'reset':
                 $result = true;
-                $result&= storage::get('data')->changes_delete('user', 'update', 'settings/user/cookie_domain',        false);
-                $result&= storage::get('data')->changes_delete('user', 'update', 'settings/user/login_attempts',       false);
-                $result&= storage::get('data')->changes_delete('user', 'update', 'settings/user/blocked_until',        false);
-                $result&= storage::get('data')->changes_delete('user', 'update', 'settings/user/session_duration_min', false);
-                $result&= storage::get('data')->changes_delete('user', 'update', 'settings/user/session_duration_max', false);
-                $result&= storage::get('data')->changes_delete('user', 'update', 'settings/user/send_password_to_email');
-                if ($result) message::insert('Changes was deleted.'             );
-                else         message::insert('Changes was not deleted!', 'error');
+                $result&= Storage::get('data')->changes_delete('user', 'update', 'settings/user/cookie_domain',        false);
+                $result&= Storage::get('data')->changes_delete('user', 'update', 'settings/user/login_attempts',       false);
+                $result&= Storage::get('data')->changes_delete('user', 'update', 'settings/user/blocked_until',        false);
+                $result&= Storage::get('data')->changes_delete('user', 'update', 'settings/user/session_duration_min', false);
+                $result&= Storage::get('data')->changes_delete('user', 'update', 'settings/user/session_duration_max', false);
+                $result&= Storage::get('data')->changes_delete('user', 'update', 'settings/user/send_password_to_email');
+                if ($result) Message::insert('Changes was deleted.'             );
+                else         Message::insert('Changes was not deleted!', 'error');
                 static::on_init(null, $form, $items);
                 break;
         }

@@ -8,7 +8,7 @@ namespace effcore;
 
 use stdClass;
 
-class breadcrumbs extends markup {
+class Breadcrumbs extends Markup {
 
     public $tag_name = 'nav';
     public $attributes = ['aria-label' => 'breadcrumb'];
@@ -18,15 +18,15 @@ class breadcrumbs extends markup {
 
     function build() {
         if (!$this->is_builded) {
-            event::start('on_breadcrumbs_build_before', $this->id, ['breadcrumbs' => &$this]);
+            Event::start('on_breadcrumbs_build_before', $this->id, ['breadcrumbs' => &$this]);
             $this->children_delete();
             foreach ($this->links as $c_row_id => $c_link) {
                 if ($this->is_remove_last_link && $c_link === end($this->links)) break;
-                $c_link_markup = new markup('a', ['href' => $c_link->url], new text($c_link->title, [], true, true), $c_link->weight ?? 0);
-                if (url::is_active      ($c_link->url)) $c_link_markup->attribute_insert('aria-current',        'true');
-                if (url::is_active_trail($c_link->url)) $c_link_markup->attribute_insert('data-selected-trail', 'true');
+                $c_link_markup = new Markup('a', ['href' => $c_link->url], new Text($c_link->title, [], true, true), $c_link->weight ?? 0);
+                if (Url::is_active      ($c_link->url)) $c_link_markup->attribute_insert('aria-current',        'true');
+                if (Url::is_active_trail($c_link->url)) $c_link_markup->attribute_insert('data-selected-trail', 'true');
                 $this->child_insert($c_link_markup); }
-            event::start('on_breadcrumbs_build_after', $this->id, ['breadcrumbs' => &$this]);
+            Event::start('on_breadcrumbs_build_after', $this->id, ['breadcrumbs' => &$this]);
             $this->is_builded = true;
         }
     }
@@ -73,9 +73,9 @@ class breadcrumbs extends markup {
 
     static function init() {
         if (static::$cache === null) {
-            foreach (storage::get('data')->select_array('breadcrumbs') as $c_module_id => $c_breadcrumbs_by_module) {
+            foreach (Storage::get('data')->select_array('breadcrumbs') as $c_module_id => $c_breadcrumbs_by_module) {
                 foreach ($c_breadcrumbs_by_module as $c_breadcrumbs) {
-                    if (isset(static::$cache[$c_breadcrumbs->id])) console::report_about_duplicate('breadcrumbs', $c_breadcrumbs->id, $c_module_id, static::$cache[$c_breadcrumbs->id]);
+                    if (isset(static::$cache[$c_breadcrumbs->id])) Console::report_about_duplicate('breadcrumbs', $c_breadcrumbs->id, $c_module_id, static::$cache[$c_breadcrumbs->id]);
                               static::$cache[$c_breadcrumbs->id] = $c_breadcrumbs;
                               static::$cache[$c_breadcrumbs->id]->module_id = $c_module_id;
                               static::$cache[$c_breadcrumbs->id]->origin = 'nosql';

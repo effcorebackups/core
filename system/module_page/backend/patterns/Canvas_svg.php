@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class canvas_svg extends node_simple {
+class Canvas_svg extends Node_simple {
 
     public $template = 'canvas_svg';
     public $w;
@@ -96,7 +96,7 @@ class canvas_svg extends node_simple {
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     function render() {
-        return (template::make_new(template::pick_name($this->template), [
+        return (Template::make_new(Template::pick_name($this->template), [
             'color_bg' => $this->color_bg,
             'width'    => $this->scale * $this->w,
             'height'   => $this->scale * $this->h,
@@ -109,7 +109,7 @@ class canvas_svg extends node_simple {
         for ($c_y = 0; $c_y < $this->h; $c_y++) {
         for ($c_x = 0; $c_x < $this->w; $c_x++) {
             if (isset($this->canvas[$c_y][$c_x])) {
-                $result[] = (new markup_xml_simple('rect', [
+                $result[] = (new Markup_xml_simple('rect', [
                     'style'  => 'fill:'.$this->canvas[$c_y][$c_x],
                     'x'      => 1 * $this->scale * $c_x,
                     'y'      => 1 * $this->scale * $c_y,

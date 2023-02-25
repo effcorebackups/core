@@ -8,16 +8,16 @@ namespace effcore\modules\develop;
 
 use const effcore\DIR_MODULES;
 use const effcore\DIR_SYSTEM;
-use effcore\core;
-use effcore\decorator;
-use effcore\file;
-use effcore\markup;
-use effcore\module;
-use effcore\node;
-use effcore\text_multiline;
-use effcore\text_simple;
+use effcore\Core;
+use effcore\Decorator;
+use effcore\File;
+use effcore\Markup;
+use effcore\Module;
+use effcore\Node;
+use effcore\Text_multiline;
+use effcore\Text_simple;
 
-abstract class events_page_php_dependencies {
+abstract class Events_Page_Php_dependencies {
 
     # legend: + the extension is always enabled
     #         ± the extension is enabled by default
@@ -94,7 +94,7 @@ abstract class events_page_php_dependencies {
     ];
 
     static function block_markup__php_dependencies_list($page, $args = []) {
-        $modules_path = module::get_all('path');
+        $modules_path = Module::get_all('path');
         arsort($modules_path);
         $statistic_by_mod = [];
         $statistic_by_fnc = [];
@@ -106,11 +106,11 @@ abstract class events_page_php_dependencies {
             }
         }
         # scan each php file on used functions
-        foreach (file::select_recursive(DIR_SYSTEM,  '%^.*\\.php$%') +
-                 file::select_recursive(DIR_MODULES, '%^.*\\.php$%') as $c_path => $c_file) {
+        foreach (File::select_recursive(DIR_SYSTEM,  '%^.*\\.php$%') +
+                 File::select_recursive(DIR_MODULES, '%^.*\\.php$%') as $c_path => $c_file) {
             $c_matches = [];
             $c_path_relative = $c_file->path_get_relative();
-            $c_module_id = key(core::array_search__any_array_item_in_value($c_path_relative, $modules_path));
+            $c_module_id = key(Core::array_search__any_array_item_in_value($c_path_relative, $modules_path));
             # load file and search functions in it
             preg_match_all('%(?<![a-zA-Z0-9_])(?<name>[a-zA-Z0-9_]+)\\(%sS', $c_file->load(), $c_matches, PREG_OFFSET_CAPTURE);
             if ($c_matches) {
@@ -138,23 +138,23 @@ abstract class events_page_php_dependencies {
         # prepare report by modules
         # ─────────────────────────────────────────────────────────────────────
 
-        $mod_title = new markup('h2', [], 'Module dependencies from PHP extensions');
-        $mod_legend = new markup('p', [], new text_multiline([
+        $mod_title = new Markup('h2', [], 'Module dependencies from PHP extensions');
+        $mod_legend = new Markup('p', [], new Text_multiline([
             '+ the extension is always enabled',
             '± the extension is enabled by default',
             '− the extension is not enabled by default']));
-        $mod_decorator = new decorator('table-adaptive');
+        $mod_decorator = new Decorator('table-adaptive');
         $mod_decorator->id = 'modules_dependency';
         foreach ($statistic_by_mod as $c_module_id => $c_extensions) {
             if ($c_module_id) {
                 ksort($c_extensions);
-                $c_extensions_list = new text_multiline([], [], ', ', false, false);
+                $c_extensions_list = new Text_multiline([], [], ', ', false, false);
                 foreach ($c_extensions as $c_name => $c_usage)
                     $c_extensions_list->text_append(
                               !isset(static::EXTENSIONS_DEFAULT_STATUS[$c_name]) ? $c_name :
                         $c_name.' ('.static::EXTENSIONS_DEFAULT_STATUS[$c_name].')');
                 $mod_decorator->data[$c_module_id] = [
-                    'module'    => ['value' => new text_simple($c_module_id), 'title' => 'Module'       ],
+                    'module'    => ['value' => new Text_simple($c_module_id), 'title' => 'Module'       ],
                     'extension' => ['value' => $c_extensions_list,            'title' => 'PHP extension']
                 ];
             }
@@ -164,14 +164,14 @@ abstract class events_page_php_dependencies {
         # prepare report by functions
         # ─────────────────────────────────────────────────────────────────────
 
-        $fnc_title = new markup('h2', [], 'PHP functions usage');
-        $fnc_decorator = new decorator('table-adaptive');
+        $fnc_title = new Markup('h2', [], 'PHP functions usage');
+        $fnc_decorator = new Decorator('table-adaptive');
         $fnc_decorator->id = 'functions_usage';
         $fnc_decorator->result_attributes = ['data-style' => 'compact'];
         foreach ($statistic_by_fnc as $c_function => $c_positions) {
             $fnc_decorator->data[$c_function] = [
-                'function' => ['value' => new text_simple($c_function),         'title' => 'Function'       ],
-                'usage'    => ['value' => new text_simple(count($c_positions)), 'title' => 'Usage frequency']
+                'function' => ['value' => new Text_simple($c_function),         'title' => 'Function'       ],
+                'usage'    => ['value' => new Text_simple(count($c_positions)), 'title' => 'Usage frequency']
             ];
         }
 
@@ -179,26 +179,26 @@ abstract class events_page_php_dependencies {
         # prepare full report
         # ─────────────────────────────────────────────────────────────────────
 
-        $ext_title = new markup('h2', [], 'Full report');
-        $ext_decorator = new decorator('table-adaptive');
+        $ext_title = new Markup('h2', [], 'Full report');
+        $ext_decorator = new Decorator('table-adaptive');
         $ext_decorator->id = 'extensions_dependency';
         $ext_decorator->result_attributes = ['data-style' => 'compact'];
         foreach ($statistic_by_ext as $c_extension => $c_functions) {
             foreach ($c_functions as $c_function => $c_positions) {
                 foreach ($c_positions as $c_position_info) {
                     $ext_decorator->data[] = [
-                        'extension' => ['value' => new text_simple($c_extension                   ), 'title' => 'PHP ext.'],
-                        'module'    => ['value' => new text_simple($c_position_info->module ?: '—'), 'title' => 'Module'  ],
-                        'function'  => ['value' => new text_simple($c_function                    ), 'title' => 'Function'],
-                        'file'      => ['value' => new text_simple($c_position_info->file         ), 'title' => 'File'    ],
-                        'position'  => ['value' => new text_simple($c_position_info->position     ), 'title' => 'Pos.'    ]
+                        'extension' => ['value' => new Text_simple($c_extension                   ), 'title' => 'PHP ext.'],
+                        'module'    => ['value' => new Text_simple($c_position_info->module ?: '—'), 'title' => 'Module'  ],
+                        'function'  => ['value' => new Text_simple($c_function                    ), 'title' => 'Function'],
+                        'file'      => ['value' => new Text_simple($c_position_info->file         ), 'title' => 'File'    ],
+                        'position'  => ['value' => new Text_simple($c_position_info->position     ), 'title' => 'Pos.'    ]
                     ];
                 }
             }
         }
         # return result
-        return new node([], [
-            new markup('p',  [], new text_multiline(['The report was generated in real time.', 'The system can search for the used functions only for enabled PHP modules!'])),
+        return new Node([], [
+            new Markup('p',  [], new Text_multiline(['The report was generated in real time.', 'The system can search for the used functions only for enabled PHP modules!'])),
             $mod_title,
             $mod_decorator,
             $mod_legend,

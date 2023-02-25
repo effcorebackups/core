@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class field_select_layout extends field_select {
+class Field_Select_layout extends Field_Select {
 
     public $title = 'Layout';
     public $title__not_selected = '- select -';
@@ -20,11 +20,11 @@ class field_select_layout extends field_select {
         if (!$this->is_builded) {
             parent::build();
             $items = [];
-            foreach (layout::select_all() as $c_layout) {
-                $c_text_object = new text_multiline(['title' => $c_layout->title, 'id' => '('.$c_layout->id.')'], [], ' ');
+            foreach (Layout::select_all() as $c_layout) {
+                $c_text_object = new Text_multiline(['title' => $c_layout->title, 'id' => '('.$c_layout->id.')'], [], ' ');
                 $c_text_object->_text_translated = $c_text_object->render();
                 $items[$c_layout->id] = $c_text_object; }
-            core::array_sort_by_string($items, '_text_translated', 'd', false);
+            Core::array_sort_by_string($items, '_text_translated', 'd', false);
             $this->items = ['not_selected' => $this->title__not_selected] + $items;
             $this->is_builded = false;
             parent::build();

@@ -6,11 +6,11 @@
 
 namespace effcore;
 
-class widget_files_multimedia extends widget_files {
+class Widget_Files_multimedia extends Widget_Files {
 
-    use widget_files_pictures__shared;
-    use widget_files_videos__shared;
-    use widget_files_audios__shared;
+    use Trait__Widget_Files_pictures;
+    use Trait__Widget_Files_videos;
+    use Trait__Widget_Files_audios;
 
     public $title = 'Multimedia';
     public $item_title = 'File';
@@ -39,18 +39,18 @@ class widget_files_multimedia extends widget_files {
     ###########################
 
     static function value_to_markup($value) {
-        $decorator = new decorator;
+        $decorator = new Decorator;
         $decorator->id = 'widget_files-multimedia-items';
         $decorator->view_type = 'template';
         $decorator->template = 'content';
         $decorator->template_item = 'gallery_item';
-        $decorator->mapping = core::array_keys_map(['num', 'type', 'children']);
+        $decorator->mapping = Core::array_keys_map(['num', 'type', 'children']);
         if ($value) {
-            core::array_sort_by_number($value);
+            Core::array_sort_by_number($value);
             foreach ($value as $c_row_id => $c_item) {
-                if (in_array(media::media_class_get($c_item->object->type), ['picture', 'audio', 'video'])) {
+                if (in_array(Media::media_class_get($c_item->object->type), ['picture', 'audio', 'video'])) {
                     $decorator->data[$c_row_id] = [
-                        'type'     => ['value' => media::media_class_get($c_item->object->type)],
+                        'type'     => ['value' => Media::media_class_get($c_item->object->type)],
                         'num'      => ['value' => $c_row_id],
                         'children' => ['value' => static::item_markup_get($c_item, $c_row_id)]
                     ];
@@ -61,35 +61,35 @@ class widget_files_multimedia extends widget_files {
     }
 
     static function item_markup_get($item, $row_id) {
-        if (media::media_class_get($item->object->type) === 'picture') return widget_files_pictures::item_markup_get($item, $row_id);
-        if (media::media_class_get($item->object->type) === 'video'  ) return widget_files_videos  ::item_markup_get($item, $row_id);
-        if (media::media_class_get($item->object->type) === 'audio'  ) return widget_files_audios  ::item_markup_get($item, $row_id);
+        if (Media::media_class_get($item->object->type) === 'picture') return Widget_Files_pictures::item_markup_get($item, $row_id);
+        if (Media::media_class_get($item->object->type) === 'video'  ) return Widget_Files_videos  ::item_markup_get($item, $row_id);
+        if (Media::media_class_get($item->object->type) === 'audio'  ) return Widget_Files_audios  ::item_markup_get($item, $row_id);
     }
 
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function widget_manage_get($widget, $item, $c_row_id) {
-        if (media::media_class_get($item->object->type) === 'picture') return widget_files_pictures::widget_manage_get($widget, $item, $c_row_id);
-        if (media::media_class_get($item->object->type) === 'video'  ) return widget_files_videos  ::widget_manage_get($widget, $item, $c_row_id);
-        if (media::media_class_get($item->object->type) === 'audio'  ) return widget_files_audios  ::widget_manage_get($widget, $item, $c_row_id);
+        if (Media::media_class_get($item->object->type) === 'picture') return Widget_Files_pictures::widget_manage_get($widget, $item, $c_row_id);
+        if (Media::media_class_get($item->object->type) === 'video'  ) return Widget_Files_videos  ::widget_manage_get($widget, $item, $c_row_id);
+        if (Media::media_class_get($item->object->type) === 'audio'  ) return Widget_Files_audios  ::widget_manage_get($widget, $item, $c_row_id);
         return parent::widget_manage_get($widget, $item, $c_row_id);
     }
 
     static function widget_insert_get($widget) {
-        $result = new markup('x-widget', ['data-type' => 'insert']);
-        $media_type = new micro_tabs;
+        $result = new Markup('x-widget', ['data-type' => 'insert']);
+        $media_type = new Micro_tabs;
         $media_type->element_attributes['name'] = 'media_type';
         $media_type->checked['1'] = '1';
         $media_type->items_set(['1' => 'Pictures', '2' => 'Video', '3' => 'Audio']);
-        $fieldset_pictures = new fieldset(null, null, ['data-micro_tabs-content-id' => '1', 'data-type' => 'pictures']);
-        $fieldset_video    = new fieldset(null, null, ['data-micro_tabs-content-id' => '2', 'data-type' => 'video'   ]);
-        $fieldset_audio    = new fieldset(null, null, ['data-micro_tabs-content-id' => '3', 'data-type' => 'audio'   ]);
+        $fieldset_pictures = new Fieldset(null, null, ['data-micro_tabs-content-id' => '1', 'data-type' => 'pictures']);
+        $fieldset_video    = new Fieldset(null, null, ['data-micro_tabs-content-id' => '2', 'data-type' => 'video'   ]);
+        $fieldset_audio    = new Fieldset(null, null, ['data-micro_tabs-content-id' => '3', 'data-type' => 'audio'   ]);
         $fieldset_pictures->state = 'closed';
         $fieldset_video   ->state = 'closed';
         $fieldset_audio   ->state = 'closed';
-        $fieldset_pictures->children_update(widget_files_pictures::widget_insert_get($widget, 'picture')->children_select());
-        $fieldset_video   ->children_update(widget_files_videos  ::widget_insert_get($widget, 'video'  )->children_select());
-        $fieldset_audio   ->children_update(widget_files_audios  ::widget_insert_get($widget, 'audio'  )->children_select());
+        $fieldset_pictures->children_update(Widget_Files_pictures::widget_insert_get($widget, 'picture')->children_select());
+        $fieldset_video   ->children_update(Widget_Files_videos  ::widget_insert_get($widget, 'video'  )->children_select());
+        $fieldset_audio   ->children_update(Widget_Files_audios  ::widget_insert_get($widget, 'audio'  )->children_select());
         $widget->controls['*fieldset_pictures'] = $fieldset_pictures;
         $widget->controls['*fieldset_video'   ] = $fieldset_video;
         $widget->controls['*fieldset_audio'   ] = $fieldset_audio;
@@ -103,15 +103,15 @@ class widget_files_multimedia extends widget_files {
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function on_file_prepare($widget, $form, $npath, $button, &$items, &$new_item) {
-        if ($button->_kind === 'picture') {$widget->controls['#file'] = $widget->controls['#file_picture']; return widget_files_pictures::on_file_prepare($widget, $form, $npath, $button, $items, $new_item);}
-        if ($button->_kind === 'video'  ) {$widget->controls['#file'] = $widget->controls['#file_video'  ]; return widget_files_videos  ::on_file_prepare($widget, $form, $npath, $button, $items, $new_item);}
-        if ($button->_kind === 'audio'  ) {$widget->controls['#file'] = $widget->controls['#file_audio'  ]; return widget_files_audios  ::on_file_prepare($widget, $form, $npath, $button, $items, $new_item);}
+        if ($button->_kind === 'picture') {$widget->controls['#file'] = $widget->controls['#file_picture']; return Widget_Files_pictures::on_file_prepare($widget, $form, $npath, $button, $items, $new_item);}
+        if ($button->_kind === 'video'  ) {$widget->controls['#file'] = $widget->controls['#file_video'  ]; return Widget_Files_videos  ::on_file_prepare($widget, $form, $npath, $button, $items, $new_item);}
+        if ($button->_kind === 'audio'  ) {$widget->controls['#file'] = $widget->controls['#file_audio'  ]; return Widget_Files_audios  ::on_file_prepare($widget, $form, $npath, $button, $items, $new_item);}
     }
 
     static function on_button_click_insert($widget, $form, $npath, $button) {
-        if ($button->_kind === 'picture') {$widget->controls['#file'] = $widget->controls['#file_picture']; return widget_files_pictures::on_button_click_insert($widget, $form, $npath, $button);}
-        if ($button->_kind === 'video'  ) {$widget->controls['#file'] = $widget->controls['#file_video'  ]; return widget_files_videos  ::on_button_click_insert($widget, $form, $npath, $button);}
-        if ($button->_kind === 'audio'  ) {$widget->controls['#file'] = $widget->controls['#file_audio'  ]; return widget_files_audios  ::on_button_click_insert($widget, $form, $npath, $button);}
+        if ($button->_kind === 'picture') {$widget->controls['#file'] = $widget->controls['#file_picture']; return Widget_Files_pictures::on_button_click_insert($widget, $form, $npath, $button);}
+        if ($button->_kind === 'video'  ) {$widget->controls['#file'] = $widget->controls['#file_video'  ]; return Widget_Files_videos  ::on_button_click_insert($widget, $form, $npath, $button);}
+        if ($button->_kind === 'audio'  ) {$widget->controls['#file'] = $widget->controls['#file_audio'  ]; return Widget_Files_audios  ::on_button_click_insert($widget, $form, $npath, $button);}
     }
 
 }

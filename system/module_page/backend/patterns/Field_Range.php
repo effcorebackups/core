@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class field_range extends field_number {
+class Field_Range extends Field_Number {
 
     const INPUT_MIN_RANGE = 0;
     const INPUT_MAX_RANGE = 100;

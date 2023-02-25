@@ -6,22 +6,22 @@
 
 namespace effcore\modules\user;
 
-use effcore\access;
-use effcore\page;
-use effcore\user;
+use effcore\Access;
+use effcore\Page;
+use effcore\User;
 
-abstract class events_token {
+abstract class Events_Token {
 
     static function on_apply($name, $args = []) {
-        user::init(false);
-        if (access::check((object)['roles' => ['registered' => 'registered']])) {
+        User::init(false);
+        if (Access::check((object)['roles' => ['registered' => 'registered']])) {
             switch ($name) {
-                case 'user_id'              : return user::get_current()->id;
-                case 'nickname'             : return user::get_current()->nickname;
-                case 'email'                : return user::get_current()->email;
-                case 'avatar_path'          : return user::get_current()->avatar_path;
-                case 'nickname_page_context': return page::get_current() && !empty($args[0]) ?
-                                                     page::get_current()->args_get($args[0]) : null;
+                case 'user_id'              : return User::get_current()->id;
+                case 'nickname'             : return User::get_current()->nickname;
+                case 'email'                : return User::get_current()->email;
+                case 'avatar_path'          : return User::get_current()->avatar_path;
+                case 'nickname_page_context': return Page::get_current() && !empty($args[0]) ?
+                                                     Page::get_current()->args_get($args[0]) : null;
             }
         }
     }

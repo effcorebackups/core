@@ -8,7 +8,7 @@ namespace effcore;
 
 use stdClass;
 
-class instance implements should_clear_cache_after_on_install {
+class Instance implements Should_clear_cache_after_on_install {
 
     public $entity_name;
     public $values;
@@ -23,13 +23,13 @@ class instance implements should_clear_cache_after_on_install {
     function __get  ($name) {return       $this->values[$name] ;}
     function __set  ($name, $value) {
         # note: SQLite in fields of type "real" can store numbers in exponential form (example: 1.23e-6)
-        $this->values[$name] = core::exponencial_string_normalize($value);
+        $this->values[$name] = Core::exponencial_string_normalize($value);
     }
 
     function values_set($values) {$this->values = $values;}
     function values_get($names = []) {
         if (count($names)) {
-            return array_intersect_key($this->values, core::array_keys_map($names));
+            return array_intersect_key($this->values, Core::array_keys_map($names));
         } else {
             return $this->values;
         }
@@ -39,43 +39,43 @@ class instance implements should_clear_cache_after_on_install {
         return $this->entity_get()->id_from_values_get($this->values_get());
     }
 
-    function entity_get() {return entity::get($this->entity_name);}
+    function entity_get() {return Entity::get($this->entity_name);}
     function entity_set_name($entity_name) {$this->entity_name = $entity_name;}
 
     function select() {
-        event::start('on_instance_select_before', $this->entity_name, ['instance' => &$this]);
+        Event::start('on_instance_select_before', $this->entity_name, ['instance' => &$this]);
         $result = $this->entity_get()->storage_get()->instance_select($this);
-        event::start('on_instance_select_after',  $this->entity_name, ['instance' => &$this, 'result' => $result]);
+        Event::start('on_instance_select_after',  $this->entity_name, ['instance' => &$this, 'result' => $result]);
         return $result;
     }
 
     function insert() {
-        event::start('on_instance_insert_before', $this->entity_name, ['instance' => &$this]);
+        Event::start('on_instance_insert_before', $this->entity_name, ['instance' => &$this]);
         $field_created = $this->entity_get()->field_get('created');
         $field_updated = $this->entity_get()->field_get('updated');
-        if ($field_created !== null && empty($field_created->managing_is_enabled_on_insert) && $field_created->type === 'datetime') $this->created = core::datetime_get();
+        if ($field_created !== null && empty($field_created->managing_is_enabled_on_insert) && $field_created->type === 'datetime') $this->created = Core::datetime_get();
         if ($field_created !== null && empty($field_created->managing_is_enabled_on_insert) && $field_created->type === 'integer' ) $this->created = time();
-        if ($field_updated !== null && empty($field_updated->managing_is_enabled_on_insert) && $field_updated->type === 'datetime') $this->updated = core::datetime_get();
+        if ($field_updated !== null && empty($field_updated->managing_is_enabled_on_insert) && $field_updated->type === 'datetime') $this->updated = Core::datetime_get();
         if ($field_updated !== null && empty($field_updated->managing_is_enabled_on_insert) && $field_updated->type === 'integer' ) $this->updated = time();
         $result = $this->entity_get()->storage_get()->instance_insert($this);
-        event::start('on_instance_insert_after',  $this->entity_name, ['instance' => &$this, 'result' => $result]);
+        Event::start('on_instance_insert_after',  $this->entity_name, ['instance' => &$this, 'result' => $result]);
         return $result;
     }
 
     function update() {
-        event::start('on_instance_update_before', $this->entity_name, ['instance' => &$this]);
+        Event::start('on_instance_update_before', $this->entity_name, ['instance' => &$this]);
         $field_updated = $this->entity_get()->field_get('updated');
-        if ($field_updated !== null && empty($field_updated->managing_is_enabled_on_update) && $field_updated->type === 'datetime') $this->updated = core::datetime_get();
+        if ($field_updated !== null && empty($field_updated->managing_is_enabled_on_update) && $field_updated->type === 'datetime') $this->updated = Core::datetime_get();
         if ($field_updated !== null && empty($field_updated->managing_is_enabled_on_update) && $field_updated->type === 'integer' ) $this->updated = time();
         $result = $this->entity_get()->storage_get()->instance_update($this);
-        event::start('on_instance_update_after',  $this->entity_name, ['instance' => &$this, 'result' => $result]);
+        Event::start('on_instance_update_after',  $this->entity_name, ['instance' => &$this, 'result' => $result]);
         return $result;
     }
 
     function delete() {
-        event::start('on_instance_delete_before', $this->entity_name, ['instance' => &$this]);
+        Event::start('on_instance_delete_before', $this->entity_name, ['instance' => &$this]);
         $result = $this->entity_get()->storage_get()->instance_delete($this);
-        event::start('on_instance_delete_after',  $this->entity_name, ['instance' => &$this, 'result' => $result]);
+        Event::start('on_instance_delete_after',  $this->entity_name, ['instance' => &$this, 'result' => $result]);
         return $result;
     }
 
@@ -99,10 +99,10 @@ class instance implements should_clear_cache_after_on_install {
 
     static function init() {
         if (static::$cache === null) {
-            static::$cache_orig = storage::get('data')->select_array('instances');
+            static::$cache_orig = Storage::get('data')->select_array('instances');
             foreach (static::$cache_orig as $c_module_id => $c_instances) {
                 foreach ($c_instances as $c_row_id => $c_instance) {
-                    if (isset(static::$cache[$c_row_id])) console::report_about_duplicate('instances', $c_row_id, $c_module_id, static::$cache[$c_row_id]);
+                    if (isset(static::$cache[$c_row_id])) Console::report_about_duplicate('instances', $c_row_id, $c_module_id, static::$cache[$c_row_id]);
                               static::$cache[$c_row_id] = $c_instance;
                               static::$cache[$c_row_id]->module_id = $c_module_id;
                 }
@@ -121,11 +121,11 @@ class instance implements should_clear_cache_after_on_install {
     }
 
     static function selection_make($entity_name, $conditions = [], $settings = []) {
-        $entity = entity::get($entity_name);
+        $entity = Entity::get($entity_name);
         if ($entity) {
             $c_weight = 420;
-            $selection = new selection;
-            $selection->id = $entity_name.'-'.core::hash_get($conditions);
+            $selection = new Selection;
+            $selection->id = $entity_name.'-'.Core::hash_get($conditions);
             $selection->main_entity_name = $entity_name;
             $selection->template = 'content';
             $selection->origin = 'dynamic';
@@ -139,8 +139,8 @@ class instance implements should_clear_cache_after_on_install {
             }
             return $selection;
         } else {
-            return new markup('x-no-items', ['data-style' => 'table'], new text_multiline(
-                ['Entity "%%_name" is not available.', 'Selection ID = "%%_id".'], ['name' => $entity_name, 'id' => $entity_name.'-'.core::hash_get($conditions)]
+            return new Markup('x-no-items', ['data-style' => 'table'], new Text_multiline(
+                ['Entity "%%_name" is not available.', 'Selection ID = "%%_id".'], ['name' => $entity_name, 'id' => $entity_name.'-'.Core::hash_get($conditions)]
             ));
         }
     }

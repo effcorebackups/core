@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class tab_item extends node {
+class Tab_item extends Node {
 
     public $template = 'tab_item';
     public $template_children = 'tab_item_children';
@@ -46,19 +46,19 @@ class tab_item extends node {
         }
     }
 
-    function href_get        () {if ($this->cache_href         === null) $this->cache_href         = rtrim(page::get_current()->args_get('base').'/'.($this->action_name         ?: $this->action_name), '/'); return $this->cache_href;        }
-    function href_default_get() {if ($this->cache_href_default === null) $this->cache_href_default = rtrim(page::get_current()->args_get('base').'/'.($this->action_name_default ?: $this->action_name), '/'); return $this->cache_href_default;}
+    function href_get        () {if ($this->cache_href         === null) $this->cache_href         = rtrim(Page::get_current()->args_get('base').'/'.($this->action_name         ?: $this->action_name), '/'); return $this->cache_href;        }
+    function href_default_get() {if ($this->cache_href_default === null) $this->cache_href_default = rtrim(Page::get_current()->args_get('base').'/'.($this->action_name_default ?: $this->action_name), '/'); return $this->cache_href_default;}
 
-    function is_active      () {$href = $this->href_get(); if ($href && url::is_active      ($href, 'path')) return true;}
-    function is_active_trail() {$href = $this->href_get(); if ($href && url::is_active_trail($href        )) return true;}
+    function is_active      () {$href = $this->href_get(); if ($href && Url::is_active      ($href, 'path')) return true;}
+    function is_active_trail() {$href = $this->href_get(); if ($href && Url::is_active_trail($href        )) return true;}
 
     function render() {
         if (empty($this->is_hidden)) {
-            if (access::check($this->access)) {
-                $rendered_children = $this->children_select_count() ? (template::make_new($this->template_children, [
+            if (Access::check($this->access)) {
+                $rendered_children = $this->children_select_count() ? (Template::make_new($this->template_children, [
                     'children' => $this->render_children($this->children_select(true))
                 ]))->render() : '';
-                return (template::make_new($this->template, [
+                return (Template::make_new($this->template, [
                     'attributes' => $this->render_attributes(),
                     'self'       => $this->render_self(),
                     'children'   => $rendered_children
@@ -72,9 +72,9 @@ class tab_item extends node {
         if ($href_default           ) $this->attribute_insert('href', $href_default,         'element_attributes');
         if ($this->is_active      ()) $this->attribute_insert('aria-selected',       'true', 'element_attributes');
         if ($this->is_active_trail()) $this->attribute_insert('data-selected-trail', 'true', 'element_attributes');
-                                      $this->attribute_insert('title', new text('click to open the tab "%%_title"', ['title' => (new text($this->title, [], true, true))->render() ]), 'element_attributes');
-        return (new markup('a', $this->attributes_select('element_attributes'),
-            new text($this->title, [], true, true)
+                                      $this->attribute_insert('title', new Text('click to open the tab "%%_title"', ['title' => (new Text($this->title, [], true, true))->render() ]), 'element_attributes');
+        return (new Markup('a', $this->attributes_select('element_attributes'),
+            new Text($this->title, [], true, true)
         ))->render();
     }
 
@@ -90,9 +90,9 @@ class tab_item extends node {
 
     static function init() {
         if (static::$cache === null) {
-            foreach (storage::get('data')->select_array('tab_items') as $c_module_id => $c_tab_items) {
+            foreach (Storage::get('data')->select_array('tab_items') as $c_module_id => $c_tab_items) {
                 foreach ($c_tab_items as $c_row_id => $c_item) {
-                    if (isset(static::$cache[$c_item->id])) console::report_about_duplicate('tab_items', $c_item->id, $c_module_id, static::$cache[$c_item->id]);
+                    if (isset(static::$cache[$c_item->id])) Console::report_about_duplicate('tab_items', $c_item->id, $c_module_id, static::$cache[$c_item->id]);
                               static::$cache[$c_item->id] = $c_item;
                               static::$cache[$c_item->id]->module_id = $c_module_id;
                 }

@@ -8,7 +8,7 @@ namespace effcore;
 
 use stdClass;
 
-class widget_selection_query_conditions extends widget_items {
+class Widget_Selection_query_conditions extends Widget_Items {
 
     public $title = 'Conditions';
     public $item_title = 'condition';
@@ -21,9 +21,9 @@ class widget_selection_query_conditions extends widget_items {
         $result = [];
         $items = $this->value_get($options);
         if (count($items)) {
-            core::array_sort_by_number($items);
+            Core::array_sort_by_number($items);
             foreach ($items as $c_row_id => $c_item) {
-                $c_field_name_info = field_select_entity_field_name::parse_value($c_item->field_name);
+                $c_field_name_info = Field_Select_entity_field_name::parse_value($c_item->field_name);
                 $c_operator        = $c_item->operator;
                 $c_value           = $c_item->value;
                 if ($c_field_name_info !== null) {
@@ -71,9 +71,9 @@ class widget_selection_query_conditions extends widget_items {
                 $items[$c_row_id]->weight = $c_weight;
                 if ($c_count  >  1 && substr($c_keys[0], -2) === '!f'      ) $items[$c_row_id]->field_name = $c_values[0][0] === '~' ? ltrim($c_values[0], '~') : $this->_instance->main_entity_name.'.'.$c_values[0];
                 if ($c_count  >  1 && substr($c_keys[1], -8) === 'operator') $items[$c_row_id]->operator   = $c_values[1];
-                if ($c_count === 4 && substr($c_keys[2], -2) === '!v'      ) $items[$c_row_id]->value = implode(', ', $c_values[2]); /* case for: 'in (' + 'not in (' */ 
+                if ($c_count === 4 && substr($c_keys[2], -2) === '!v'      ) $items[$c_row_id]->value = implode(', ', $c_values[2]); /* case for: 'in (' + 'not in (' */
                 if ($c_count === 3 && substr($c_keys[2], -2) === '!v'      ) $items[$c_row_id]->value =               $c_values[2];
-                if ($c_count === 2                                         ) $items[$c_row_id]->value = 'n/a'; /* case for: 'is null' + 'is not null' */ 
+                if ($c_count === 2                                         ) $items[$c_row_id]->value = 'n/a'; /* case for: 'is null' + 'is not null' */
             }
         }
         $this->value_set($items, $options);
@@ -86,18 +86,18 @@ class widget_selection_query_conditions extends widget_items {
     static function widget_manage_get($widget, $item, $c_row_id) {
         $result = parent::widget_manage_get($widget, $item, $c_row_id);
         # control for condition field name
-        $field_select_entity_field_name = new field_select_entity_field_name;
+        $field_select_entity_field_name = new Field_Select_entity_field_name;
         $field_select_entity_field_name->cform = $widget->cform;
         $field_select_entity_field_name->attributes['data-role'] = 'field-name';
         $field_select_entity_field_name->attributes['data-style'] = 'inline';
         $field_select_entity_field_name->description_state = 'hidden';
-        $field_select_entity_field_name->disabled = field_select_entity_field_name::generate_disabled_items([$widget->_instance->main_entity_name]);
+        $field_select_entity_field_name->disabled = Field_Select_entity_field_name::generate_disabled_items([$widget->_instance->main_entity_name]);
         $field_select_entity_field_name->title = 'Field';
         $field_select_entity_field_name->build();
         $field_select_entity_field_name->name_set($widget->name_get_complex().'__field_name__'.$c_row_id);
         $field_select_entity_field_name->value_set($item->field_name ?? null);
         # control for condition operator
-        $field_select_operator = new field_select;
+        $field_select_operator = new Field_Select;
         $field_select_operator->cform = $widget->cform;
         $field_select_operator->attributes['data-role'] = 'operator';
         $field_select_operator->attributes['data-style'] = 'inline';
@@ -121,7 +121,7 @@ class widget_selection_query_conditions extends widget_items {
         $field_select_operator->name_set($widget->name_get_complex().'__operator__'.$c_row_id);
         $field_select_operator->value_set($item->operator ?? null);
         # control for condition value
-        $field_text_value = new field_text;
+        $field_text_value = new Field_Text;
         $field_text_value->attributes['data-role'] = 'value';
         $field_text_value->attributes['data-style'] = 'inline';
         $field_text_value->description_state = 'hidden';
@@ -155,10 +155,10 @@ class widget_selection_query_conditions extends widget_items {
         $new_item->value      = '';
         $items[] = $new_item;
         $widget->items_set($items);
-        message::insert(new text_multiline([
+        Message::insert(new Text_multiline([
             'Item of type "%%_type" was inserted.',
             'Do not forget to save the changes!'], [
-            'type' => (new text($widget->item_title))->render() ]));
+            'type' => (new Text($widget->item_title))->render() ]));
         return true;
     }
 

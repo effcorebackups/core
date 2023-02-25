@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class button extends markup {
+class Button extends Markup {
 
     public $tag_name = 'button';
     public $attributes = [
@@ -24,7 +24,7 @@ class button extends markup {
 
     function build() {
         if (!$this->is_builded) {
-            $label = new text((string)$this->title);
+            $label = new Text((string)$this->title);
             $this->child_insert($label, 'label');
             $this->is_builded = true;
         }
@@ -49,7 +49,7 @@ class button extends markup {
     }
 
     function is_clicked($number = 0, $source = '_POST') {
-        $request_value = request::value_get('button', $number, $source);
+        $request_value = Request::value_get('button', $number, $source);
         if ($this->disabled_get() === false &&
             $request_value                  &&
             $request_value === $this->value_get()) {

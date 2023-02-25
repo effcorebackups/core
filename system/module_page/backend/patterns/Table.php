@@ -6,16 +6,16 @@
 
 namespace effcore;
 
-class table extends markup {
+class Table extends Markup {
 
     public $tag_name = 'table';
 
     function __construct($attributes = [], $tbody = [], $thead = [], $weight = 0) {
         parent::__construct(null, $attributes, [], $weight);
-        if (is_object($thead) === true && $thead instanceof table_head) $this->child_insert(                   $thead,  'head');
-        if (is_object($thead) !== true                                ) $this->child_insert(new table_head([], $thead), 'head');
-        if (is_object($thead) === true && $tbody instanceof table_body) $this->child_insert(                   $tbody,  'body');
-        if (is_object($thead) !== true                                ) $this->child_insert(new table_body([], $tbody), 'body');
+        if (is_object($thead) === true && $thead instanceof Table_head) $this->child_insert(                   $thead,  'head');
+        if (is_object($thead) !== true                                ) $this->child_insert(new Table_head([], $thead), 'head');
+        if (is_object($thead) === true && $tbody instanceof Table_body) $this->child_insert(                   $tbody,  'body');
+        if (is_object($thead) !== true                                ) $this->child_insert(new Table_body([], $tbody), 'body');
     }
 
 }

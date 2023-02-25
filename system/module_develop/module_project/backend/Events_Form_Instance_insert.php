@@ -6,16 +6,16 @@
 
 namespace effcore\modules\project;
 
-use effcore\entity;
-use effcore\file;
-use effcore\project_release;
-use effcore\text_multiline;
-use effcore\text;
+use effcore\Entity;
+use effcore\File;
+use effcore\Project_release;
+use effcore\Text_multiline;
+use effcore\Text;
 
-abstract class events_form_instance_insert {
+abstract class Events_Form_Instance_insert {
 
     static function on_validate($event, $form, $items) {
-        $entity = entity::get($form->entity_name);
+        $entity = Entity::get($form->entity_name);
         switch ($form->clicked_button->value_get()) {
             case 'insert':
             case 'insert_and_update':
@@ -23,11 +23,11 @@ abstract class events_form_instance_insert {
                     # field 'id_project' + field 'build'
                     $id_project = $items['#id_project']->value_get();
                     $build      = $items['#build'     ]->value_get();
-                    if (project_release::select($id_project, $build)) {
+                    if (Project_release::select($id_project, $build)) {
                         $items['#id_project']->error_set();
-                        $items['#build']->error_set(new text_multiline([
+                        $items['#build']->error_set(new Text_multiline([
                             'Field "%%_title" contains an error!',
-                            'This combination of values is already in use!'], ['title' => (new text($items['#build']->title))->render() ]
+                            'This combination of values is already in use!'], ['title' => (new Text($items['#build']->title))->render() ]
                         ));
                     }
                 }
@@ -36,13 +36,13 @@ abstract class events_form_instance_insert {
     }
 
     static function on_submit($event, $form, $items) {
-        $entity = entity::get($form->entity_name);
+        $entity = Entity::get($form->entity_name);
         switch ($form->clicked_button->value_get()) {
             case 'insert':
             case 'insert_and_update':
                 if ($entity->name === 'project_release' && !$form->has_error()) {
                     # field 'hash sum'
-                    $file = new file($items['#path']->value_get());
+                    $file = new File($items['#path']->value_get());
                     if ($file->is_exists())
                          $items['#hash_sum']->value_set($file->hash_get());
                     else $items['#hash_sum']->value_set('');

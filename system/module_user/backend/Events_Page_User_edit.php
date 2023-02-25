@@ -7,24 +7,24 @@
 namespace effcore\modules\user;
 
 use const effcore\BR;
-use effcore\access;
-use effcore\instance;
-use effcore\response;
-use effcore\text_multiline;
-use effcore\user;
+use effcore\Access;
+use effcore\Instance;
+use effcore\Response;
+use effcore\Text_multiline;
+use effcore\User;
 
-abstract class events_page_user_edit {
+abstract class Events_Page_User_edit {
 
     static function on_check_access_and_existence_and_set_page_args($event, $page) {
-        $user = (new instance('user', [
+        $user = (new Instance('user', [
             'nickname' => $page->args_get('nickname')
         ]))->select();
         if ($user) {
             $page->args_set('instance_id', $user->id);
-            if ($user->id === user::get_current()->id ||                      # owner
-                access::check((object)['roles' => ['admins' => 'admins']])) { # admin
-            } else response::send_header_and_exit('access_forbidden');
-        }     else response::send_header_and_exit('page_not_found', null, new text_multiline(['wrong user nickname', 'go to <a href="/">front page</a>'], [], BR.BR));
+            if ($user->id === User::get_current()->id ||                      # owner
+                Access::check((object)['roles' => ['admins' => 'admins']])) { # admin
+            } else Response::send_header_and_exit('access_forbidden');
+        }     else Response::send_header_and_exit('page_not_found', null, new Text_multiline(['wrong user nickname', 'go to <a href="/">front page</a>'], [], BR.BR));
     }
 
 }

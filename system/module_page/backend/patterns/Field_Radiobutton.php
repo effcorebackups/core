@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class field_radiobutton extends field {
+class Field_Radiobutton extends Field {
 
     public $title;
     public $title_position = 'bottom';
@@ -33,8 +33,8 @@ class field_radiobutton extends field {
         $type = $field->type_get();
         if ($name && $type) {
             if ($field->disabled_get()) return true;
-            $new_values = request::values_get($name, $form->source_get());
-            $field->checked_set(core::array_search__any_array_item_is_equal_value($field->value_get(), $new_values));
+            $new_values = Request::values_get($name, $form->source_get());
+            $field->checked_set(Core::array_search__any_array_item_is_equal_value($field->value_get(), $new_values));
         }
     }
 
@@ -44,17 +44,17 @@ class field_radiobutton extends field {
         $type = $field->type_get();
         if ($name && $type) {
             if ($field->disabled_get()) return true;
-            $new_values = request::values_get($name, $form->source_get());
+            $new_values = Request::values_get($name, $form->source_get());
             $result = static::validate_required($field, $form, $element, $new_values);
-            $field->checked_set(core::array_search__any_array_item_is_equal_value($field->value_get(), $new_values));
+            $field->checked_set(Core::array_search__any_array_item_is_equal_value($field->value_get(), $new_values));
             return $result;
         }
     }
 
     static function validate_required($field, $form, $element, &$new_values) {
-        if ($field->required_get() && !core::array_search__any_array_item_is_equal_value($field->value_get(), $new_values)) {
+        if ($field->required_get() && !Core::array_search__any_array_item_is_equal_value($field->value_get(), $new_values)) {
             $field->error_set(
-                'Field "%%_title" should be enabled!', ['title' => (new text($field->title))->render() ]
+                'Field "%%_title" should be enabled!', ['title' => (new Text($field->title))->render() ]
             );
         } else {
             return true;

@@ -6,35 +6,35 @@
 
 namespace effcore\modules\captcha;
 
-use effcore\captcha;
-use effcore\module;
+use effcore\Captcha;
+use effcore\Module;
 
-abstract class events_module {
+abstract class Events_Module {
 
     static function on_install($event) {
-        $module = module::get('captcha');
+        $module = Module::get('captcha');
         $module->install();
     }
 
     static function on_uninstall($event) {
-        $module = module::get('captcha');
+        $module = Module::get('captcha');
         $module->uninstall();
     }
 
     static function on_enable($event) {
-        if (module::is_installed('captcha')) {
-            $module = module::get('captcha');
+        if (Module::is_installed('captcha')) {
+            $module = Module::get('captcha');
             $module->enable();
         }
     }
 
     static function on_disable($event) {
-        $module = module::get('captcha');
+        $module = Module::get('captcha');
         $module->disable();
     }
 
     static function on_cron_run($event) {
-        captcha::cleaning();
+        Captcha::cleaning();
     }
 
 }

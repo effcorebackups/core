@@ -6,7 +6,7 @@
 
 namespace effcore\modules\demo;
 
-abstract class events_examples {
+abstract class Events_Examples {
 
     static function on_block_presets_dynamic_build($event, $id = null) {}
     static function on_breadcrumbs_build_before   ($event, $breadcrumbs) {}
@@ -31,24 +31,24 @@ abstract class events_examples {
     static function on_module_install             ($event) {}
     static function on_module_uninstall           ($event) {}
     static function on_module_start               ($event) {}
-    static function on_module_update_data_before  ($event, $update) {} # see: \effcore\modules\demo\events_module_update::on_update_data_before
-    static function on_module_update_data_after   ($event, $update) {} # see: \effcore\modules\demo\events_module_update::on_update_data_after
+    static function on_module_update_data_before  ($event, $update) {} # see: \effcore\modules\demo\Events_Module_update::on_update_data_before
+    static function on_module_update_data_after   ($event, $update) {} # see: \effcore\modules\demo\Events_Module_update::on_update_data_after
     static function on_page_build_before          ($event, $page) {}
     static function on_page_build_after           ($event, $page) {}
     static function on_page_render_before         ($event, $page, $template) {}
-    static function on_query_before               ($event, $storage, $query) {}                      # see: \effcore\modules\develop\events_storage::on_query_before
-    static function on_query_after                ($event, $storage, $query, $statement, $errors) {} # see: \effcore\modules\develop\events_storage::on_query_after
-    static function on_repo_restore               ($event, $bundle_id) {}                            # see: \effcore\modules\core\events_module_update::on_repo_restore
+    static function on_query_before               ($event, $storage, $query) {}                      # see: \effcore\modules\develop\Events_Storage::on_query_before
+    static function on_query_after                ($event, $storage, $query, $statement, $errors) {} # see: \effcore\modules\develop\Events_Storage::on_query_after
+    static function on_repo_restore               ($event, $bundle_id) {}                            # see: \effcore\modules\core\Events_Module_update::on_repo_restore
     static function on_selection_build_before     ($event, $selection) {}
     static function on_selection_build_after      ($event, $selection) {}
     static function on_session_insert_after       ($event, $id_user, $id_session, $params) {}
     static function on_session_delete_before      ($event, $id_user, $id_session) {}
-    static function on_storage_init_before        ($event, $storage) {} # see: \effcore\modules\develop\events_storage::on_init_before
-    static function on_storage_init_after         ($event, $storage) {} # see: \effcore\modules\develop\events_storage::on_init_after
+    static function on_storage_init_before        ($event, $storage) {} # see: \effcore\modules\develop\Events_Storage::on_init_before
+    static function on_storage_init_after         ($event, $storage) {} # see: \effcore\modules\develop\Events_Storage::on_init_after
     static function on_tab_build_before           ($event, $tab) {}
     static function on_tab_build_after            ($event, $tab) {}
     static function on_tree_build_before          ($event, $tree) {}
     static function on_tree_build_after           ($event, $tree) {}
-    static function on_update_files               ($event, $bundle_id) {} # see: \effcore\modules\core\events_module_update::on_update_files
+    static function on_update_files               ($event, $bundle_id) {} # see: \effcore\modules\core\Events_Module_update::on_update_files
 
 }

@@ -6,15 +6,15 @@
 
 namespace effcore\modules\project;
 
-use effcore\dynamic;
-use effcore\project_release;
+use effcore\Dynamic;
+use effcore\Project_release;
 
-abstract class events_file {
+abstract class Events_File {
 
     static function on_load_static_project_release($event, &$type_info, &$file) {
         if ($type_info->type === 'zip' || $type_info->type === '7z') {
-            if ($file->dirs === dynamic::DIR_FILES.'project_releases/') {
-                $release = project_release::select_by_path($file->path_get_relative());
+            if ($file->dirs === Dynamic::DIR_FILES.'project_releases/') {
+                $release = Project_release::select_by_path($file->path_get_relative());
                 if ($release &&
                     $release->downloads_num < PHP_INT_32_MAX) {
                     $release->downloads_num++;

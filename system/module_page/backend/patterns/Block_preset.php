@@ -8,15 +8,15 @@ namespace effcore;
 
 use stdClass;
 
-class block_preset {
+class Block_preset {
 
-    public $id;                      # copy to: (new block)->_preset->id
-    public $managing_group = 'Text'; # copy to: (new block)->_preset->managing_group
-    public $managing_title;          # copy to: (new block)->_preset->managing_title
-    public $in_areas;                # copy to: (new block)->_preset->in_areas
-    public $origin = 'nosql';        # copy to: (new block)->_preset->origin
-    public $module_id;               # copy to: (new block)->_preset->module_id
-    public $weight = 0;              # copy to: (new block)->weight
+    public $id;                      # copy to: (new Block)->_preset->id
+    public $managing_group = 'Text'; # copy to: (new Block)->_preset->managing_group
+    public $managing_title;          # copy to: (new Block)->_preset->managing_title
+    public $in_areas;                # copy to: (new Block)->_preset->in_areas
+    public $origin = 'nosql';        # copy to: (new Block)->_preset->origin
+    public $module_id;               # copy to: (new Block)->_preset->module_id
+    public $weight = 0;              # copy to: (new Block)->weight
 
     function __construct($id = null, $managing_group = null, $managing_title = null, $in_areas = null, $weight = 0) {
         if ($id            ) $this->id             = $id;
@@ -27,7 +27,7 @@ class block_preset {
     }
 
     function block_make() {
-        $block = new block;
+        $block = new Block;
         $block->_preset = new stdClass;
         foreach ($this as $c_key => $c_value) {
             if ($c_key === 'attributes'    ) {$block->attributes             += $this->attributes;     continue;}
@@ -58,9 +58,9 @@ class block_preset {
     static function init() {
         if (!static::$is_init_nosql) {
              static::$is_init_nosql = true;
-            foreach (storage::get('data')->select_array('block_presets') as $c_module_id => $c_presets) {
+            foreach (Storage::get('data')->select_array('block_presets') as $c_module_id => $c_presets) {
                 foreach ($c_presets as $c_preset) {
-                    if (isset(static::$cache[$c_preset->id])) console::report_about_duplicate('block_presets', $c_preset->id, $c_module_id, static::$cache[$c_preset->id]);
+                    if (isset(static::$cache[$c_preset->id])) Console::report_about_duplicate('block_presets', $c_preset->id, $c_module_id, static::$cache[$c_preset->id]);
                               static::$cache[$c_preset->id] = $c_preset;
                               static::$cache[$c_preset->id]->origin = 'nosql';
                               static::$cache[$c_preset->id]->module_id = $c_module_id;
@@ -70,8 +70,8 @@ class block_preset {
     }
 
     static function init_dynamic($id = null) {
-        if ($id === null && !static::$is_init_dynamic) {static::$is_init_dynamic = true; event::start('on_block_presets_dynamic_build', null               );}
-        if ($id !== null                             ) {                                 event::start('on_block_presets_dynamic_build', null, ['id' => $id]);}
+        if ($id === null && !static::$is_init_dynamic) {static::$is_init_dynamic = true; Event::start('on_block_presets_dynamic_build', null               );}
+        if ($id !== null                             ) {                                 Event::start('on_block_presets_dynamic_build', null, ['id' => $id]);}
     }
 
     static function select_all($id_area = null, $origin = null) {

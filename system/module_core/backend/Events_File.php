@@ -7,25 +7,25 @@
 namespace effcore\modules\core;
 
 use const effcore\NL;
-use effcore\console;
-use effcore\core;
-use effcore\module;
-use effcore\request;
-use effcore\response;
-use effcore\timer;
-use effcore\token;
+use effcore\Console;
+use effcore\Core;
+use effcore\Module;
+use effcore\Request;
+use effcore\Response;
+use effcore\Timer;
+use effcore\Token;
 
-abstract class events_file {
+abstract class Events_File {
 
     static function on_load_not_found($event, &$type_info, &$file, $real_path, $phase) {
-        response::send_header_and_exit('file_not_found');
+        Response::send_header_and_exit('file_not_found');
     }
 
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function on_load_dynamic($event, &$type_info, &$file) {
-        $data = token::apply($file->load());
-        $etag = core::hash_get($data);
+        $data = Token::apply($file->load());
+        $etag = Core::hash_get($data);
 
         # send header '304 Not Modified' if the data has no changes
         if (isset($_SERVER['HTTP_IF_NONE_MATCH']) &&
@@ -36,15 +36,15 @@ abstract class events_file {
 
         # send result data
         $result = $data;
-        timer::tap('total');
-        if (module::is_enabled('test')) {
+        Timer::tap('total');
+        if (Module::is_enabled('test')) {
             header('X-PHP-Memory-usage: '.memory_get_usage(true));
-            header('X-Time-total: '.timer::period_get('total', 0, 1));
+            header('X-Time-total: '.Timer::period_get('total', 0, 1));
         }
         if ($file->type === 'cssd' ||
             $file->type === 'jsd') {
-            if (console::visible_mode_get() === console::IS_VISIBLE_FOR_EVERYONE) {
-                $result.= NL.'/*'.NL.console::text_get().NL.'*/'.NL;
+            if (Console::visible_mode_get() === Console::IS_VISIBLE_FOR_EVERYONE) {
+                $result.= NL.'/*'.NL.Console::text_get().NL.'*/'.NL;
             }
         }
         header('Content-Length: '.strlen($result));
@@ -126,7 +126,7 @@ abstract class events_file {
         }
 
         # if no ranges are specified
-        $ranges = request::http_range_get();
+        $ranges = Request::http_range_get();
         if ($ranges->has_range !== true) {
             header('Content-Length: '.$length);
             if ($handle = fopen($file->path_get(), 'rb')) {

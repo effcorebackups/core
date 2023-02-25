@@ -8,7 +8,7 @@ namespace effcore;
 
 use stdClass;
 
-class field extends control {
+class Field extends Control {
 
     # html5 elements and attributes support:
     # ┌──────────────────────╥───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐
@@ -59,7 +59,7 @@ class field extends control {
     public $title_attributes = ['data-field-title' => true];
     public $name_prefix = null; # unused inherited property
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
-    public $element_class = '\\effcore\\markup_simple';
+    public $element_class = '\\effcore\\Markup_simple';
     public $element_tag_name = 'input';
     public $element_attributes = [];
     public $description_state = 'closed'; # opened | closed[checked] | hidden
@@ -310,8 +310,8 @@ class field extends control {
         $this->value_set_initial($value);
         $element = $this->child_select('element');
         if (is_null   ($value)) return $element->attribute_insert('value', null);
-        if (is_int    ($value)) return $element->attribute_insert('value', core::format_number($value));
-        if (is_float  ($value)) return $element->attribute_insert('value', core::format_number($value, core::FPART_MAX_LEN));
+        if (is_int    ($value)) return $element->attribute_insert('value', Core::format_number($value));
+        if (is_float  ($value)) return $element->attribute_insert('value', Core::format_number($value, Core::FPART_MAX_LEN));
         if (is_string ($value)) return $element->attribute_insert('value', $value);
     }
 
@@ -330,7 +330,7 @@ class field extends control {
             $new_error->message = $message;
             $new_error->args    = $args;
             $new_error->pointer = &$this;
-            form::$errors[] = $new_error;
+            Form::$errors[] = $new_error;
             if (!$this->has_error) {
                  $this->has_error = true;
                 $this->invalid_set(true);
@@ -356,26 +356,26 @@ class field extends control {
     function render_self() {
         $element = $this->child_select('element');
         if ($this->title) {
-            return (new markup($this->title_tag_name, $this->title_attributes + [
+            return (new Markup($this->title_tag_name, $this->title_attributes + [
                 'for'                => $this->id_get(),
-                'data-mark-required' => $this->attribute_select('required') || ($element instanceof node_simple && $element->attribute_select('required')) ? true : null], $this->title
+                'data-mark-required' => $this->attribute_select('required') || ($element instanceof Node_simple && $element->attribute_select('required')) ? true : null], $this->title
             ))->render();
         }
     }
 
     function render_opener() {
-        return (new markup_simple('input', [
+        return (new Markup_simple('input', [
             'type'             => 'checkbox',
             'role'             => 'button',
             'data-opener-type' => 'description',
-            'title'            => new text('press to show description')
+            'title'            => new Text('press to show description')
         ]))->render();
     }
 
     function render_description() {
         $this->description = static::description_prepare($this->description);
         $element = $this->child_select('element');
-        if ($element instanceof node_simple) {
+        if ($element instanceof Node_simple) {
             if ($element->attribute_select('pattern'  ) !== null                                                                                       ) $this->description['pattern'  ] = $this->render_description_pattern  ($element);
             if ($element->attribute_select('min'      ) !== null                                                                                       ) $this->description['min'      ] = $this->render_description_min      ($element);
             if ($element->attribute_select('max'      ) !== null                                                                                       ) $this->description['max'      ] = $this->render_description_max      ($element);
@@ -387,19 +387,19 @@ class field extends control {
         if (count($this->description)) {
             if ($this->id_get() && $this->description_state !== 'hidden') $element->attribute_insert('aria-describedby', 'description-'.$this->id_get());
             if ($this->description_state === 'hidden'                      ) return '';
-            if ($this->description_state === 'opened' || $this->has_error()) return                        (new markup($this->description_tag_name, ['id' => $this->id_get() ? 'description-'.$this->id_get() : null], $this->description))->render();
-            if ($this->description_state === 'closed'                      ) return $this->render_opener().(new markup($this->description_tag_name, ['id' => $this->id_get() ? 'description-'.$this->id_get() : null], $this->description))->render();
+            if ($this->description_state === 'opened' || $this->has_error()) return                        (new Markup($this->description_tag_name, ['id' => $this->id_get() ? 'description-'.$this->id_get() : null], $this->description))->render();
+            if ($this->description_state === 'closed'                      ) return $this->render_opener().(new Markup($this->description_tag_name, ['id' => $this->id_get() ? 'description-'.$this->id_get() : null], $this->description))->render();
             return '';
         }
     }
 
-    function render_description_pattern  ($element) {return new markup('p', ['data-id' => 'pattern'  ], new text('Field value should match the regular expression: %%_expression',               ['expression' => $element->attribute_select('pattern'  )]));}
-    function render_description_midlength($element) {return new markup('p', ['data-id' => 'midlength'], new text('Field value can contain only %%_number character%%_plural(number|s).',         ['number'     => $element->attribute_select('minlength')]));}
-    function render_description_minlength($element) {return new markup('p', ['data-id' => 'minlength'], new text('Field value can contain a minimum of %%_number character%%_plural(number|s).', ['number'     => $element->attribute_select('minlength')]));}
-    function render_description_maxlength($element) {return new markup('p', ['data-id' => 'maxlength'], new text('Field value can contain a maximum of %%_number character%%_plural(number|s).', ['number'     => $element->attribute_select('maxlength')]));}
-    function render_description_min      ($element) {return new markup('p', ['data-id' => 'min'      ], new text('Field value cannot be less than: %%_value',                                    ['value'      => $element->attribute_select('min'      )]));}
-    function render_description_max      ($element) {return new markup('p', ['data-id' => 'max'      ], new text('Field value cannot be greater than: %%_value',                                 ['value'      => $element->attribute_select('max'      )]));}
-    function render_description_cur      ($element) {return new markup('p', ['data-id' => 'cur'      ], new text('Field value at the current moment: %%_value',                                  ['value'      => (new markup('x-value', [], $element->attribute_select('value')))->render()]));}
+    function render_description_pattern  ($element) {return new Markup('p', ['data-id' => 'pattern'  ], new Text('Field value should match the regular expression: %%_expression',               ['expression' => $element->attribute_select('pattern'  )]));}
+    function render_description_midlength($element) {return new Markup('p', ['data-id' => 'midlength'], new Text('Field value can contain only %%_number character%%_plural(number|s).',         ['number'     => $element->attribute_select('minlength')]));}
+    function render_description_minlength($element) {return new Markup('p', ['data-id' => 'minlength'], new Text('Field value can contain a minimum of %%_number character%%_plural(number|s).', ['number'     => $element->attribute_select('minlength')]));}
+    function render_description_maxlength($element) {return new Markup('p', ['data-id' => 'maxlength'], new Text('Field value can contain a maximum of %%_number character%%_plural(number|s).', ['number'     => $element->attribute_select('maxlength')]));}
+    function render_description_min      ($element) {return new Markup('p', ['data-id' => 'min'      ], new Text('Field value cannot be less than: %%_value',                                    ['value'      => $element->attribute_select('min'      )]));}
+    function render_description_max      ($element) {return new Markup('p', ['data-id' => 'max'      ], new Text('Field value cannot be greater than: %%_value',                                 ['value'      => $element->attribute_select('max'      )]));}
+    function render_description_cur      ($element) {return new Markup('p', ['data-id' => 'cur'      ], new Text('Field value at the current moment: %%_value',                                  ['value'      => (new Markup('x-value', [], $element->attribute_select('value')))->render()]));}
 
     ###########################
     ### static declarations ###

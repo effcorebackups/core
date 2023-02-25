@@ -8,7 +8,7 @@ namespace effcore;
 
 use stdClass;
 
-class widget_texts extends widget_items {
+class Widget_Texts extends Widget_Items {
 
     public $attributes = ['data-type' => 'items-texts'];
     public $name_complex = 'widget_texts';
@@ -20,7 +20,7 @@ class widget_texts extends widget_items {
     static function widget_manage_get($widget, $item, $c_row_id) {
         $result = parent::widget_manage_get($widget, $item, $c_row_id);
         # control for text
-        $field_text = new field_text;
+        $field_text = new Field_Text;
         $field_text->cform = $widget->cform;
         $field_text->attributes['data-role'] = 'question';
         $field_text->attributes['data-style'] = 'inline';
@@ -47,10 +47,10 @@ class widget_texts extends widget_items {
         $new_item->text = '';
         $items[] = $new_item;
         $widget->items_set($items);
-        message::insert(new text_multiline([
+        Message::insert(new Text_multiline([
             'Item of type "%%_type" was inserted.',
             'Do not forget to save the changes!'], [
-            'type' => (new text($widget->item_title))->render() ]));
+            'type' => (new Text($widget->item_title))->render() ]));
         return true;
     }
 

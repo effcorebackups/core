@@ -8,7 +8,7 @@ namespace effcore;
 
 use stdClass;
 
-class entity implements has_external_cache, should_clear_cache_after_on_install, has_postparse {
+class Entity implements Has_external_cache, Should_clear_cache_after_on_install, Has_postparse {
 
     public $name;
     public $storage_name = 'sql';
@@ -48,7 +48,7 @@ class entity implements has_external_cache, should_clear_cache_after_on_install,
             $this->fields['is_embedded']->type = 'boolean';
             $this->fields['is_embedded']->not_null = true;
             $this->fields['is_embedded']->default = 0;
-            $this->fields['is_embedded']->managing_control_class = '\\effcore\\field_switcher';
+            $this->fields['is_embedded']->managing_control_class = '\\effcore\\Field_Switcher';
             $this->fields['is_embedded']->managing_control_properties['weight'] = 390;
             $this->fields['is_embedded']->managing_control_element_attributes['disabled'] = true;
         }
@@ -84,13 +84,13 @@ class entity implements has_external_cache, should_clear_cache_after_on_install,
             $this->fields['data']->title = 'Data';
             $this->fields['data']->type = 'blob';
             $this->fields['data']->converter_on_select = 'unserialize';
-            $this->fields['data']->converter_on_insert = '\\effcore\\core::data_serialize';
-            $this->fields['data']->converter_on_update = '\\effcore\\core::data_serialize';
+            $this->fields['data']->converter_on_insert = '\\effcore\\Core::data_serialize';
+            $this->fields['data']->converter_on_update = '\\effcore\\Core::data_serialize';
         }
     }
 
     function storage_get() {
-        return storage::get($this->storage_name);
+        return Storage::get($this->storage_name);
     }
 
     function field_get($name) {
@@ -98,7 +98,7 @@ class entity implements has_external_cache, should_clear_cache_after_on_install,
     }
 
     function fields_get_name() {
-        return core::array_keys_map(
+        return Core::array_keys_map(
             array_keys($this->fields)
         );
     }
@@ -180,10 +180,10 @@ class entity implements has_external_cache, should_clear_cache_after_on_install,
 
     static function init() {
         if (static::$cache === null) {
-            static::$cache_orig = storage::get('data')->select_array('entities');
+            static::$cache_orig = Storage::get('data')->select_array('entities');
             foreach (static::$cache_orig as $c_module_id => $c_entities) {
                 foreach ($c_entities as $c_row_id => $c_entity) {
-                    if (isset(static::$cache[$c_entity->name])) console::report_about_duplicate('entities', $c_entity->name, $c_module_id, static::$cache[$c_entity->name]);
+                    if (isset(static::$cache[$c_entity->name])) Console::report_about_duplicate('entities', $c_entity->name, $c_module_id, static::$cache[$c_entity->name]);
                               static::$cache[$c_entity->name] = $c_entity;
                               static::$cache[$c_entity->name]->module_id = $c_module_id;
                 }
@@ -194,7 +194,7 @@ class entity implements has_external_cache, should_clear_cache_after_on_install,
     static function get($name, $load = true) {
         static::init();
         if (isset(static::$cache[$name]) === false) return;
-        if (static::$cache[$name] instanceof external_cache && $load)
+        if (static::$cache[$name] instanceof External_cache && $load)
             static::$cache[$name] =
             static::$cache[$name]->load_from_nosql_storage();
         return static::$cache[$name];
@@ -204,7 +204,7 @@ class entity implements has_external_cache, should_clear_cache_after_on_install,
         static::init();
         if ($load)
             foreach (static::$cache as $c_name => $c_item)
-                if (static::$cache[$c_name] instanceof external_cache)
+                if (static::$cache[$c_name] instanceof External_cache)
                     static::$cache[$c_name] =
                     static::$cache[$c_name]->load_from_nosql_storage();
         return static::$cache;
@@ -214,7 +214,7 @@ class entity implements has_external_cache, should_clear_cache_after_on_install,
         static::init();
         if ($load && isset(static::$cache_orig[$module]))
             foreach (static::$cache_orig[$module] as $c_name => $c_item)
-                if (static::$cache_orig[$module][$c_name] instanceof external_cache)
+                if (static::$cache_orig[$module][$c_name] instanceof External_cache)
                     static::$cache_orig[$module][$c_name] =
                     static::$cache_orig[$module][$c_name]->load_from_nosql_storage();
         return static::$cache_orig[$module] ?? [];

@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class widget_selection_decorator extends control implements control_complex {
+class Widget_Selection_decorator extends Control implements Control_complex {
 
     public $tag_name = 'x-widget';
     public $title_tag_name = 'label';
@@ -41,7 +41,7 @@ class widget_selection_decorator extends control implements control_complex {
 
     function value_set($value) {
         $this->value_set_initial($value);
-        if (core::data_is_serialized($value)) $value = unserialize($value);
+        if (Core::data_is_serialized($value)) $value = unserialize($value);
         if ($value === null) $value = [];
         if ($value ===  '' ) $value = [];
         if (is_array($value)) {
@@ -65,9 +65,9 @@ class widget_selection_decorator extends control implements control_complex {
     ###########################
 
     static function widget_manage_get($widget) {
-        $result = new node;
+        $result = new Node;
         # control for type of view
-        $field_select_view_type = new field_select;
+        $field_select_view_type = new Field_Select;
         $field_select_view_type->cform = $widget->cform;
         $field_select_view_type->attributes['data-role'] = 'view-type';
         $field_select_view_type->title = 'View type';
@@ -86,13 +86,13 @@ class widget_selection_decorator extends control implements control_complex {
         $field_select_view_type->value_set('table');
         # controls for templates
         $template_items = [];
-        $templates = template::get_all();
+        $templates = Template::get_all();
         foreach ($templates as $c_template) {
             if ($c_template->type === 'text') {
                 $c_name = preg_replace('%_embedded$%S', '', $c_template->name);
                 $template_items[$c_name] = $c_name; }}
-        core::array_sort($template_items);
-        $field_select_template = new field_select;
+        Core::array_sort($template_items);
+        $field_select_template = new Field_Select;
         $field_select_template->cform = $widget->cform;
         $field_select_template->attributes['data-role'] = 'template';
         $field_select_template->title = 'Template';
@@ -100,7 +100,7 @@ class widget_selection_decorator extends control implements control_complex {
         $field_select_template->build();
         $field_select_template->name_set($widget->name_get_complex().'__template');
         $field_select_template->value_set('markup_html');
-        $field_select_template_item = new field_select;
+        $field_select_template_item = new Field_Select;
         $field_select_template_item->cform = $widget->cform;
         $field_select_template_item->attributes['data-role'] = 'template-item';
         $field_select_template_item->title = 'Template (item)';
@@ -109,7 +109,7 @@ class widget_selection_decorator extends control implements control_complex {
         $field_select_template_item->name_set($widget->name_get_complex().'__template_item');
         $field_select_template_item->value_set('content');
         # control for mapping
-        $field_textarea_data_mapping = new field_textarea_data;
+        $field_textarea_data_mapping = new Field_Textarea_data;
         $field_textarea_data_mapping->cform = $widget->cform;
         $field_textarea_data_mapping->attributes['data-role'] = 'data-mapping';
         $field_textarea_data_mapping->title = 'Mapping';

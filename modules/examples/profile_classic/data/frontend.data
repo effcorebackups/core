@@ -1,5 +1,5 @@
 frontend
-- block_tree_sql_languages__profile_classic|frontend
+- block_tree_sql_languages__profile_classic|Frontend
     display
       check: block
       where: cssid
@@ -17,7 +17,7 @@ frontend
         attributes
         - rel: stylesheet
         - media: all
-- page_all__profile_classic|frontend
+- page_all__profile_classic|Frontend
     display
       check: url
       where: path

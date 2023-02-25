@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class group_radiobuttons extends control implements control_complex {
+class Group_Radiobuttons extends Control implements Control_complex {
 
     public $tag_name = 'x-group';
     public $attributes = [
@@ -17,7 +17,7 @@ class group_radiobuttons extends control implements control_complex {
     public $content_attributes = ['data-group-content' => true];
     public $name_prefix = null; # unused inherited property
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
-    public $field_class = '\\effcore\\field_radiobutton';
+    public $field_class = '\\effcore\\Field_Radiobutton';
     public $field_tag_name = 'x-field';
     public $field_attributes = ['data-type' => 'radiobutton'];
     public $field_title_tag_name = 'label';
@@ -123,8 +123,8 @@ class group_radiobuttons extends control implements control_complex {
     }
 
     function render_self() {
-        if ($this->title && (bool)$this->title_is_visible !== true) return (new markup($this->title_tag_name, $this->title_attributes + ['data-mark-required' => $this->required_any ? true : null, 'aria-hidden' => 'true'], $this->title))->render();
-        if ($this->title && (bool)$this->title_is_visible === true) return (new markup($this->title_tag_name, $this->title_attributes + ['data-mark-required' => $this->required_any ? true : null                         ], $this->title))->render();
+        if ($this->title && (bool)$this->title_is_visible !== true) return (new Markup($this->title_tag_name, $this->title_attributes + ['data-mark-required' => $this->required_any ? true : null, 'aria-hidden' => 'true'], $this->title))->render();
+        if ($this->title && (bool)$this->title_is_visible === true) return (new Markup($this->title_tag_name, $this->title_attributes + ['data-mark-required' => $this->required_any ? true : null                         ], $this->title))->render();
     }
 
     ###########################
@@ -139,7 +139,7 @@ class group_radiobuttons extends control implements control_complex {
         if ($group->required_any && count($group->items) !== count($group->disabled) && $group->value_get() === '') {
             $group->error_set_in();
             $form->error_set(
-                'Group "%%_title" should contain at least one selected item!', ['title' => (new text($group->title))->render() ]
+                'Group "%%_title" should contain at least one selected item!', ['title' => (new Text($group->title))->render() ]
             );
         } else {
             return true;

@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class url {
+class Url {
 
     # valid urls:
     # ┌────────────────────────────────────────────────────────────╥──────────┬────────────────────────────┬────────────────────┬─────────────┬──────────┬────────────────────────────────────────────────────────────────────┬─────────────────────────────────────┐
@@ -124,8 +124,8 @@ class url {
             $this->query     = $query;
             $this->anchor    = $anchor;
             $this->has_error = false;
-            if ($options['completion'] && $this->protocol === '') $this->protocol = $this->domain === request::host_get(false) ? request::scheme_get() : 'http';
-            if ($options['completion'] && $this->domain   === '') $this->domain   =                   request::host_get(false);
+            if ($options['completion'] && $this->protocol === '') $this->protocol = $this->domain === Request::host_get(false) ? Request::scheme_get() : 'http';
+            if ($options['completion'] && $this->domain   === '') $this->domain   =                   Request::host_get(false);
             if ($options['completion'] && $this->path     === '') $this->path     = '/';
             if ($options['decode'] & static::IS_DECODE_DOMAIN && function_exists('idn_to_utf8') && idn_to_utf8($this->domain)) $this->domain = idn_to_utf8($this->domain);
             if ($options['decode'] & static::IS_DECODE_PATH) $this->path = rawurldecode($this->path);
@@ -173,7 +173,7 @@ class url {
 
     function file_info_get() {
         if (!$this->has_error) {
-            return new file(rtrim(DIR_ROOT, '/').$this->path);
+            return new File(rtrim(DIR_ROOT, '/').$this->path);
         }
     }
 
@@ -195,7 +195,7 @@ class url {
 
     static function init() {
         if (static::$cache === null)
-            static::$cache = new static(request::uri_get());
+            static::$cache = new static(Request::uri_get());
     }
 
     static function get_current() {
@@ -206,7 +206,7 @@ class url {
     static function is_local($url, $decode = false) {
         if (strlen($url) === 0                   ) return true;
         if (strlen($url) !== 0 && $url[0] === '/') return true;
-        if (strlen($url) !== 0 && (new static($url, ['decode' => $decode ? static::IS_DECODE_DOMAIN : static::IS_DECODE_NOTHING]))->domain === request::host_get($decode)) return true;
+        if (strlen($url) !== 0 && (new static($url, ['decode' => $decode ? static::IS_DECODE_DOMAIN : static::IS_DECODE_NOTHING]))->domain === Request::host_get($decode)) return true;
         return false;
     }
 
@@ -242,27 +242,27 @@ class url {
     static function url_to_markup($url) {
         $info = new static($url, ['completion' => false]);
         if (!$info->has_error) {
-            return new markup('x-url', [], [
-                'protocol' => new markup('x-protocol', [], new text($info->protocol ? $info->protocol.'://' : '', [], false, false)),
-                'domain'   => new markup('x-domain',   [], new text($info->domain, [], false, false)),
-                'path'     => new markup('x-path',     [], new text(str_replace('/', (new markup('x-slash', [], '/'))->render(), $info->path), [], false, false)),
-                'query'    => new markup('x-query',    [], new text($info->query  ? '?'.$info->query  : '', [], false, false)),
-                'anchor'   => new markup('x-anchor',   [], new text($info->anchor ? '#'.$info->anchor : '', [], false, false))
+            return new Markup('x-url', [], [
+                'protocol' => new Markup('x-protocol', [], new Text($info->protocol ? $info->protocol.'://' : '', [], false, false)),
+                'domain'   => new Markup('x-domain',   [], new Text($info->domain, [], false, false)),
+                'path'     => new Markup('x-path',     [], new Text(str_replace('/', (new Markup('x-slash', [], '/'))->render(), $info->path), [], false, false)),
+                'query'    => new Markup('x-query',    [], new Text($info->query  ? '?'.$info->query  : '', [], false, false)),
+                'anchor'   => new Markup('x-anchor',   [], new Text($info->anchor ? '#'.$info->anchor : '', [], false, false))
             ]);
-        } else return new text;
+        } else return new Text;
     }
 
     # ◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦◦
 
     static function back_url_get($arg_name = 'back') {
-        $query_arg = request::value_get($arg_name, 0, '_GET');
+        $query_arg = Request::value_get($arg_name, 0, '_GET');
         $url = new static(static::is_local($query_arg) ? $query_arg : null);
         return $url->has_error ? '' :
                $url->full_get();
     }
 
     static function back_url_set($arg_name = 'back', $url = '') {
-        request::values_set($arg_name, $url, '_GET');
+        Request::values_set($arg_name, $url, '_GET');
     }
 
     static function back_part_make($arg_name = 'back', $url = null) {
@@ -271,11 +271,11 @@ class url {
     }
 
     static function go($url) {
-        $messages = message::select_all(false);
+        $messages = Message::select_all(false);
         foreach ($messages as $c_type => $c_messages)
             foreach ($c_messages as $c_message)
-                message::insert_to_storage($c_message, $c_type);
-        response::send_header_and_exit('redirect', null, null,
+                Message::insert_to_storage($c_message, $c_type);
+        Response::send_header_and_exit('redirect', null, null,
             (new static($url))->full_get()
         );
     }

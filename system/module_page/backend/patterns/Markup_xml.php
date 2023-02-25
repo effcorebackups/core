@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class markup_xml extends markup {
+class Markup_xml extends Markup {
 
     public $template = 'markup_xml';
     public $is_xml_style = true;

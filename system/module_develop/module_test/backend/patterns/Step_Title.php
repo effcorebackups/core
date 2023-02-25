@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class step_title {
+class Step_Title {
 
     public $title;
     public $args = [];
@@ -16,10 +16,10 @@ class step_title {
         $args = [];
         foreach ($this->args as $c_key => $c_value)
             if ($this->is_apply_tokens && is_string($c_value))
-                 $args[$c_key] = token::apply($c_value);
+                 $args[$c_key] = Token::apply($c_value);
             else $args[$c_key] =              $c_value;
         $c_results['reports'][$dpath]['dpath'] = '### dpath: '.$dpath;
-        $c_results['reports'][$dpath][] = new text($this->title, $args);
+        $c_results['reports'][$dpath][] = new Text($this->title, $args);
     }
 
 }

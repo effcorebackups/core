@@ -6,7 +6,7 @@
 
 namespace effcore;
 
-class text_simple {
+class Text_simple {
 
     public $text = '';
     public $weight = 0;
