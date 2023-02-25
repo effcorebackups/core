@@ -2257,7 +2257,7 @@ instances
             file: 1000x1500-01.picture
             mime: application/octet-stream
             fin_path: dynamic/files/galleries/gallery-main-0.picture
-            size: 6930
+            size: 6026
           settings
           - title: click to open in new window
           - alt: thumbnail
@@ -2271,7 +2271,7 @@ instances
             file: 1000x1500-02.picture
             mime: application/octet-stream
             fin_path: dynamic/files/galleries/gallery-main-1.picture
-            size: 6970
+            size: 6038
           settings
           - title: click to open in new window
           - alt: thumbnail
@@ -2285,7 +2285,7 @@ instances
             file: 1000x1500-03.picture
             mime: application/octet-stream
             fin_path: dynamic/files/galleries/gallery-main-2.picture
-            size: 6970
+            size: 6035
           settings
           - title: click to open in new window
           - alt: thumbnail
@@ -2299,7 +2299,7 @@ instances
             file: 1500x1000-01.picture
             mime: application/octet-stream
             fin_path: dynamic/files/galleries/gallery-main-3.picture
-            size: 8054
+            size: 5577
           settings
           - title: click to open in new window
           - alt: thumbnail
@@ -2313,7 +2313,7 @@ instances
             file: 1500x1000-02.picture
             mime: application/octet-stream
             fin_path: dynamic/files/galleries/gallery-main-4.picture
-            size: 8047
+            size: 5574
           settings
           - title: click to open in new window
           - alt: thumbnail
@@ -2327,7 +2327,7 @@ instances
             file: 1500x1000-03.picture
             mime: application/octet-stream
             fin_path: dynamic/files/galleries/gallery-main-5.picture
-            size: 8048
+            size: 5575
           settings
           - title: click to open in new window
           - alt: thumbnail
@@ -2341,7 +2341,7 @@ instances
             file: audio-01.audio
             mime: application/octet-stream
             fin_path: dynamic/files/galleries/gallery-main-6.audio
-            size: 22913
+            size: 19763
           settings
           - data-player-name: default
           - data-player-timeline-is-visible|_string_true
@@ -2360,7 +2360,7 @@ instances
             file: video-01.video
             mime: application/octet-stream
             fin_path: dynamic/files/galleries/gallery-main-7.video
-            size: 20363
+            size: 18269
           settings
           - autoplay: null
           - buffered: null
@@ -2379,7 +2379,7 @@ instances
             file: video-02.mp4
             mime: video/mp4
             fin_path: dynamic/files/galleries/gallery-main-8.mp4
-            size: 19692
+            size: 15148
           settings
           - autoplay: null
           - buffered: null
@@ -2398,7 +2398,7 @@ instances
             file: audio-02.mp3
             mime: audio/mpeg
             fin_path: dynamic/files/galleries/gallery-main-9.mp3
-            size: 22241
+            size: 16744
           settings
           - data-player-name: default
           - data-player-timeline-is-visible|_string_true

@@ -6,7 +6,7 @@
 
 class Composer_helper {
 
-    static function preInstall($event) {
+    static function preInstallCmd($event) {
         print "!!! RUN COMPOSER AT THE ROOT OF THE EFFCORE PROJECT, NOT IN THIS DIRECTORY !!!\n";
         exit();
     }

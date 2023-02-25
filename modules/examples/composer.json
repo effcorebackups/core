@@ -48,10 +48,10 @@
     },
     "scripts": {
         "pre-install-cmd": [
-            "Composer_helper::preInstall"
+            "Composer_helper::preInstallCmd"
         ],
         "pre-update-cmd": [
-            "Composer_helper::preInstall"
+            "Composer_helper::preInstallCmd"
         ]
     }
 }
