@@ -76,7 +76,7 @@ abstract class Core {
         Console::log_insert('autoload', 'search', $name, 'ok');
         if (isset(static::structures_select()[$name])) {
             $c_item_info = static::structures_select()[$name];
-            $c_file = new File($c_item_info->file);
+            $c_file = new File(DIR_ROOT.$c_item_info->file);
             $c_file->require();
         }
     }

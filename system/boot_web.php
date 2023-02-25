@@ -6,43 +6,10 @@
 
 namespace effcore;
 
-##########################
-### single entry point ###
-##########################
-
-define('effcore\\DIR_ROOT',    $web_root.'/');
-define('effcore\\DIR_DYNAMIC', $web_root.'/dynamic/');
-define('effcore\\DIR_SYSTEM',  $web_root.'/system/');
-define('effcore\\DIR_MODULES', $web_root.'/modules/');
-define('PHP_INT_32_MAX', 0x7fffffff);
-
-const A0 = "\0";
-const NL = "\n";
-const CR = "\r";
-const TB = "\t";
-const BR = "<br>";
-const HR = "<hr>";
-
-ini_set('pcre.jit', false);
-if (!ini_get('date.timezone')) {
-    date_default_timezone_set('UTC');
-}
-
-# ─────────────────────────────────────────────────────────────────────
-# make the required registrations
-# ─────────────────────────────────────────────────────────────────────
-
-require_once('module_core/backend/Core.php');
-require_once('module_storage/backend/interfaces/markers.php');
-spl_autoload_register('\\effcore\\Core::structure_autoload');
-if (in_array('container', stream_get_wrappers()) !== true) {
-    stream_wrapper_register('container', '\\effcore\\File_container');
-}
-
 Timer::tap('total');
 
 # ─────────────────────────────────────────────────────────────────────
-# prepare user input
+# prepare incoming parameters
 # ─────────────────────────────────────────────────────────────────────
 
 $_ORIGINAL_POST    = $_POST;
